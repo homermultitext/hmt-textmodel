@@ -1,11 +1,18 @@
 package org.homermultitext.edmodel
+import org.scalatest.FlatSpec
 
-import org.scalatest.FunSuite
-
-class TestEditedString extends FunSuite {
+class EditedStringSpec extends FlatSpec {
 
   val es1: EditedString = EditedString("Now is the time", Clear)
-  test("an edited string has a status") {
+  "constructor" should "make EditorialStatus available" in {
     assert(es1.status == Clear)
+  }
+
+  "constructor" should "make text reading available" in {
+    assert(es1.reading == "Now is the time")
+  }
+
+  "Object's pretty printing function" should "show both reading and status" in {
+    assert(EditedString.typedText(es1) == "Now is the time (Clear)")
   }
 }
