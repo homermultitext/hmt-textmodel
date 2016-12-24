@@ -22,10 +22,17 @@ class HmtTokenSpec extends FlatSpec {
   }
   it should "support explicitly setting lang value" in pending
 
-
-
   it should "have a default of no alternate reading" in {
     assert(tkn.alternateReading.reading.size == 0)
     assert(tkn.alternateReading.alternateCategory == Original)
   }
+
+  it should "have a default discourse category of DirectVoice" in {
+    assert (tkn.discourse == DirectVoice)
+  }
+  it should "have a default for entity disambiguation of 'Automated disambiguation' DirectVoice" in {
+    assert (tkn.lexicalDisambiguation == "Automated disambiguation")
+  }
+
+
 }

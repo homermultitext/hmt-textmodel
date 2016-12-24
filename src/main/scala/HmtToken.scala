@@ -22,9 +22,9 @@ case class HmtToken (var urn: String,
   var lang : String = "grc",
   var readings: Vector[Reading],
   var lexicalCategory: LexicalCategory ,
-/*
-  var lexicalDisambiguation: String = "Automated disambig\
-uation",*/
+
+  var lexicalDisambiguation: String = "Automated disambiguation",
+  
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice
 )
