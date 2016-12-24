@@ -9,10 +9,10 @@ case object Restored extends EditorialStatus {val name = "restored"}
 
 
 
-case class EditedString (
+case class Reading (
   val reading: String,
   val status: EditorialStatus
 )
-object EditedString {
-  def typedText(es: EditedString) = es.reading + " (" + es.status.name + ")"
+object Reading {
+  def typedText(rdg: Reading) = rdg.reading + " (" + rdg.status.name + ")"
 }

@@ -9,7 +9,7 @@ case object LiteralToken extends LexicalCategory {val name = "string literal"}
 
 case class HmtToken (var urn: String,
   var lang : String = "grc",
-  var readings: Vector[EditedString],
+  var readings: Vector[Reading],
   var lexicalCategory: LexicalCategory /*,
 
   var lexicalDisambiguation: String = "Automated disambig\
