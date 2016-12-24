@@ -19,5 +19,5 @@ class LexicalCategorySpec extends UnitSpec with TableDrivenPropertyChecks  {
  }*/
 
  class LexicalCategorySpec extends FlatSpec {
-   "A category" should "have a name" in pending
+   "A lexical category" should "have a name" in pending
 }
