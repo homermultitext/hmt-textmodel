@@ -14,5 +14,5 @@ case class EditedString (
   val status: EditorialStatus
 )
 object EditedString {
-  def typedText(es: EditedString) = es.reading + " (" + es.status + ")"
+  def typedText(es: EditedString) = es.reading + " (" + es.status.name + ")"
 }
