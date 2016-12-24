@@ -24,7 +24,7 @@ case class HmtToken (var urn: String,
   var lexicalCategory: LexicalCategory ,
 
   var lexicalDisambiguation: String = "Automated disambiguation",
-  
+
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice
 )
