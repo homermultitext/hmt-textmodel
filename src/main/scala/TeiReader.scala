@@ -9,7 +9,21 @@ object TeiReader {
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
-    tokenBuffer += currToken
+    n match {
+      case t: xml.Text => {
+        val tokenList = t.text.split("[ ]+").filterNot(_.isEmpty)
+        for (tk <- tokenList) {
+          val rdg = Reading(tk, Clear)
+          var newToken = currToken.copy(readings = Vector(rdg))
+          tokenBuffer += newToken
+        }
+      }
+      case e: xml.Elem => {
+        for (ch <- e.child) {
+          collectTokens(currToken, ch)
+        }
+      }
+    }
   }
 
 
