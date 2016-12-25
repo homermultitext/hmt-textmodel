@@ -54,11 +54,41 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
   // language
-  it should "default to value of grc" in pending
+  it should "default to value of grc for language" in pending
 
   it should "use n attribute for language on TEI foreign element" in pending
 
 
   // alternate reading
-  // discourse
+  it should "have one alternate reading object" in pending
+
+  it should "have no alternate reading strings when alternate reading category is Original" in pending
+
+  it should "have 1 or more alternate reading strings when alternate reading category is not Original" in pending
+
+  it should "categorize alternate category of TEI expan as restoration" in pending
+
+  it should "categorize alternate category of TEI add as multiform" in pending
+
+  it should "categorize alternate category of TEI reg as multiform" in pending
+
+  it should "categorize alternate category of TEI corr as correction" in pending
+
+  // discourse category
+  it should "default to value of direct voice for discourse category" in pending
+
+  it should "categorize discourse of TEI cit as cited text" in pending
+
+  it should "categorize discourse of TEI q outside of cit as quoted language" in pending
+
+  // lexical disambigutation
+  it should "default to value of automated morphological parsing for lexical disambiguation" in pending
+
+  it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in pending
+
+  it should "use n attribute of TEI persName element for lexical disambiguation" in pending
+
+  it should "use  n attribute of TEI placeName element for lexical disambiguation" in pending
+
+  it should "use n attribute of TEI rs element for lexical disambiguation type attribute is ethnic" in pending
 }
