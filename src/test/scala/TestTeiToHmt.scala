@@ -14,7 +14,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     inside (firstEntry._2) {
 
       case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc) => {
-        println("Inside first, urn is " + u)
         assert (lng == "grc")
         assert (u == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
       }
@@ -32,7 +31,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(tokenV.size == 2)
   }
 
-  it should "ignore white space within TEI w elements" in pending
+  it should "ignore white space within TEI w elements" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAext.hmt:15.8.comment"
+    val xml =  """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <w> <unclear> ἔν</unclear> θ'</w> εἴη</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    assert(tokenV.size == 2)
+    val expected = "ἔνθ'"
+    println(tokenV(0))
+//    assert tokenV(0).readings(0).reading == expected
+  }
 
   it should "treat individual punctuation characters as tokens" in pending
 

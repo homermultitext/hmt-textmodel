@@ -8,6 +8,36 @@ object TeiReader {
 
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
+  var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
+
+  def collectWrappedWordStrings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
+    n match {
+      case t: xml.Text => {
+        val readingString = t.text.replaceAll(" ", "")
+        if (! readingString.isEmpty) {
+          wrappedWordBuffer += Reading(readingString, editorialStatus)
+        }
+      }
+
+      case e: xml.Elem => {
+        e.label match {
+          case "unclear" => {
+            for (ch <- e.child) {
+              collectWrappedWordStrings(Unclear,ch)
+            }
+          }
+          case _ => {
+            for (ch <- e.child) {
+              collectWrappedWordStrings(editorialStatus,ch)
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
@@ -19,8 +49,18 @@ object TeiReader {
         }
       }
       case e: xml.Elem => {
-        for (ch <- e.child) {
-          collectTokens(currToken, ch)
+        e.label match {
+          case "w" => {
+            wrappedWordBuffer.clear
+            collectWrappedWordStrings(Clear,e)
+            val newToken = currToken.copy(readings = wrappedWordBuffer.toVector)
+            tokenBuffer += newToken
+          }
+          case l: String =>  {
+            for (ch <- e.child) {
+              collectTokens(currToken, ch)
+            }
+          }
         }
       }
     }
