@@ -1,36 +1,38 @@
 package org.homermultitext.edmodel
 
+
+import scala.collection.mutable.ArrayBuffer
 import scala.xml._
 
 object TeiReader {
 
-  def teiToTokens(urnStr: String, xmlStr: String) : Vector[(String, HmtToken)]  = { //: Vector[HmtToken] = {
+  var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
+
+  def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
+    tokenBuffer += currToken
+  }
+
+
+  def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (String, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
       urn = urnStr,
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )
-    Vector(currToken).zipWithIndex.map{ case (t,i) => (urnStr + i, t) }
-  }
+    tokenBuffer.clear
+    collectTokens(currToken, root)
 
-/*
-def tokenizePair(urnStr: String, xmlStr: String ) = {
-  val root  = XML.loadString(xmlStr)
-  val currToken = HmtToken(
-    urn = urnStr,
-    lexicalCategory = LexicalToken,
-    txtV = Vector.empty
-  )
-  // zero out the global buffer,
-  // then collect:
-  tokenBuffer.clear
-  collectTokens(currToken, root)
-  var count = 1
-  for (tk <- tokenBuffer) {
-    tk.urn = tk.urn + "." + count
-    count = count + 1
+    // in the final result, add exemplar-level
+    // citation element
+    val zippedVal = tokenBuffer.zipWithIndex.map{ case (t,i) => {
+      val baseUrn = t.urn
+      t.urn = baseUrn + "." + (i +1)
+      (baseUrn, t) }
+    }.toVector
+
+
+    zippedVal
+
   }
-  tokenBuffer.toVector
-}*/
 }
