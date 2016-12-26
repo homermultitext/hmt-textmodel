@@ -53,6 +53,12 @@ object TeiReader {
       }
       case e: xml.Elem => {
         e.label match {
+          case "num" => {
+            val newToken = currToken.copy(lexicalCategory = NumericToken)
+            for (ch <- e.child) {
+              collectTokens(newToken, ch)
+            }
+          }
           case "w" => {
             wrappedWordBuffer.clear
             collectWrappedWordStrings(Clear,e)

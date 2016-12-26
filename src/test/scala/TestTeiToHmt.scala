@@ -61,7 +61,14 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   // lexical category
   it should "default to lexical category of lexical item" in pending
 
-  it should "categorize TEI num content as numeric lexical category" in pending
+  it should "categorize TEI num content as numeric lexical category" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.D5.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> εἰς <num value="5"> ε</num> τάξεις</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val numToken = tokenV(1)._2
+    assert(numToken.lexicalCategory == NumericToken)
+
+  }
 
   it should "categorize punctuation characters as punctuation lexical category" in pending
 
