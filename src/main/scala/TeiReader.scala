@@ -15,7 +15,7 @@ object TeiReader {
       case t: xml.Text => {
         val readingString = t.text.replaceAll(" ", "")
         if (! readingString.isEmpty) {
-          wrappedWordBuffer += Reading(readingString, editorialStatus)
+          wrappedWordBuffer += Reading(readingString  , editorialStatus)
         }
       }
 
@@ -41,7 +41,10 @@ object TeiReader {
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
-        val tokenList = t.text.split("[ ]+").filterNot(_.isEmpty)
+        // the awesomeness of regex: split on set of
+        // characters without losing them:
+        val depunctuate =   t.text.split("((?<=[,;⁑\\.])|(?=[,;⁑\\.]))")
+        val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
           var newToken = currToken.copy(readings = Vector(rdg))

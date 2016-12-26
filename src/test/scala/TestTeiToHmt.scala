@@ -36,12 +36,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml =  """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <w> <unclear> ἔν</unclear> θ'</w> εἴη</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     assert(tokenV.size == 2)
-    val expected = "ἔνθ'"
-    println(tokenV(0))
-//    assert tokenV(0).readings(0).reading == expected
+    assert (tokenV(0)._2.readings.size == 2)
   }
 
-  it should "treat individual punctuation characters as tokens" in pending
+  it should "treat individual punctuation characters as tokens" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+    val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    assert(tokenV.size == 2)
+  }
 
   // editorial status
   it should "default to editorial status of clear" in pending
