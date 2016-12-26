@@ -5,6 +5,9 @@ import scala.collection.mutable.ArrayBuffer
 import scala.xml._
 
 object TeiReader {
+  // perhaps should be a function retrieving
+  // list by text group and lexical category?
+  val punctuation = Vector(",",".",";","⁑")
 
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
@@ -48,6 +51,9 @@ object TeiReader {
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
           var newToken = currToken.copy(readings = Vector(rdg))
+          if (punctuation.contains(tk)) {
+            newToken.lexicalCategory = Punctuation
+          }
           tokenBuffer += newToken
         }
       }

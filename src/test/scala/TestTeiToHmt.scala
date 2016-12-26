@@ -39,11 +39,14 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert (tokenV(0)._2.readings.size == 2)
   }
 
-  it should "treat individual punctuation characters as tokens" in {
+  it should "treat individual punctuation characters as tokens of lexical category punctuation" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
     val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    assert(tokenV.size == 2)
+
+    val punctToken = tokenV(1)._2
+    assert (punctToken.lexicalCategory == Punctuation)
+
   }
 
   // editorial status
