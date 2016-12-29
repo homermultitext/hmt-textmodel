@@ -27,9 +27,29 @@ case class HmtToken (var urn: String,
 
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice
-)
+) {
+
+  def columnString(withLabels: Boolean): String = {
+    val stringVals = Vector(lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString)
+
+    val labelled = stringVals.zip(HmtToken.paddedLabels)
+    labelled.map {
+      case (label,stringVal) => label + ": " + stringVal
+    }.mkString("\n")
+    //HmtToken.paddedLabels.mkString("\n")
+  }
+  def columnString(): String = columnString(true)
+}
 
 object HmtToken {
   val defaultAlternate = AlternateReading(Original, Vector.
    empty[Reading])
+
+   val labels = Vector("Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category")
+
+   val labelWidth = labels.map(_.size).max
+   def paddedLabels  =  labels.map {
+     s => " " * (labelWidth - s.size) + s
+   }
+
 }

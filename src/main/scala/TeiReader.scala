@@ -71,6 +71,15 @@ object TeiReader {
             val newToken = currToken.copy(readings = wrappedWordBuffer.toVector)
             tokenBuffer += newToken
           }
+          case "foreign" => {
+            val langAttributes = e.attributes.toVector.filter(_.key == "lang").map(_.value)
+            // ensure size of langAttributes == 1
+            val langVal = langAttributes(0).text
+            val newToken = currToken.copy(lang = langVal)
+            for (ch <- e.child) {
+              collectTokens(newToken, ch)
+            }
+          }
           case l: String =>  {
             for (ch <- e.child) {
               collectTokens(currToken, ch)

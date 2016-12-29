@@ -3,7 +3,6 @@ import org.scalatest._
 
 class TeiIngestionSpec extends FlatSpec with Inside {
 
-
   "The TeiReader object" should "convert well-formed HMT TEI to a Vector of (urn, HmtToken) tuples" in {
 
     val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
@@ -12,7 +11,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = tokenV(0)
     inside (firstEntry._2) {
-
       case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc) => {
         assert (lng == "grc")
         assert (u == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
@@ -20,7 +18,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
       case _ => fail("Object is not a HmtToken")
     }
   }
-
 
   // tokenization
   it should "tokenize on white space by default" in {
@@ -46,7 +43,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
     val punctToken = tokenV(1)._2
     assert (punctToken.lexicalCategory == Punctuation)
-
   }
 
   // editorial status
@@ -60,7 +56,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   it should "record editorial status for readings of TEI reg element as restored" in pending
 
-
   // lexical category
   it should "default to lexical category of lexical item" in pending
 
@@ -70,10 +65,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val numToken = tokenV(1)._2
     assert(numToken.lexicalCategory == NumericToken)
-
   }
-
-  it should "categorize punctuation characters as punctuation lexical category" in pending
 
   it should "categorize TEI rs content when @type = 'waw' as string literal lexical category" in pending
 
@@ -83,7 +75,16 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   // language
   it should "default to value of grc for language" in pending
 
-  it should "use n attribute for language on TEI foreign element" in pending
+  it should "use xml:lang attribute of TEI foreign element for language" in {
+    val urn = "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἐπίθετον <persName n="urn:cite:hmt:pers.pers40"> Ἀπόλλωνος</persName> · <placeName n="urn:cite:hmt:place.place17"> Σμίνθος</placeName> γὰρ τόπος τῆς <placeName n="urn:cite:hmt:place.place18"> Τρῳαδος</placeName> ἐν ᾧ ϊερὸν <persName n="urn:cite:hmt:pers.pers40"> Ἀπόλλωνος</persName> ἀπο αἰτιας τῆσδε ἐν <placeName n="urn:cite:hmt:place.place19"> Χρυσῃ</placeName> πόλει τῆς <placeName n="urn:cite:hmt:place.place20"> Μυσίας</placeName> <persName n="urn:cite:hmt:pers.pers56"> Κρίνις</persName> τίς ἱερεὺς τοῦ κεῖθι <persName n="urn:cite:hmt:pers.pers40"> Ἀπόλλωνος</persName> τούτου ὀργισθεὶς ὁ θεὸς ἔπεμψε τοῖς αγροῖς μυιας οἵτινες τοὺς καρποὺς ἐλυμαίνοντο· βουληθεὶς δέ ποτε ὁ θεὸς αὐτῷ καταλλαγῆναι προς <persName n="urn:cite:hmt:pers.pers57"> Όρδην</persName> τὸν ἀρχιβουκόλον αὐτοῦ παρεγένετο· παρ ῷ ξενισθεὶς ὁ θεὸς ὑπέσχετο τὸ <seg type="word"> κακ <choice> <sic> ὸν</sic> <corr> ῶς</corr></choice></seg> ἀπαλλάξειν· καὶ δὴ παραχρῆμα τοξεύσας τοὺς μῦς, <w> δι <choice> <sic> ε</sic> <corr> έ</corr></choice> φθειρεν</w> ἀπαλλασόμενος οὖν ἐνετείλατο τὴν ἐπιφάνιαν <w> αὐτ <choice> <sic> οῦ</sic> <corr> ὴν</corr></choice></w> δηλῶσαι τῷ <persName n="urn:cite:hmt:pers.pers56"> Κρίνιδι</persName> . οὗ γενομένου ὁ <persName n="urn:cite:hmt:pers.pers56"> Κρίνις</persName> ἱερὸν ἱδρύσατο τῷ θεῷ <persName n="urn:cite:hmt:pers.pers40"> Σμινθέα</persName> αὐτὸν προσαγορεύσας, επειδὴ κατὰ τὴν εγχωριον αυτῶν διάλεκτον οἱ <w> μ <choice> <sic> υ</sic> <corr> ύ</corr></choice> ες</w> <foreign xml:lang="mysian"> σμίνθιοι</foreign> καλοῦνται ἡ ἱστορια παρὰ <persName n="urn:cite:hmt:pers.pers58"> Πολεμωνι</persName> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val tokenum = 100
+    val mysian = tokenV(tokenum)._2
+    println("Token " + tokenum + " = " )
+    println(mysian.columnString)
+    assert (mysian.lang == "mysian")
+  }
 
 
   // alternate reading

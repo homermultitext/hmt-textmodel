@@ -6,7 +6,7 @@ class HmtTokenSpec extends FlatSpec {
   lexicalCategory = LexicalToken,
   readings = Vector(Reading("μῆνιν",Clear)) )
 
-  "A token" should "have a vector of edited strings" in {
+  "A token" should "have a vector of readings" in {
     assert (tkn.readings.size == 1)
     assert (tkn.readings(0).status == Clear)
     assert (tkn.readings(0).reading == "μῆνιν")
@@ -33,6 +33,25 @@ class HmtTokenSpec extends FlatSpec {
   it should "have a default for entity disambiguation of 'Automated disambiguation' DirectVoice" in {
     assert (tkn.lexicalDisambiguation == "Automated disambiguation")
   }
+
+  "Pretty printing as a table row" should "create a string of 6 delimited items" in pending
+
+   it should "default to using tab as a delimiting string" in pending
+
+   it should "support specifiying a delimiting string" in pending
+
+  "Pretty printing as a column" should  "create a string of 6 rows" in {
+    val columns = tkn.columnString.split("\n")
+    assert (columns.size == 6)
+  }
+
+  it should  "include labels by default" in {
+    val columns = tkn.columnString.split("\n")
+
+
+  }
+
+  it should  "support turning off labels" in pending
 
 
 }
