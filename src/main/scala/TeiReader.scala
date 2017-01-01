@@ -107,7 +107,6 @@ object TeiReader {
               var errorList = currToken.errors :+  "Invalid element name: " + l
               val newToken = currToken.copy(errors = errorList)
               for (ch <- e.child) {
-                println("Look at " + ch.label + " with error " + newToken.errors)
                 collectTokens(newToken, ch)
               }
             }

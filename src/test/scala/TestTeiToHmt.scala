@@ -51,9 +51,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val urn = "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ὁ θεὸς ὑπέσχετο τὸ <seg type="word"> κακ <choice> <sic> ὸν</sic> <corr> ῶς</corr></choice></seg> ἀπαλλάξειν</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    for (t <- tokenV) {
-      println(t._2.columnString + "\n")
-    }
+
     val correct = tokenV(0)._2
     val incorrect = tokenV(4)._2
     assert(correct.errors.size == 0)
