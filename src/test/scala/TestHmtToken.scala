@@ -1,6 +1,9 @@
 package org.homermultitext.edmodel
 import org.scalatest.FlatSpec
 
+
+import scala.collection.mutable.ArrayBuffer
+
 class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(urn = "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1",
   lexicalCategory = LexicalToken,
@@ -38,7 +41,10 @@ class HmtTokenSpec extends FlatSpec {
     // no errors: so splitting finds only 7 non-empty columns
     val columns = tkn.rowString.split("\t")
     assert (columns.size == 7)
-    println(tkn.rowString)
+    val errorToken = tkn.copy(errors = ArrayBuffer("dummy error message"))
+    val errorColumns = errorToken.rowString.split("\t")
+    assert (errorColumns.size == 8)
+    println(errorToken.rowString)
   }
 
    it should "default to using tab as a delimiting string" in pending
