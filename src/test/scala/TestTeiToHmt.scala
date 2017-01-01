@@ -11,7 +11,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = tokenV(0)
     inside (firstEntry._2) {
-      case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc) => {
+      case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc,errs) => {
         assert (lng == "grc")
         assert (u == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
       }
@@ -34,6 +34,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     assert(tokenV.size == 2)
     assert (tokenV(0)._2.readings.size == 2)
+    println(tokenV(0)._2.columnString)
   }
 
   it should "treat individual punctuation characters as tokens of lexical category punctuation" in {

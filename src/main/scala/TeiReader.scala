@@ -9,6 +9,16 @@ object TeiReader {
   // list by text group and lexical category?
   val punctuation = Vector(",",".",";","⁑")
 
+  val validElements = Vector(
+    "div", "l","p", "choice",
+    "num",
+    "unclear","add","orig","reg","sic","corr",
+    "abbr","expan",
+    "cite","q","ref",
+    "persName","placeName",
+    "rs"
+  )
+
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
@@ -73,14 +83,27 @@ object TeiReader {
           }
           case "foreign" => {
             val langAttributes = e.attributes.toVector.filter(_.key == "lang").map(_.value)
-            // ensure size of langAttributes == 1
+            require (langAttributes.size == 1)
             val langVal = langAttributes(0).text
             val newToken = currToken.copy(lang = langVal)
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }
           }
+/*
+
+          case "persName" => {
+
+          }
+          case "placeName" => {
+
+          }*/
           case l: String =>  {
+            if (validElements.contains(l)) {
+              // ok
+            } else {
+              currToken.errors += "Invalid element name: " + l
+            }
             for (ch <- e.child) {
               collectTokens(currToken, ch)
             }
