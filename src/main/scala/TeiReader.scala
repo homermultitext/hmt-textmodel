@@ -100,13 +100,18 @@ object TeiReader {
           }*/
           case l: String =>  {
             if (validElements.contains(l)) {
-              // ok
+              for (ch <- e.child) {
+                collectTokens(currToken, ch)
+              }
             } else {
-              currToken.errors += "Invalid element name: " + l
+              var errorList = currToken.errors :+  "Invalid element name: " + l
+              val newToken = currToken.copy(errors = errorList)
+              for (ch <- e.child) {
+                println("Look at " + ch.label + " with error " + newToken.errors)
+                collectTokens(newToken, ch)
+              }
             }
-            for (ch <- e.child) {
-              collectTokens(currToken, ch)
-            }
+
           }
         }
       }

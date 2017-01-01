@@ -32,14 +32,15 @@ case class HmtToken (var urn: String,
 ) {
 
   def columnString(withLabels: Boolean): String = {
-    val errorString = errors.zipWithIndex.map {
+    /*val errorString = errors.zipWithIndex.map {
       case (i,s) => (i + 1) + ". " + s
-    }.mkString(" ")
+    }.mkString(" ")*/
+    val errorString = errors.mkString(". ")
     val stringVals = Vector(lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
 
     val labelled = stringVals.zip(HmtToken.paddedLabels)
     labelled.map {
-      case (label,stringVal) => label + ": " + stringVal
+      case (stringVal,label) => label + ": " + stringVal
     }.mkString("\n")
   }
   def columnString(): String = columnString(true)

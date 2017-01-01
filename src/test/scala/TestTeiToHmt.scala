@@ -34,7 +34,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     assert(tokenV.size == 2)
     assert (tokenV(0)._2.readings.size == 2)
-    println(tokenV(0)._2.columnString)
   }
 
   it should "treat individual punctuation characters as tokens of lexical category punctuation" in {
@@ -45,6 +44,22 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val punctToken = tokenV(1)._2
     assert (punctToken.lexicalCategory == Punctuation)
   }
+
+
+
+  it should "note instances of invalid element names" in {
+    val urn = "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ὁ θεὸς ὑπέσχετο τὸ <seg type="word"> κακ <choice> <sic> ὸν</sic> <corr> ῶς</corr></choice></seg> ἀπαλλάξειν</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    for (t <- tokenV) {
+      println(t._2.columnString + "\n")
+    }
+    val correct = tokenV(0)._2
+    val incorrect = tokenV(4)._2
+    assert(correct.errors.size == 0)
+    assert(incorrect.errors.size == 1)
+  }
+
 
   // editorial status
   it should "default to editorial status of clear" in pending
@@ -82,8 +97,8 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val tokenum = 100
     val mysian = tokenV(tokenum)._2
-    println("Token " + tokenum + " = " )
-    println(mysian.columnString)
+    //println("Token " + tokenum + " = " )
+    //println(mysian.columnString)
     assert (mysian.lang == "mysian")
   }
 
