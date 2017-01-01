@@ -46,8 +46,8 @@ class HmtTokenSpec extends FlatSpec {
   }
 
   it should  "include labels by default" in {
-    val columns = tkn.columnString.split("\n")
-
+    val columns = tkn.columnString.split("\n").map(_.split(": ")).map( ar => ar(0)).map(_.trim).toVector
+    assert(columns == HmtToken.labels)
 
   }
 
