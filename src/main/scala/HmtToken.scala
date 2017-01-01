@@ -31,12 +31,23 @@ case class HmtToken (var urn: String,
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {
 
+  var propertySeparator = "\t"
+  var listSeparator = "#"
+
+  def rowString: String = {
+    urn + propertySeparator +
+    lang + propertySeparator +
+    readings + propertySeparator +
+    lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + alternateReading + propertySeparator +
+    discourse + propertySeparator + errors.mkString(listSeparator) + propertySeparator
+  }
+
   def columnString(withLabels: Boolean): String = {
     val errorString = errors.zipWithIndex.map {
       case (i,s) => (i + 1) + ". " + s
     }.mkString(" ")
     //val errorString = errors.mkString(". ")
-    val stringVals = Vector(lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
+    val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
 
     val labelled = stringVals.zip(HmtToken.paddedLabels)
     labelled.map {
@@ -50,7 +61,7 @@ object HmtToken {
   val defaultAlternate = AlternateReading(Original, Vector.
    empty[Reading])
 
-   val labels = Vector("Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","Errors")
+   val labels = Vector("URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","Errors")
 
    val labelWidth = labels.map(_.size).max
    def paddedLabels  =  labels.map {
