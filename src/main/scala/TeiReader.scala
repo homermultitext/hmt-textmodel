@@ -9,8 +9,11 @@ object TeiReader {
   // list by text group and lexical category?
   val punctuation = Vector(",",".",";","⁑")
 
+  // only need list of elements *not* explicitly
+  // caught in big case match below
   val validElements = Vector(
     "div", "l","p", "choice",
+    "foreign",
     "num",
     "unclear","add","orig","reg","sic","corr",
     "abbr","expan",
@@ -136,8 +139,6 @@ object TeiReader {
       (baseUrn, t) }
     }.toVector
 
-
     zippedVal
-
   }
 }

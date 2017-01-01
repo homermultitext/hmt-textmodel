@@ -21,7 +21,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   // tokenization
   it should "tokenize on white space by default" in {
-
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:1.1303.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἢ απαρνησαι</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
@@ -60,7 +59,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
   // editorial status
-  it should "default to editorial status of clear" in pending
+  it should "default to editorial status of clear" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+    val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val token1readings = tokenV(0)._2.readings
+
+    assert(token1readings(0).status == Clear)
+   }
+
 
   it should "record editorial status for readings of TEI unclear element as unclear" in pending
 
@@ -71,7 +78,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   it should "record editorial status for readings of TEI reg element as restored" in pending
 
   // lexical category
-  it should "default to lexical category of lexical item" in pending
+  it should "default to lexical category of lexical item" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val token1 = tokenV(0)._2
+    assert(token1.lexicalCategory == LexicalToken)
+  }
 
   it should "categorize TEI num content as numeric lexical category" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.D5.comment"
@@ -87,7 +100,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
   // language
-  it should "default to value of grc for language" in pending
+  it should "default to value of grc for language" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val token1 = tokenV(0)._2
+    assert(token1.lang == "grc")
+  }
 
   it should "use xml:lang attribute of TEI foreign element for language" in {
     val urn = "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment"
@@ -117,14 +136,27 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   it should "categorize alternate category of TEI corr as correction" in pending
 
   // discourse category
-  it should "default to value of direct voice for discourse category" in pending
+  it should "default to value of direct voice for discourse category" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val token1 = tokenV(0)._2
+    assert(token1.discourse == DirectVoice)
+  }
 
   it should "categorize discourse of TEI cit as cited text" in pending
 
   it should "categorize discourse of TEI q outside of cit as quoted language" in pending
 
   // lexical disambigutation
-  it should "default to value of automated morphological parsing for lexical disambiguation" in pending
+  it should "default to value of automated morphological parsing for lexical disambiguation" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"
+    val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val token1 = tokenV(0)._2
+    assert(token1.lexicalDisambiguation == "Automated disambiguation")
+
+  }
 
   it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in pending
 
