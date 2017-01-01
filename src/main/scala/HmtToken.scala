@@ -46,13 +46,22 @@ case class HmtToken (var urn: String,
     val errorString = errors.zipWithIndex.map {
       case (i,s) => (i + 1) + ". " + s
     }.mkString(" ")
-    //val errorString = errors.mkString(". ")
-    val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
 
-    val labelled = stringVals.zip(HmtToken.paddedLabels)
-    labelled.map {
-      case (stringVal,label) => label + ": " + stringVal
-    }.mkString("\n")
+    withLabels match {
+      case false => {
+        Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString).mkString("\n")
+      }
+
+      case true => {
+        val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
+
+        val labelled = stringVals.zip(HmtToken.paddedLabels)
+        labelled.map {
+          case (stringVal,label) => label + ": " + stringVal
+        }.mkString("\n")
+      }
+    }
+
   }
   def columnString(): String = columnString(true)
 }

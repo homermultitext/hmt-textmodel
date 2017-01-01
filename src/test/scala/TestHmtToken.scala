@@ -47,9 +47,16 @@ class HmtTokenSpec extends FlatSpec {
     println(errorToken.rowString)
   }
 
-   it should "default to using tab as a delimiting string" in pending
+   it should "default to using tab as a delimiting string" in {
+     val columns = tkn.rowString.split("\t")
+     assert (columns.size == 7)
+   }
 
-   it should "support specifiying a delimiting string" in pending
+   it should "support specifiying a delimiting string" in {
+     tkn.propertySeparator = "#"
+     val columns = tkn.rowString.split("#")
+     assert (columns.size == 7)
+   }
 
   "Pretty printing as a column" should  "create a string of 8 rows" in {
     val columns = tkn.columnString.split("\n")
@@ -59,10 +66,12 @@ class HmtTokenSpec extends FlatSpec {
   it should  "include labels by default" in {
     val columns = tkn.columnString.split("\n").map(_.split(": ")).map( ar => ar(0)).map(_.trim).toVector
     assert(columns == HmtToken.labels)
-
   }
 
-  it should  "support turning off labels" in pending
+  it should  "support turning off labels" in {
+    val columns = tkn.columnString(false).split("\n")
+    assert (columns(0) == "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1")
+  }
 
 
 }
