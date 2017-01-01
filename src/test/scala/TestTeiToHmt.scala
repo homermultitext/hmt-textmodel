@@ -112,7 +112,14 @@ class TeiIngestionSpec extends FlatSpec with Inside {
    }
 
    // test non-default editorial status
-  it should "record editorial status for readings of TEI unclear element as unclear" in pending
+  it should "record editorial status for readings of TEI unclear element as unclear" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAext.hmt:15.8.comment"
+    val xml =  """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <w> <unclear> ἔν</unclear> θ'</w> εἴη</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val mixedReadings = tokenV(0)._2.readings
+    assert(mixedReadings(0).status == Unclear)
+    assert(mixedReadings(1).status == Clear)
+  }
 
   it should "record editorial status for readings of TEI expan element as restored" in pending
 
