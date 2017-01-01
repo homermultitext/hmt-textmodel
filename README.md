@@ -6,4 +6,6 @@ The initial focus of the library is code to instantiate this model from TEI-conf
 
 ## Status
 
- The library is in development. The current test suite defines approximatel 50 tests that specify its basic functionality.  To see which specifiying tests have been successfully implemented and passed, run `sbt test`.
+ The library is in development. The current test suite defines approximately 50 tests that specify its basic functionality.  To see which specifiying tests have been successfully implemented and passed, run `sbt test`.
+
+ All tests for correct usage work on examples taken from the HMT archive.  Tests for handling errors are based on errors that have been encountered in editing HMT texts, but for obvious reasons have been corrected in the HMT archive.
