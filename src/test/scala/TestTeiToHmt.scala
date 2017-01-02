@@ -199,7 +199,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val origReg = tokenV(3)._2
     assert(origReg.alternateReading.alternateCategory == Multiform)
-    println("REG: \n" + origReg.columnString)
   }
 
   it should "read contents of reg element as regular editorial readings" in {
@@ -228,10 +227,16 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   }
 
   // discourse category
-  it should "categorize discourse of TEI cit as cited text" in pending
-  /*
-  urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment#1468#1467#1469#/tei:TEI/tei:text/tei:body/tei:div[@n = '17']/tei:div[@n = '30']#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>
-  */
+  it should "categorize discourse of TEI cit as cited text" in {
+      val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment"
+      val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>"""
+      val tokenV = TeiReader.teiToTokens(urn, xml)
+      val cited = tokenV(10)._2
+      println("CITED: \n" + cited.columnString )
+      assert(cited.discourse == CitedText)
+
+
+  }
 
   it should "categorize discourse of TEI q outside of cit as quoted language" in pending
 /*
