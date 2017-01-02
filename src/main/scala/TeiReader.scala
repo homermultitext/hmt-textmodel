@@ -154,7 +154,13 @@ object TeiReader {
                   collectTokens(newToken, ch)
                 }
               }
-
+              case "ethnic" => {
+                val nAttrs = e \ "@n"
+                val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
+                for (ch <- e.child) {
+                  collectTokens(newToken, ch)
+                }
+              }
               case _ => {
                 for (ch <- e.child) {
                   collectTokens(currToken, ch)
@@ -182,14 +188,23 @@ object TeiReader {
           case "choice" => {
             val alt = getAlternate(currToken,e)
           }
-/*
+
 
           case "persName" => {
-
+            val nAttrs = e \ "@n"
+            val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
+            for (ch <- e.child) {
+              collectTokens(newToken, ch)
+            }
           }
-          case "placeName" => {
 
-          }*/
+          case "placeName" => {
+            val nAttrs = e \ "@n"
+            val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
+            for (ch <- e.child) {
+              collectTokens(newToken, ch)
+            }
+          }
           case l: String =>  {
             if (validElements.contains(l)) {
               for (ch <- e.child) {

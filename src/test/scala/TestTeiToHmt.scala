@@ -221,7 +221,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
 
-
     val corrAlternative = tokenV(1)._2.alternateReading.reading
     assert(corrAlternative(0).status == Clear)
   }
@@ -234,9 +233,27 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   // lexical disambigutation
   it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in pending
 
-  it should "use n attribute of TEI persName element for lexical disambiguation" in pending
+  it should "use n attribute of TEI persName element for lexical disambiguation" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_3.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> καὶ <q> πόρε <persName n="urn:cite:hmt:pers.pers115"> Xείρων</persName></q> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val pn = tokenV(2)._2
+    assert(pn.lexicalDisambiguation == "urn:cite:hmt:pers.pers115")
+  }
 
-  it should "use  n attribute of TEI placeName element for lexical disambiguation" in pending
+  it should "use  n attribute of TEI placeName element for lexical disambiguation" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:15.41.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> οτ</abbr> <expan> ὅτι</expan></choice> θηλυκῶς τὴν <placeName n="urn:cite:hmt:place.place6"> Ἴλιον</placeName></p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val troy = tokenV(3)._2
+    assert(troy.lexicalDisambiguation == "urn:cite:hmt:place.place6")
+  }
 
-  it should "use n attribute of TEI rs element for lexical disambiguation type attribute is ethnic" in pending
+  it should "use n attribute of TEI rs element for lexical disambiguation type attribute is ethnic" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:18.14.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τῶν τοις <rs n="urn:cite:hmt:place.place6" type="ethnic"> Τρωσὶ</rs> συμμαχούντων ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val trojans = tokenV(2)._2
+    assert(trojans.lexicalDisambiguation == "urn:cite:hmt:place.place6")
+  }
 }
