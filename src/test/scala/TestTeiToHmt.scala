@@ -160,6 +160,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     //println("Token " + tokenum + " = " )
     //println(mysian.columnString)
     assert (mysian.lang == "mysian")
+
   }
 
 
@@ -228,28 +229,33 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   // discourse category
   it should "categorize discourse of TEI cit as cited text" in {
-      val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment"
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment"
       val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>"""
-      val tokenV = TeiReader.teiToTokens(urn, xml)
-      val cited = tokenV(10)._2
-      assert(cited.discourse == CitedText)
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val tokenN = 10
+    val cited = tokenV(tokenN)._2
+    assert(cited.discourse == CitedText)
   }
-  it should "record reference of cited text" in {
+  it should "record reference of external source when discourse type is cited text" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val cited = tokenV(10)._2
-    //println("CITED: \n" + cited.columnString )
-    //assert(cited.externalSource.size == "urn:cts:greekLit:tlg0012.tlg001:17.611".size)
+
+
+    assert(cited.discourse == CitedText)
     assert(cited.externalSource == "urn:cts:greekLit:tlg0012.tlg001:17.611")
   }
-  it should "categorize discourse of TEI q outside of cit as quoted language" in pending
-/*
-urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment#1646#1645#1647#/tei:TEI/tei:text/tei:body/tei:div[@n = '19']/tei:div[@n = 'hc_5']#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>
-)
-*/
+  it should "categorize discourse of TEI q outside of cit as quoted language" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment"
 
-  it should "add URL from ref element when discourse category is cited text" in pending
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val quoted = tokenV(4)._2
+    assert(quoted.discourse == QuotedLanguage)
+  }
+
+
 
   // lexical disambiguation
   it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in {
@@ -263,9 +269,13 @@ urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment#1646#1645#1647#/tei:TEI/tei:
   it should "use n attribute of TEI persName element for lexical disambiguation" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_3.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> καὶ <q> πόρε <persName n="urn:cite:hmt:pers.pers115"> Xείρων</persName></q> ⁑</p></div>"""
+
     val tokenV = TeiReader.teiToTokens(urn, xml)
+
+
     val pn = tokenV(2)._2
     assert(pn.lexicalDisambiguation == "urn:cite:hmt:pers.pers115")
+
   }
 
   it should "use  n attribute of TEI placeName element for lexical disambiguation" in {

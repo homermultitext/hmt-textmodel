@@ -136,9 +136,6 @@ object TeiReader {
         collectTokens(newToken, ch)
       }
     }
-
-    // must have ref
-    // must have q
   }
 
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
@@ -159,6 +156,23 @@ object TeiReader {
       }
       case e: xml.Elem => {
         e.label match {
+          case "q" => {
+
+
+            currToken.discourse match {
+                case CitedText => { // don't change!
+                  for (ch <- e.child) {
+                    collectTokens(currToken, ch)
+                  }
+                }
+                case _ => {
+                  val newToken = currToken.copy(discourse = QuotedLanguage)
+                  for (ch <- e.child) {
+                    collectTokens(newToken, ch)
+                  }
+                }
+            }
+          }
           case "cit" => {
             getCited(currToken,e)
           }
