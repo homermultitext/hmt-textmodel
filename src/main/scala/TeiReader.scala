@@ -141,6 +141,24 @@ object TeiReader {
               collectTokens(newToken, ch)
             }
           }
+          case "rs" => {
+            val typeAttrs = e \ "@type"
+            typeAttrs(0).text match {
+              case "waw" => {
+                val newToken = currToken.copy(lexicalCategory = LiteralToken)
+                for (ch <- e.child) {
+                  collectTokens(newToken, ch)
+                }
+              }
+
+              case _ => {
+                for (ch <- e.child) {
+                  collectTokens(currToken, ch)
+                }
+              }
+            }
+
+          }
           case "w" => {
             wrappedWordBuffer.clear
             collectWrappedWordStrings(Clear,e)

@@ -134,7 +134,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(numToken.lexicalCategory == NumericToken)
   }
 
-  it should "categorize TEI rs content when @type = 'waw' as string literal lexical category" in pending
+  it should "categorize TEI rs content when @type = 'waw' as string literal lexical category" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:18.49.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἕξω τοῦ <rs type="waw"> ϊ</rs> τὸ <q> εστήκει</q> αἱ <persName n="urn:cite:hmt:pers.pers16"> <choice> <abbr> Ἀρισταρχ</abbr> <expan> Ἀριστάρχου</expan></choice></persName> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val waw = tokenV(2)._2
+    assert(waw.lexicalCategory == LiteralToken)
+  }
 
   it should "categorize TEI sic content as unparseable lexical category" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:18.47.comment"
