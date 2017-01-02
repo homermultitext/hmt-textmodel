@@ -133,6 +133,9 @@ object TeiReader {
       }
       case e: xml.Elem => {
         e.label match {
+          case "cit" => {
+            val newToken = currToken.copy()
+          }
           case "num" => {
             val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = "Automated numeric parsing")
             for (ch <- e.child) {

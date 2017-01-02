@@ -12,7 +12,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = tokenV(0)
     inside (firstEntry._2) {
-      case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc,errs) => {
+      case HmtToken(u,lng,rdgs,lexcat,disambig,alt,disc,xsrc,errs) => {
         assert (lng == "grc")
         assert (u == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
       }
@@ -121,7 +121,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(mixedReadings(1).status == Clear)
   }
 
-  it should "record editorial status for readings of TEI add element as restored" in pending
 
 
 
@@ -188,8 +187,11 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert (rdg.status == Restored)
   }
 
+
+
   it should "categorize alternate category of TEI add as multiform" in pending
 
+  it should "read contents of add element as regular editorial readings" in pending
 
   it should "categorize alternate category of TEI reg as multiform" in {
     val urn = "urn:cts:greekLit:tlg5026.msAim.hmt:9.625.comment"
@@ -227,10 +229,19 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   // discourse category
   it should "categorize discourse of TEI cit as cited text" in pending
+  /*
+  urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment#1468#1467#1469#/tei:TEI/tei:text/tei:body/tei:div[@n = '17']/tei:div[@n = '30']#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>
+  */
 
   it should "categorize discourse of TEI q outside of cit as quoted language" in pending
+/*
+urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment#1646#1645#1647#/tei:TEI/tei:text/tei:body/tei:div[@n = '19']/tei:div[@n = 'hc_5']#<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>
+)
+*/
 
-  // lexical disambigutation
+  it should "add URL from ref element when discourse category is cited text" in pending
+
+  // lexical disambiguation
   it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.D5.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> εἰς <num value="5"> ε</num> τάξεις</p></div>"""

@@ -20,4 +20,6 @@ class AlternateReadingSpec extends FlatSpec {
   it should "have 1 or more readings when its category is not Original" in pending
   it should "throw an exception if no readings are given when category is not Original" in  pending
   it should "require that all readings be Restored when alternate category is Restoration"
+
+
 }

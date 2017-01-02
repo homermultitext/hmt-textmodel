@@ -37,29 +37,29 @@ class HmtTokenSpec extends FlatSpec {
 
 
 
-  "Pretty printing as a table row" should "create a string of 8 delimited items" in {
-    // no errors: so splitting finds only 7 non-empty columns
+  "Pretty printing as a table row" should "create a string of 9 delimited items" in {
+    // no errors: so splitting finds only 8 non-empty columns
     val columns = tkn.rowString.split("\t")
-    assert (columns.size == 7)
+    assert (columns.size == 8)
     val errorToken = tkn.copy(errors = ArrayBuffer("dummy error message"))
     val errorColumns = errorToken.rowString.split("\t")
-    assert (errorColumns.size == 8)
+    assert (errorColumns.size == 9)
   }
 
    it should "default to using tab as a delimiting string" in {
      val columns = tkn.rowString.split("\t")
-     assert (columns.size == 7)
+     assert (columns.size == 8)
    }
 
    it should "support specifiying a delimiting string" in {
      tkn.propertySeparator = "#"
      val columns = tkn.rowString.split("#")
-     assert (columns.size == 7)
+     assert (columns.size == 8)
    }
 
-  "Pretty printing as a column" should  "create a string of 8 rows" in {
+  "Pretty printing as a column" should  "create a string of 9 rows" in {
     val columns = tkn.columnString.split("\n")
-    assert (columns.size == 8)
+    assert (columns.size == 9)
   }
 
   it should  "include labels by default" in {

@@ -29,7 +29,7 @@ case class HmtToken (var urn: String,
 
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice,
-
+  var externalSource: String = "none",
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {
 
@@ -41,7 +41,9 @@ case class HmtToken (var urn: String,
     lang + propertySeparator +
     readings + propertySeparator +
     lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + alternateReading + propertySeparator +
-    discourse + propertySeparator + errors.mkString(listSeparator) + propertySeparator
+    discourse + propertySeparator +
+    externalSource  + propertySeparator +
+    errors.mkString(listSeparator) + propertySeparator
   }
 
   def columnString(withLabels: Boolean): String = {
@@ -51,11 +53,11 @@ case class HmtToken (var urn: String,
 
     withLabels match {
       case false => {
-        Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString).mkString("\n")
+        Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
       }
 
       case true => {
-        val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,errorString)
+        val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
 
         val labelled = stringVals.zip(HmtToken.paddedLabels)
         labelled.map {
@@ -72,7 +74,7 @@ object HmtToken {
   val defaultAlternate = AlternateReading(Original, Vector.
    empty[Reading])
 
-   val labels = Vector("URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","Errors")
+   val labels = Vector("URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
 
    val labelWidth = labels.map(_.size).max
    def paddedLabels  =  labels.map {
