@@ -73,6 +73,16 @@ object TeiReader {
     collectTokens(newToken,sic)
   }
 
+  def origRegChoice(hmtToken: HmtToken, el: xml.Elem) = {
+    val origSeq = el \ "orig"
+    val orig = origSeq(0)
+    val regSeq = el \ "reg"
+    val reg  = regSeq(0)
+    val multiform = Reading(reg.text,Restored)
+    val alt = AlternateReading(Multiform,Vector(multiform))
+    val newToken = hmtToken.copy(alternateReading = alt)
+    collectTokens(newToken,orig)
+  }
 
   def getAlternate (hmtToken: HmtToken, n: xml.Elem) = {
     val cNames = n.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
@@ -87,7 +97,8 @@ object TeiReader {
       sicCorrChoice(hmtToken, n)
 
     } else if (cNames.sameElements(origReg) ) {
-      println("HANDLE ORIG REG")
+      origRegChoice(hmtToken,n)
+
     } else {
       println("BAD choice : " + cNames)
     }

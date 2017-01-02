@@ -28,6 +28,7 @@ case class HmtToken (var urn: String,
 
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice,
+  
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {
 

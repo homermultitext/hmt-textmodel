@@ -123,7 +123,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   it should "record editorial status for readings of TEI add element as restored" in pending
 
-  it should "record editorial status for readings of TEI reg element as restored" in pending
+
 
   // lexical category
   it should "categorize TEI num content as numeric lexical category" in {
@@ -178,7 +178,14 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   it should "categorize alternate category of TEI add as multiform" in pending
 
-  it should "categorize alternate category of TEI reg as multiform" in pending
+
+  it should "categorize alternate category of TEI reg as multiform" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAim.hmt:9.625.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τὸ μάχης ἑκατέροις <choice> <orig> δύνασθαι</orig> <reg> δύναται</reg></choice> προς δίδοσθαι ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val origReg = tokenV(3)._2
+    assert(origReg.alternateReading.alternateCategory == Multiform)
+  }
 
   it should "categorize alternate category of TEI corr as correction" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
