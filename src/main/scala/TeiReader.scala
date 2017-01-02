@@ -51,14 +51,43 @@ object TeiReader {
       }
     }
   }
+  def abbrExpanChoice(hmtToken: HmtToken, el: xml.Elem) = {
+    val abbrSeq = el \ "abbr"
+    val abbr = abbrSeq(0)
+    val expanSeq = el \ "expan"
+    val expan  = expanSeq(0)
+    val expandedReading = Reading(expan.text,Restored)
+    val alt = AlternateReading(Restoration,Vector(expandedReading))
 
+    val newToken = hmtToken.copy(alternateReading = alt)
+    collectTokens(newToken,abbr)
+  }
+
+  def getAlternate (hmtToken: HmtToken, n: xml.Elem) = {
+    val cNames = n.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
+
+    val abbrExpan = Array("abbr","expan")
+    val sicCorr = Array("sic", "corr")
+    val origReg = Array("orig", "reg")
+
+    if (cNames.sameElements(abbrExpan) ) {
+      println("HANDLE ABBR EXPAN")
+      abbrExpanChoice(hmtToken, n)
+    } else if (cNames.sameElements(sicCorr) ) {
+      println("HANDLE SIC CORR")
+    } else if (cNames.sameElements(origReg) ) {
+      println("HANDLE ORIG REG")
+    } else {
+      println("BAD choice : " + cNames)
+    }
+  }
 
 
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
         // the awesomeness of regex: split on set of
-        // characters without losing them:
+        // punctuation characters without losing them:
         val depunctuate =   t.text.split("((?<=[,;⁑\\.])|(?=[,;⁑\\.]))")
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
@@ -92,6 +121,10 @@ object TeiReader {
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }
+          }
+
+          case "choice" => {
+            val alt = getAlternate(currToken,e)
           }
 /*
 

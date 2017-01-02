@@ -44,7 +44,6 @@ class HmtTokenSpec extends FlatSpec {
     val errorToken = tkn.copy(errors = ArrayBuffer("dummy error message"))
     val errorColumns = errorToken.rowString.split("\t")
     assert (errorColumns.size == 8)
-    println(errorToken.rowString)
   }
 
    it should "default to using tab as a delimiting string" in {
