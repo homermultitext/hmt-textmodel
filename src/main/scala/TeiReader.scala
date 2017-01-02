@@ -68,7 +68,7 @@ object TeiReader {
     val corrSeq = el \ "corr"
     val corr  = corrSeq(0)
     val correctedReading = Reading(corr.text,Restored)
-    val alt = AlternateReading(Restoration,Vector(correctedReading))
+    val alt = AlternateReading(Correction,Vector(correctedReading))
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,sic)
   }

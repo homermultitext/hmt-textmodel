@@ -180,24 +180,23 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   it should "categorize alternate category of TEI reg as multiform" in pending
 
-  it should "categorize alternate category of TEI corr as correction" in pending
+  it should "categorize alternate category of TEI corr as correction" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val sicCorr = tokenV(1)._2
+    assert(sicCorr.alternateReading.alternateCategory == Correction)
+  }
 
   it should "have a single reading for TEI corr classed as Restored" in {
-
-
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
 
     val sicCorr = tokenV(1)._2
-    println("Sic - corr == " + sicCorr.columnString)
-
     assert(sicCorr.alternateReading.reading.size == 1)
-
     val rdg = sicCorr.alternateReading.reading(0)
-
-    //assert (rdg.status == Restored)
-
+    assert (rdg.status == Restored)
   }
 
   // discourse category
