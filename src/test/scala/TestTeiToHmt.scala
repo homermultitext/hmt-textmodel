@@ -231,7 +231,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   it should "categorize discourse of TEI q outside of cit as quoted language" in pending
 
   // lexical disambigutation
-  it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in pending
+  it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.D5.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> εἰς <num value="5"> ε</num> τάξεις</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val numToken = tokenV(1)._2
+    assert (numToken.lexicalDisambiguation == "Automated numeric parsing")
+  }
 
   it should "use n attribute of TEI persName element for lexical disambiguation" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_3.comment"
