@@ -203,13 +203,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
 
-  it should "categorize alternate category of TEI add as multiform" in {
+  it should "categorize alternate category of TEI add as multiform" in pending /*{
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.15.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> <q> διενται</q> ὡς τίθενται <choice> <abbr> μέμνητ</abbr> <expan> μέμνηται</expan></choice> ὁ <persName n="urn:cite:hmt:pers.pers493"> Ηρωδιανος</persName> εν <add place="supralinear"> τ</add> <num value="12"> μ</num> :</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    val added = tokenV(8)
-    println("ADDED: " + added._2.columnString)
-  }
+    val added = tokenV(8)._2
+    println("ADDED: " + added.columnString)
+    assert (added.alternateReading.alternateCategory == Multiform)
+
+  }*/
 
   it should "read contents of add element as regular editorial readings" in pending
 

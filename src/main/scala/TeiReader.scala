@@ -156,9 +156,16 @@ object TeiReader {
       }
       case e: xml.Elem => {
         e.label match {
+          case "add" => {
+            //  multiform
+            //
+            wrappedWordBuffer.clear
+            collectWrappedWordStrings(Clear,e)
+            val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+            wrappedWordBuffer.clear
+          }
+
           case "q" => {
-
-
             currToken.discourse match {
                 case QuotedText => { // don't change!
                   for (ch <- e.child) {
