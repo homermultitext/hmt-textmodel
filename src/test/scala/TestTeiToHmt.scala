@@ -200,7 +200,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     println("REG: \n" + origReg.columnString)
   }
 
-  it should "read contents of reg element as regular editorial readings" in pending
+  it should "read contents of reg element as regular editorial readings" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAim.hmt:9.625.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τὸ μάχης ἑκατέροις <choice> <orig> δύνασθαι</orig> <reg> δύναται</reg></choice> προς δίδοσθαι ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val regAlternative = tokenV(3)._2.alternateReading.reading
+    assert(regAlternative(0).status == Clear)
+  }
 
   it should "categorize alternate category of TEI corr as correction" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
@@ -210,16 +216,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(sicCorr.alternateReading.alternateCategory == Correction)
   }
 
-  it should "read contents of corr element as regular editorial readings" in pending /*{
+  it should "read contents of corr element as regular editorial readings" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
 
-    val sicCorr = tokenV(1)._2
-    assert(sicCorr.alternateReading.reading.size == 1)
-    val rdg = sicCorr.alternateReading.reading(0)
-    assert (rdg.status == Restored)
-  }*/
+
+    val corrAlternative = tokenV(1)._2.alternateReading.reading
+    assert(corrAlternative(0).status == Clear)
+  }
 
   // discourse category
   it should "categorize discourse of TEI cit as cited text" in pending

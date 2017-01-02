@@ -67,8 +67,12 @@ object TeiReader {
     val sic = sicSeq(0)
     val corrSeq = el \ "corr"
     val corr  = corrSeq(0)
-    val correctedReading = Reading(corr.text,Restored)
-    val alt = AlternateReading(Correction,Vector(correctedReading))
+
+    wrappedWordBuffer.clear
+    collectWrappedWordStrings(Clear,corr)
+    val alt = AlternateReading(Correction,wrappedWordBuffer.toVector)
+    wrappedWordBuffer.clear
+
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,sic)
   }
@@ -79,15 +83,16 @@ object TeiReader {
     val regSeq = el \ "reg"
     val reg  = regSeq(0)
 
-    // clear token buffer
-    // read its value for multiform
-    // then re-clear it
-    val multiform = Reading(reg.text,Restored)
 
+    wrappedWordBuffer.clear
+    collectWrappedWordStrings(Clear,reg)
+    val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+    wrappedWordBuffer.clear
 
-    val alt = AlternateReading(Multiform,Vector(multiform))
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,orig)
+
+
   }
 
   def getAlternate (hmtToken: HmtToken, n: xml.Elem) = {
@@ -101,7 +106,6 @@ object TeiReader {
       abbrExpanChoice(hmtToken, n)
     } else if (cNames.sameElements(sicCorr) ) {
       sicCorrChoice(hmtToken, n)
-
     } else if (cNames.sameElements(origReg) ) {
       origRegChoice(hmtToken,n)
 
