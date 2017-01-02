@@ -114,6 +114,32 @@ object TeiReader {
     }
   }
 
+  def getCited(currToken: HmtToken, el: xml.Elem) {
+    val citeStruct = Array("ref","q")
+    val cNames = el.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
+
+
+    if (cNames.sameElements(citeStruct) ) {
+      val refs = el \ "ref"
+      val srcRef = refs(0).text.trim
+      val newToken = currToken.copy(discourse = CitedText,
+      externalSource = srcRef)
+      for (ch <- el.child) {
+        collectTokens(newToken, ch)
+      }
+
+    } else {
+      var errorList = currToken.errors :+  "Invalid structure: cit should have both q and ref children"
+      val newToken = currToken.copy(discourse = CitedText,
+      errors = errorList)
+      for (ch <- el.child) {
+        collectTokens(newToken, ch)
+      }
+    }
+
+    // must have ref
+    // must have q
+  }
 
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
@@ -134,8 +160,9 @@ object TeiReader {
       case e: xml.Elem => {
         e.label match {
           case "cit" => {
-            val newToken = currToken.copy()
+            getCited(currToken,e)
           }
+          case "ref" => {}
           case "num" => {
             val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = "Automated numeric parsing")
             for (ch <- e.child) {
@@ -189,7 +216,7 @@ object TeiReader {
           }
 
           case "choice" => {
-            val alt = getAlternate(currToken,e)
+            getAlternate(currToken,e)
           }
 
 
