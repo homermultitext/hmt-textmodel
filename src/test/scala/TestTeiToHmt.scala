@@ -121,8 +121,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(mixedReadings(1).status == Clear)
   }
 
-  it should "record editorial status for readings of TEI expan element as restored" in pending
-
   it should "record editorial status for readings of TEI add element as restored" in pending
 
   it should "record editorial status for readings of TEI reg element as restored" in pending
