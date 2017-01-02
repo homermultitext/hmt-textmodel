@@ -146,8 +146,8 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val tokenum = 99
     val mysian = tokenV(tokenum)._2
-    println("Token " + tokenum + " = " )
-    println(mysian.columnString)
+    //println("Token " + tokenum + " = " )
+    //println(mysian.columnString)
     assert (mysian.lang == "mysian")
   }
 
