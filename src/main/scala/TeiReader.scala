@@ -58,10 +58,21 @@ object TeiReader {
     val expan  = expanSeq(0)
     val expandedReading = Reading(expan.text,Restored)
     val alt = AlternateReading(Restoration,Vector(expandedReading))
-
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,abbr)
   }
+
+  def sicCorrChoice(hmtToken: HmtToken, el: xml.Elem) = {
+    val sicSeq = el \ "sic"
+    val sic = sicSeq(0)
+    val corrSeq = el \ "corr"
+    val corr  = corrSeq(0)
+    val correctedReading = Reading(corr.text,Restored)
+    val alt = AlternateReading(Restoration,Vector(correctedReading))
+    val newToken = hmtToken.copy(alternateReading = alt)
+    collectTokens(newToken,sic)
+  }
+
 
   def getAlternate (hmtToken: HmtToken, n: xml.Elem) = {
     val cNames = n.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
@@ -71,10 +82,10 @@ object TeiReader {
     val origReg = Array("orig", "reg")
 
     if (cNames.sameElements(abbrExpan) ) {
-      println("HANDLE ABBR EXPAN")
       abbrExpanChoice(hmtToken, n)
     } else if (cNames.sameElements(sicCorr) ) {
-      println("HANDLE SIC CORR")
+      sicCorrChoice(hmtToken, n)
+
     } else if (cNames.sameElements(origReg) ) {
       println("HANDLE ORIG REG")
     } else {
