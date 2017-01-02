@@ -136,7 +136,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
   it should "categorize TEI rs content when @type = 'waw' as string literal lexical category" in pending
 
-  it should "categorize TEI sic content as unparseable lexical category" in pending
+  it should "categorize TEI sic content as unparseable lexical category" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:18.47.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἐν τῇ <sic> Μασσαλέωτικῆ</sic> <q> <sic> είμα</sic> τ' ἔχε</q> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val sicToken = tokenV(2)._2
+    assert(sicToken.lexicalCategory == Unintelligible)
+  }
 
 
   // language
@@ -185,7 +191,10 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val origReg = tokenV(3)._2
     assert(origReg.alternateReading.alternateCategory == Multiform)
+    println("REG: \n" + origReg.columnString)
   }
+
+  it should "read contents of reg element as regular editorial readings" in pending
 
   it should "categorize alternate category of TEI corr as correction" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
@@ -195,7 +204,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(sicCorr.alternateReading.alternateCategory == Correction)
   }
 
-  it should "have a single reading for TEI corr classed as Restored" in {
+  it should "read contents of corr element as regular editorial readings" in pending /*{
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment"
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
@@ -204,7 +213,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(sicCorr.alternateReading.reading.size == 1)
     val rdg = sicCorr.alternateReading.reading(0)
     assert (rdg.status == Restored)
-  }
+  }*/
 
   // discourse category
   it should "categorize discourse of TEI cit as cited text" in pending

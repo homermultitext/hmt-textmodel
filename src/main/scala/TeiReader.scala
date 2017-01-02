@@ -78,7 +78,13 @@ object TeiReader {
     val orig = origSeq(0)
     val regSeq = el \ "reg"
     val reg  = regSeq(0)
+
+    // clear token buffer
+    // read its value for multiform
+    // then re-clear it
     val multiform = Reading(reg.text,Restored)
+
+
     val alt = AlternateReading(Multiform,Vector(multiform))
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,orig)
@@ -125,6 +131,12 @@ object TeiReader {
         e.label match {
           case "num" => {
             val newToken = currToken.copy(lexicalCategory = NumericToken)
+            for (ch <- e.child) {
+              collectTokens(newToken, ch)
+            }
+          }
+          case "sic" => {
+            val newToken = currToken.copy(lexicalCategory = Unintelligible)
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }

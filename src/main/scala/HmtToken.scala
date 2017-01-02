@@ -7,6 +7,7 @@ case object LexicalToken extends LexicalCategory {val name = "lexical token"}
 case object NumericToken extends LexicalCategory {val name = "numeric token"}
 case object Punctuation extends LexicalCategory {val name = "punctuation"}
 case object LiteralToken extends LexicalCategory {val name = "string literal"}
+case object Unintelligible extends LexicalCategory {val name = "unparseable lexical token"}
 
 
 sealed trait DiscourseCategory {def name : String}
@@ -28,7 +29,7 @@ case class HmtToken (var urn: String,
 
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
   var discourse: DiscourseCategory = DirectVoice,
-  
+
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {
 
