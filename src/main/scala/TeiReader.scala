@@ -122,7 +122,7 @@ object TeiReader {
     if (cNames.sameElements(citeStruct) ) {
       val refs = el \ "ref"
       val srcRef = refs(0).text.trim
-      val newToken = currToken.copy(discourse = CitedText,
+      val newToken = currToken.copy(discourse = QuotedText,
       externalSource = srcRef)
       for (ch <- el.child) {
         collectTokens(newToken, ch)
@@ -130,7 +130,7 @@ object TeiReader {
 
     } else {
       var errorList = currToken.errors :+  "Invalid structure: cit should have both q and ref children"
-      val newToken = currToken.copy(discourse = CitedText,
+      val newToken = currToken.copy(discourse = QuotedText,
       errors = errorList)
       for (ch <- el.child) {
         collectTokens(newToken, ch)
@@ -160,7 +160,7 @@ object TeiReader {
 
 
             currToken.discourse match {
-                case CitedText => { // don't change!
+                case QuotedText => { // don't change!
                   for (ch <- e.child) {
                     collectTokens(currToken, ch)
                   }

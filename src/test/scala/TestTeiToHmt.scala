@@ -160,14 +160,27 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     //println("Token " + tokenum + " = " )
     //println(mysian.columnString)
     assert (mysian.lang == "mysian")
-
+/*
+    import java.io._
+    val pw = new PrintWriter(new File("scholia_tokens.tsv" ))
+    pw.write(HmtToken.labels.mkString("\t") + "\n")
+    for (t <- tokenV) {
+      pw.write(t._2.rowString + "\n")
+    }
+    pw.close
+*/
   }
 
 
   // alternate reading
-  it should "have no alternate reading strings when alternate reading category is Original" in pending
+  it should "have no alternate reading strings when alternate reading category is Original" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:18.47.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἐν τῇ <sic> Μασσαλέωτικῆ</sic> <q> <sic> είμα</sic> τ' ἔχε</q> ⁑</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val tkn = tokenV(0)._2
+    assert(tkn.alternateReading.reading.size == 0)
+  }
 
-  it should "have 1 or more alternate reading strings when alternate reading category is not Original" in pending
 
   it should "categorize alternate category of TEI expan as restoration" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment"
@@ -190,7 +203,13 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
 
-  it should "categorize alternate category of TEI add as multiform" in pending
+  it should "categorize alternate category of TEI add as multiform" in {
+    val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.15.comment"
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> <q> διενται</q> ὡς τίθενται <choice> <abbr> μέμνητ</abbr> <expan> μέμνηται</expan></choice> ὁ <persName n="urn:cite:hmt:pers.pers493"> Ηρωδιανος</persName> εν <add place="supralinear"> τ</add> <num value="12"> μ</num> :</p></div>"""
+    val tokenV = TeiReader.teiToTokens(urn, xml)
+    val added = tokenV(8)
+    println("ADDED: " + added._2.columnString)
+  }
 
   it should "read contents of add element as regular editorial readings" in pending
 
@@ -234,7 +253,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val tokenN = 10
     val cited = tokenV(tokenN)._2
-    assert(cited.discourse == CitedText)
+    assert(cited.discourse == QuotedText)
   }
   it should "record reference of external source when discourse type is cited text" in {
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment"
@@ -243,7 +262,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val cited = tokenV(10)._2
 
 
-    assert(cited.discourse == CitedText)
+    assert(cited.discourse == QuotedText)
     assert(cited.externalSource == "urn:cts:greekLit:tlg0012.tlg001:17.611")
   }
   it should "categorize discourse of TEI q outside of cit as quoted language" in {
@@ -254,8 +273,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val quoted = tokenV(4)._2
     assert(quoted.discourse == QuotedLanguage)
   }
-
-
 
   // lexical disambiguation
   it should "categorize lexical disambiguation of TEI num as automated numerical parsing" in {
@@ -271,11 +288,8 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> καὶ <q> πόρε <persName n="urn:cite:hmt:pers.pers115"> Xείρων</persName></q> ⁑</p></div>"""
 
     val tokenV = TeiReader.teiToTokens(urn, xml)
-
-
     val pn = tokenV(2)._2
     assert(pn.lexicalDisambiguation == "urn:cite:hmt:pers.pers115")
-
   }
 
   it should "use  n attribute of TEI placeName element for lexical disambiguation" in {

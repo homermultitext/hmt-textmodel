@@ -15,8 +15,8 @@ case object DirectVoice extends DiscourseCategory {val name = "voice of text"}
 case object QuotedLanguage extends DiscourseCategory {val
  name = "quoted language"}
 case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal string"}
-case object CitedText extends DiscourseCategory {val name
- = "cited passage of text"}
+case object QuotedText extends DiscourseCategory {val name
+ = "quoted passage of text"}
 
 
 
