@@ -2,7 +2,7 @@
 organization := "org.homermultitext"
 name := "HmtEdition"
 
-version := "0.2.0"
+version := "0.2.1"
 
 scalaVersion := "2.11.7"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" %  "test"

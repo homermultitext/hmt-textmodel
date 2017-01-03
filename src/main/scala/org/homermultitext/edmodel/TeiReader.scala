@@ -139,6 +139,56 @@ object TeiReader {
     }
   }
 
+
+  def collectRefString(currToken: HmtToken, el: xml.Elem) = {
+    val typeAttrs = el \ "@type"
+    if (typeAttrs.size == 0) {
+      var errorList = currToken.errors :+ "rs element missing required @type attribute"
+      val newToken = currToken.copy(errors = errorList)
+      for (ch <- el.child) {
+        collectTokens(newToken, ch)
+      }
+
+    } else {
+     typeAttrs(0).text match {
+       case "waw" => {
+         val newToken = currToken.copy(lexicalCategory = LiteralToken)
+         for (ch <- el.child) {
+           collectTokens(newToken, ch)
+         }
+       }
+
+       case "ethnic" => {
+         disambiguateNamedEntity(currToken,el)
+       }
+
+       case _ => {
+         for (ch <- el.child) {
+           collectTokens(currToken, ch)
+         }
+       }
+     }
+   }
+  }
+
+  def disambiguateNamedEntity(currToken: HmtToken, el: xml.Elem) {
+    val nAttrs = el \ "@n"
+    if (nAttrs.size < 1) {
+      var errorList = currToken.errors :+ "element " + el.label + " missing required @n attribute"
+      val newToken = currToken.copy(errors = errorList)
+      for (ch <- el.child) {
+        collectTokens(newToken, ch)
+      }
+
+    } else {
+      val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
+      for (ch <- el.child) {
+        collectTokens(newToken, ch)
+      }
+    }
+  }
+
+
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
@@ -198,28 +248,7 @@ object TeiReader {
             }
           }
           case "rs" => {
-            val typeAttrs = e \ "@type"
-            typeAttrs(0).text match {
-              case "waw" => {
-                val newToken = currToken.copy(lexicalCategory = LiteralToken)
-                for (ch <- e.child) {
-                  collectTokens(newToken, ch)
-                }
-              }
-              case "ethnic" => {
-                val nAttrs = e \ "@n"
-                val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
-                for (ch <- e.child) {
-                  collectTokens(newToken, ch)
-                }
-              }
-              case _ => {
-                for (ch <- e.child) {
-                  collectTokens(currToken, ch)
-                }
-              }
-            }
-
+            collectRefString(currToken,e )
           }
           case "w" => {
             wrappedWordBuffer.clear
@@ -241,22 +270,13 @@ object TeiReader {
             getAlternate(currToken,e)
           }
 
-
           case "persName" => {
-            val nAttrs = e \ "@n"
-            val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
-            for (ch <- e.child) {
-              collectTokens(newToken, ch)
-            }
+            disambiguateNamedEntity(currToken,e)
+          }
+          case "placeName" => {
+            disambiguateNamedEntity(currToken,e)
           }
 
-          case "placeName" => {
-            val nAttrs = e \ "@n"
-            val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
-            for (ch <- e.child) {
-              collectTokens(newToken, ch)
-            }
-          }
           case l: String =>  {
             if (validElements.contains(l)) {
               for (ch <- e.child) {
