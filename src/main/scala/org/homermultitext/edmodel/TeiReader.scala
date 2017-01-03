@@ -37,13 +37,11 @@ object TeiReader {
   * @returns A single String with all text from n.
   */
   def collectText(n: xml.Node, s: String): String = {
-    println("cOLLEcT: " + n.label + " with " + s)
     var buff = StringBuilder.newBuilder
     buff.append(s)
     n match {
       case t: xml.Text => {
         buff.append(t.text)
-        println("After append, buf is " + buff.toString)
       }
 
       case e: xml.Elem => {
@@ -52,11 +50,10 @@ object TeiReader {
         }
       }
     }
-    println("Return " + buff.toString)
     buff.toString
   }
 
-  def collectWrappedWordStrings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
+  def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
         val readingString = t.text.replaceAll(" ", "")
@@ -69,12 +66,12 @@ object TeiReader {
         e.label match {
           case "unclear" => {
             for (ch <- e.child) {
-              collectWrappedWordStrings(Unclear,ch)
+              collectWrappedWordReadings(Unclear,ch)
             }
           }
           case _ => {
             for (ch <- e.child) {
-              collectWrappedWordStrings(editorialStatus,ch)
+              collectWrappedWordReadings(editorialStatus,ch)
             }
           }
         }
@@ -99,7 +96,7 @@ object TeiReader {
     val corr  = corrSeq(0)
 
     wrappedWordBuffer.clear
-    collectWrappedWordStrings(Clear,corr)
+    collectWrappedWordReadings(Clear,corr)
     val alt = AlternateReading(Correction,wrappedWordBuffer.toVector)
     wrappedWordBuffer.clear
 
@@ -115,7 +112,7 @@ object TeiReader {
 
 
     wrappedWordBuffer.clear
-    collectWrappedWordStrings(Clear,reg)
+    collectWrappedWordReadings(Clear,reg)
     val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
     wrappedWordBuffer.clear
 
@@ -240,7 +237,7 @@ object TeiReader {
             //  multiform
             //
             wrappedWordBuffer.clear
-            collectWrappedWordStrings(Clear,e)
+            collectWrappedWordReadings(Clear,e)
             val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
             wrappedWordBuffer.clear
           }
@@ -281,7 +278,7 @@ object TeiReader {
           }
           case "w" => {
             wrappedWordBuffer.clear
-            collectWrappedWordStrings(Clear,e)
+            collectWrappedWordReadings(Clear,e)
             val newToken = currToken.copy(readings = wrappedWordBuffer.toVector)
             tokenBuffer += newToken
           }
