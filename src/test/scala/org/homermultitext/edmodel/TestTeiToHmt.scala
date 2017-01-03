@@ -309,4 +309,21 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val trojans = tokenV(2)._2
     assert(trojans.lexicalDisambiguation == "urn:cite:hmt:place.place6")
   }
+
+
+  it should "read a tab-delimited two-column file and create a Vector of (urn,token) tuples" in {
+    val fName = "src/test/resources/sample1-twocolumn.tsv"
+    val tokens = TeiReader.fromTwoColumns(fName)
+    // more than 150 tokens from 3 scholia
+    assert (tokens.size > 150)
+    assert (tokens.groupBy( _._1).size == 3)
+  }
+  it should "read a two-column file with specified  delimited and create a Vector of (urn,token) tuples" in {
+    val fName = "src/test/resources/sample1-twocolumn-pound.txt"
+    val separator = "#"
+    val tokens = TeiReader.fromTwoColumns(fName, separator)
+    // more than 150 tokens from 3 scholia
+    assert (tokens.size > 150)
+    assert (tokens.groupBy( _._1).size == 3)
+  }
 }

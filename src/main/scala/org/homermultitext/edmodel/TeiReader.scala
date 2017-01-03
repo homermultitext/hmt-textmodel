@@ -3,6 +3,7 @@ package org.homermultitext.edmodel
 
 import scala.collection.mutable.ArrayBuffer
 import scala.xml._
+import scala.io.Source
 
 object TeiReader {
   // perhaps should be a function retrieving
@@ -276,6 +277,11 @@ object TeiReader {
   }
 
 
+
+  /** Converts one well-formed
+  * fragment of TEI XML following HMT conventions
+  * to an ordered sequence of (URN,HmtToken) tuples.
+  */
   def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (String, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
@@ -295,5 +301,16 @@ object TeiReader {
     }.toVector
 
     zippedVal
+  }
+
+
+  def fromTwoColumns(fileName: String): Vector[(String, HmtToken)] = {
+    fromTwoColumns(fileName,"\t")
+  }
+
+  def fromTwoColumns(fileName: String, separator: String): Vector[(String, HmtToken)] = {
+    val pairArray = Source.fromFile(fileName).getLines.toVector.map(_.split(separator))
+    pairArray.flatMap( arr => TeiReader.teiToTokens(arr(0), arr(1)))
+
   }
 }
