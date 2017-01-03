@@ -332,6 +332,8 @@ object TeiReader {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
       urn = urnStr,
+      sourceSubref = urnStr + "@" + "UNSPECIFIED",
+      analysis = "CITE URN GOES HERE",
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )

@@ -18,18 +18,20 @@ case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal 
 case object QuotedText extends DiscourseCategory {val name
  = "quoted passage of text"}
 
-
-
 case class HmtToken (var urn: String,
   var lang : String = "grc",
   var readings: Vector[Reading],
-  var lexicalCategory: LexicalCategory ,
+  var sourceSubref: String,
 
+  var analysis: String,
+  var lexicalCategory: LexicalCategory ,
   var lexicalDisambiguation: String = "Automated disambiguation",
 
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
+
   var discourse: DiscourseCategory = DirectVoice,
   var externalSource: String = "none",
+
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {
 
@@ -38,6 +40,8 @@ case class HmtToken (var urn: String,
 
   def rowString: String = {
     urn + propertySeparator +
+    sourceSubref + propertySeparator +
+    analysis + propertySeparator +
     lang + propertySeparator +
     readings + propertySeparator +
     lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + alternateReading + propertySeparator +
@@ -53,11 +57,11 @@ case class HmtToken (var urn: String,
 
     withLabels match {
       case false => {
-        Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
+        Vector(urn,sourceSubref,analysis,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
       }
 
       case true => {
-        val stringVals = Vector(urn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
+        val stringVals = Vector(urn,sourceSubref,analysis,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
 
         val labelled = stringVals.zip(HmtToken.paddedLabels)
         labelled.map {
@@ -74,7 +78,7 @@ object HmtToken {
   val defaultAlternate = AlternateReading(Original, Vector.
    empty[Reading])
 
-   val labels = Vector("URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
+   val labels = Vector("URN","Source URN", "Analysis","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
 
    val labelWidth = labels.map(_.size).max
    def paddedLabels  =  labels.map {
