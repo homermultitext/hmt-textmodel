@@ -1,10 +1,19 @@
 package org.homermultitext.edmodel
 import org.scalatest._
+import scala.xml._
 
 class TeiIngestionSpec extends FlatSpec with Inside {
 
   // test structure of result
-  "The TeiReader object" should "convert well-formed HMT TEI to a Vector of (urn, HmtToken) tuples" in {
+  "The TeiReader object" should "have a function to collect text from an XML node" in {
+    val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
+
+    val expected = "ουτ οὕτως δια τοῦ ο ζεύγνυον ⁑"
+    val actual = TeiReader.collectText(XML.loadString(xml),"").trim.replaceAll("[ ]+"," ")
+    assert (expected == actual)
+  }
+
+  it should "convert well-formed HMT TEI to a Vector of (urn, HmtToken) tuples" in {
 
     val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
     val urn = "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5"

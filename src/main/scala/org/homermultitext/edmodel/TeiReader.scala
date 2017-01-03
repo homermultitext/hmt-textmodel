@@ -27,6 +27,32 @@ object TeiReader {
 
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
+  /** Recursively collects contents of all text-node
+  * descendants of a given node.
+  * @param n Node to collect from.
+  * @param buff Buffer for collecting text contents.
+  * @returns A single String with all text from n.
+  */
+  def collectText(n: xml.Node, s: String): String = {
+    println("cOLLEcT: " + n.label + " with " + s)
+    var buff = StringBuilder.newBuilder
+    buff.append(s)
+    n match {
+      case t: xml.Text => {
+        buff.append(t.text)
+        println("After append, buf is " + buff.toString)
+      }
+
+      case e: xml.Elem => {
+        for (ch <- e.child) {
+          buff = new StringBuilder(collectText(ch, buff.toString))
+        }
+      }
+    }
+    println("Return " + buff.toString)
+    buff.toString
+  }
+
   def collectWrappedWordStrings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
