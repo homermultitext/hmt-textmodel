@@ -1,12 +1,12 @@
 package org.homermultitext.edmodel
 import org.scalatest.FlatSpec
-
+import edu.holycross.shot.cite._
 
 import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
-  val tkn = HmtToken(urn = "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1",
-  sourceSubref = "urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν",
+  val tkn = HmtToken(urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"),
+  sourceSubref = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
   analysis = "urn:cite:hmt:urtoken.1.v1",
 
   lexicalCategory = LexicalToken,
@@ -15,7 +15,7 @@ class HmtTokenSpec extends FlatSpec {
 
 
   "A token"  should "have a URN" in {
-    assert (tkn.urn == "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1")
+    assert (tkn.urn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"))
   }
 
   it should "be indexed to a CTS URN with subref" in pending

@@ -1,5 +1,7 @@
 package org.homermultitext.edmodel
 
+import edu.holycross.shot.cite._
+
 import scala.collection.mutable.ArrayBuffer
 
 sealed trait LexicalCategory {def name : String}
@@ -18,10 +20,10 @@ case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal 
 case object QuotedText extends DiscourseCategory {val name
  = "quoted passage of text"}
 
-case class HmtToken (var urn: String,
+case class HmtToken (var urn: CtsUrn,
   var lang : String = "grc",
   var readings: Vector[Reading],
-  var sourceSubref: String,
+  var sourceSubref: CtsUrn,
 
   var analysis: String,
   var lexicalCategory: LexicalCategory ,
@@ -85,4 +87,6 @@ object HmtToken {
      s => " " * (labelWidth - s.size) + s
    }
 
+   val collectionId = "urn:cite:hmt:urtoken"
+   val versionId = "v1"
 }

@@ -5,6 +5,9 @@ import scala.collection.mutable.ArrayBuffer
 import scala.xml._
 import scala.io.Source
 
+import edu.holycross.shot.cite._
+
+
 object TeiReader {
   // perhaps should be a function retrieving
   // list by text group and lexical category?
@@ -328,11 +331,11 @@ object TeiReader {
   * fragment of TEI XML following HMT conventions
   * to an ordered sequence of (URN,HmtToken) tuples.
   */
-  def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (String, HmtToken)]  = {
+  def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
-      urn = urnStr,
-      sourceSubref = urnStr + "@" + "UNSPECIFIED",
+      urn = CtsUrn(urnStr),
+      sourceSubref = CtsUrn(urnStr + "@" + "UNSPECIFIED"),
       analysis = "CITE URN GOES HERE",
       lexicalCategory = LexicalToken,
       readings = Vector.empty
@@ -344,7 +347,7 @@ object TeiReader {
     // citation element
     val zippedVal = tokenBuffer.zipWithIndex.map{ case (t,i) => {
       val baseUrn = t.urn
-      t.urn = baseUrn + "." + (i +1)
+      t.urn = CtsUrn(baseUrn.toString + "." + (i +1))
       (baseUrn, t) }
     }.toVector
 
@@ -352,12 +355,12 @@ object TeiReader {
   }
 
 
-  def fromTwoColumns(fileName: String): Vector[(String, HmtToken)] = {
+  def fromTwoColumns(fileName: String): Vector[(CtsUrn, HmtToken)] = {
     fromTwoColumns(fileName,"\t")
   }
 
-  def fromTwoColumns(fileName: String, separator: String): Vector[(String, HmtToken)] = {
-    val pairArray = Source.fromFile(fileName).getLines.toVector.map(_.split(separator))
+  def fromTwoColumns(fileName: String, separator: String): Vector[(CtsUrn, HmtToken)] = {
+    val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator))
     pairArray.flatMap( arr => TeiReader.teiToTokens(arr(0), arr(1)))
 
   }

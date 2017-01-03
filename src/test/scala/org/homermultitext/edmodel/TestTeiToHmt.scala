@@ -27,7 +27,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     inside (firstEntry._2) {
       case HmtToken(u,lng,rdgs,srcSubref,anaurn, lexcat,disambig,alt,disc,xsrc,errs) => {
         assert (lng == "grc")
-        assert (u == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
+        assert (u.toString == "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1")
       }
       case _ => fail("Object is not a HmtToken")
     }
