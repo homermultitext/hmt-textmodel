@@ -25,7 +25,7 @@ case class HmtToken (var urn: CtsUrn,
   var readings: Vector[Reading],
   var sourceSubref: CtsUrn,
 
-  var analysis: String,
+  var analysis: CiteUrn,
   var lexicalCategory: LexicalCategory ,
   var lexicalDisambiguation: String = "Automated disambiguation",
 

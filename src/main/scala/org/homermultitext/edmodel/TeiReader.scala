@@ -53,6 +53,13 @@ object TeiReader {
     buff.toString
   }
 
+
+  /** Recursively collects all Reading objects descended
+  * from a given node.  Vector or Readings is
+  * added to the TeiReader's wrappedWordBuffer.
+  * @param editorialStatus Editorial status of surrounding context.
+  * @param n Node to descend from.
+  */
   def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
@@ -78,6 +85,13 @@ object TeiReader {
       }
     }
   }
+
+
+  /** Collects tokens from a TEI abbr-expan pair.
+  * Results are added to the TeiReader's tokenBuffer.
+  * @param hmtToken Token with settings for parent context.
+  * @param el TEI choice element with abbr-expan children.
+  */
   def abbrExpanChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val abbrSeq = el \ "abbr"
     val abbr = abbrSeq(0)
@@ -89,6 +103,11 @@ object TeiReader {
     collectTokens(newToken,abbr)
   }
 
+  /** Collects tokens from a TEI sic-corr pair.
+  * Results are added to the TeiReader's tokenBuffer.
+  * @param hmtToken Token with settings for parent context.
+  * @param el TEI choice element with sic-corr children.
+  */
   def sicCorrChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val sicSeq = el \ "sic"
     val sic = sicSeq(0)
@@ -104,6 +123,11 @@ object TeiReader {
     collectTokens(newToken,sic)
   }
 
+  /** Collects tokens from a TEI orig-reg pair.
+  * Results are added to the TeiReader's tokenBuffer.
+  * @param hmtToken Token with settings for parent context.
+  * @param el TEI choice element with orig-reg children.
+  */
   def origRegChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val origSeq = el \ "orig"
     val orig = origSeq(0)
@@ -118,23 +142,26 @@ object TeiReader {
 
     val newToken = hmtToken.copy(alternateReading = alt)
     collectTokens(newToken,orig)
-
-
   }
 
-  def getAlternate (hmtToken: HmtToken, n: xml.Elem) = {
-    val cNames = n.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
+
+  /** Collects tokens from a TEI choice element.
+  * @param hmtToken Token with settings for parent context.
+  * @param el TEI choice element.
+  */
+  def getAlternate (hmtToken: HmtToken, choiceElem: xml.Elem) = {
+    val cNames = choiceElem.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
 
     val abbrExpan = Array("abbr","expan")
     val sicCorr = Array("sic", "corr")
     val origReg = Array("orig", "reg")
 
     if (cNames.sameElements(abbrExpan) ) {
-      abbrExpanChoice(hmtToken, n)
+      abbrExpanChoice(hmtToken, choiceElem)
     } else if (cNames.sameElements(sicCorr) ) {
-      sicCorrChoice(hmtToken, n)
+      sicCorrChoice(hmtToken, choiceElem)
     } else if (cNames.sameElements(origReg) ) {
-      origRegChoice(hmtToken,n)
+      origRegChoice(hmtToken,choiceElem)
 
     } else {
       println("BAD choice : " + cNames)
@@ -326,14 +353,14 @@ object TeiReader {
 
   /** Converts one well-formed
   * fragment of TEI XML following HMT conventions
-  * to an ordered sequence of (URN,HmtToken) tuples.
+  * to an ordered sequence of (CtsUrn,HmtToken) tuples.
   */
   def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
       urn = CtsUrn(urnStr),
       sourceSubref = CtsUrn(urnStr + "@" + "UNSPECIFIED"),
-      analysis = "CITE URN GOES HERE",
+      analysis = CiteUrn("urn:cite:hmt:urtoken.DUMMYOBJECT.v1"),
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )
@@ -359,6 +386,6 @@ object TeiReader {
   def fromTwoColumns(fileName: String, separator: String): Vector[(CtsUrn, HmtToken)] = {
     val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator))
     pairArray.flatMap( arr => TeiReader.teiToTokens(arr(0), arr(1)))
-
   }
+
 }

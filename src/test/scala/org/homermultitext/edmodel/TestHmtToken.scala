@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"),
   sourceSubref = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
-  analysis = "urn:cite:hmt:urtoken.1.v1",
+  analysis = CiteUrn("urn:cite:hmt:urtoken.1.v1"),
 
   lexicalCategory = LexicalToken,
   readings = Vector(Reading("μῆνιν",Clear))
@@ -18,7 +18,10 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.urn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"))
   }
 
-  it should "be indexed to a CTS URN with subref" in pending
+  it should "be indexed to a CTS URN with subref" in {
+    assert (tkn.sourceSubref == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
+
+  }
   it should "have an analysis URN" in pending
 
   it should "have a vector of readings" in {
