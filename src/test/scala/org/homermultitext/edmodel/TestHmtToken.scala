@@ -8,11 +8,9 @@ class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"),
   sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
   analysis = CiteUrn("urn:cite:hmt:urtoken.1.v1"),
-
   lexicalCategory = LexicalToken,
   readings = Vector(Reading("μῆνιν",Clear))
   )
-
 
   "A token"  should "have a URN" in {
     assert (tkn.urn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"))
@@ -38,8 +36,13 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.lang == "grc")
   }
 
-  it should "really have CiteUrn objects for entity disambiguation" in pending
-  it should "have a default for entity disambiguation of 'Automated disambiguation'" in {
+  it should "have CiteUrn objects for entity disambiguation" in {
+    tkn.lexicalDisambiguation match {
+      case u: CiteUrn => assert (1 == 1)
+      case _ => fail("Wrong class of lexical disambiguation for " + tkn)
+    }
+  }
+  it should "have a default CiteUrn for entity disambiguation with string value 'urn:cite:hmt:disambig.lexical.v1'" in {
     assert (tkn.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
   }
 
@@ -47,8 +50,6 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.discourse == DirectVoice)
   }
   it should "have a default of no alternate reading" in {
-    //assert(tkn.alternateReading.reading.size == 0)
-    //assert(tkn.alternateReading.alternateCategory == Original)
     tkn.alternateReading match {
       case Some(alt) => {
         fail("Should not have found alternate reading found for " + tkn)
@@ -57,10 +58,8 @@ class HmtTokenSpec extends FlatSpec {
     }
   }
 
-
-
   "Pretty printing as a table row" should "create a string of 11 delimited items" in {
-    // no errors: so splitting finds only 8 non-empty columns
+    // no errors: so splitting finds only 10 non-empty columns
     val columns = tkn.rowString.split("\t")
     assert (columns.size == 10)
     val errorToken = tkn.copy(errors = ArrayBuffer("dummy error message"))
@@ -68,16 +67,16 @@ class HmtTokenSpec extends FlatSpec {
     assert (errorColumns.size == 11)
   }
 
-   it should "default to using tab as a delimiting string" in {
-     val columns = tkn.rowString.split("\t")
-     assert (columns.size == 10)
-   }
+  it should "default to using tab as a delimiting string" in {
+   val columns = tkn.rowString.split("\t")
+   assert (columns.size == 10)
+  }
 
-   it should "support specifiying a delimiting string" in {
-     tkn.propertySeparator = "#"
-     val columns = tkn.rowString.split("#")
-     assert (columns.size == 10)
-   }
+  it should "support specifiying a delimiting string" in {
+   tkn.propertySeparator = "#"
+   val columns = tkn.rowString.split("#")
+   assert (columns.size == 10)
+  }
 
   "Pretty printing as a column" should  "create a string of 11 rows" in {
     val columns = tkn.columnString.split("\n")
@@ -93,6 +92,5 @@ class HmtTokenSpec extends FlatSpec {
     val columns = tkn.columnString(false).split("\n")
     assert (columns(0) == "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1")
   }
-
 
 }

@@ -2,21 +2,23 @@ package org.homermultitext.edmodel
 import org.scalatest.FlatSpec
 
 class AlternateReadingSpec extends FlatSpec {
-  "An alternate reading" should "have a vector of 0 or more readings" in {
+  "An alternate reading" should "have a vector of 1 or more readings" in {
     val rdg = Reading("οὕτως",Restored)
     val alt = AlternateReading(Restoration, Vector(rdg))
     assert (alt.reading.size == 1)
   }
   it should "have a category" in {
-  val rdg = Reading("οὕτως",Restored)
-  val alt = AlternateReading(Restoration, Vector(rdg))
-  assert (alt.alternateCategory == Restoration)
+    val rdg = Reading("οὕτως",Restored)
+    val alt = AlternateReading(Restoration, Vector(rdg))
+    assert (alt.alternateCategory == Restoration)
   }
 
-  it should "throw an exception if readings are given when category Original" in  pending
-  it should "have 1 or more readings when its category is not Original" in pending
-  it should "throw an exception if no readings are given when category is not Original" in  pending
+  it should "throw an exception if no readings are given" in  pending
+
   it should "require that all readings be Restored when alternate category is Restoration"
+
+  it should "throw an exception readings with status other than Restored are included when alternate category is Restoration" in  pending
+
 
 
 }
