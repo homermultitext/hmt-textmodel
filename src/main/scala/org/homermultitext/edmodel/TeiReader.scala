@@ -69,7 +69,7 @@ object TeiReader {
     val expan  = expanSeq(0)
     val expandedReading = Reading(expan.text,Restored)
     val alt = AlternateReading(Restoration,Vector(expandedReading))
-    val newToken = hmtToken.copy(alternateReading = alt)
+    val newToken = hmtToken.copy(alternateReading = Some(alt))
     collectTokens(newToken,abbr)
   }
 
@@ -89,7 +89,7 @@ object TeiReader {
     val alt = AlternateReading(Correction,wrappedWordBuffer.toVector)
     wrappedWordBuffer.clear
 
-    val newToken = hmtToken.copy(alternateReading = alt)
+    val newToken = hmtToken.copy(alternateReading = Some(alt))
     collectTokens(newToken,sic)
   }
 
@@ -110,7 +110,7 @@ object TeiReader {
     val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
     wrappedWordBuffer.clear
 
-    val newToken = hmtToken.copy(alternateReading = alt)
+    val newToken = hmtToken.copy(alternateReading = Some(alt))
     collectTokens(newToken,orig)
   }
 

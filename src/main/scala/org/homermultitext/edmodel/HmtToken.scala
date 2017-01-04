@@ -56,7 +56,7 @@ case class HmtToken (var urn: CtsUrn,
   var lexicalCategory: LexicalCategory ,
   var lexicalDisambiguation: CiteUrn = CiteUrn("urn:cite:hmt:disambig.lexical.v1"),
 
-  var alternateReading: AlternateReading = HmtToken.defaultAlternate,
+  var alternateReading: Option[AlternateReading] = None,
 
   var discourse: DiscourseCategory = DirectVoice,
   var externalSource: Option[CtsUrn] = None,
@@ -104,9 +104,6 @@ case class HmtToken (var urn: CtsUrn,
 }
 
 object HmtToken {
-  val defaultAlternate = AlternateReading(Original, Vector.
-   empty[Reading])
-
    val labels = Vector("URN","Source URN", "Analysis","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
 
    val labelWidth = labels.map(_.size).max
@@ -114,6 +111,4 @@ object HmtToken {
      s => " " * (labelWidth - s.size) + s
    }
 
-   val collectionId = "urn:cite:hmt:urtoken"
-   val versionId = "v1"
 }

@@ -12,10 +12,7 @@ class AlternateReadingSpec extends FlatSpec {
   val alt = AlternateReading(Restoration, Vector(rdg))
   assert (alt.alternateCategory == Restoration)
   }
-  it should "have no readings when its category is Original" in {
-    val alt = AlternateReading(Original,Vector[Reading]())
-    assert (alt.reading.size == 0)
-  }
+
   it should "throw an exception if readings are given when category Original" in  pending
   it should "have 1 or more readings when its category is not Original" in pending
   it should "throw an exception if no readings are given when category is not Original" in  pending

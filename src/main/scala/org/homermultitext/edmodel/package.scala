@@ -13,9 +13,12 @@ package org.homermultitext
  *
  */
  package object edmodel {
+
    import java.text.Normalizer.Form
    import java.text.Normalizer
 
+   val collectionId = "urn:cite:hmt:urtoken"
+   val versionId = "v1"
 
   // perhaps should be a function retrieving
   // list by text group and lexical category?

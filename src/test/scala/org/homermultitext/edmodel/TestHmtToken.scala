@@ -47,8 +47,14 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.discourse == DirectVoice)
   }
   it should "have a default of no alternate reading" in {
-    assert(tkn.alternateReading.reading.size == 0)
-    assert(tkn.alternateReading.alternateCategory == Original)
+    //assert(tkn.alternateReading.reading.size == 0)
+    //assert(tkn.alternateReading.alternateCategory == Original)
+    tkn.alternateReading match {
+      case Some(alt) => {
+        fail("Should not have found alternate reading found for " + tkn)
+      }
+      case None => assert ( 1 == 1)
+    }
   }
 
 

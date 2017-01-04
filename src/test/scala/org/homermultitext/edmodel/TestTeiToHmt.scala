@@ -10,10 +10,8 @@ class TeiIngestionSpec extends FlatSpec with Inside {
   "The TeiReader object" should "index token string within the text of the source element" in pending
 
   it should "convert well-formed HMT TEI to a Vector of (urn, HmtToken) tuples" in {
-
     val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
-
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = tokenV(0)
     inside (firstEntry._2) {
@@ -41,7 +39,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert (tokenV(0)._2.readings.size == 2)
   }
 
-
   it should "ensure that w element wraps both clear and unclear readings" in pending
 
   it should "ensure that w element wraps no TEI elements other than unclear" in pending
@@ -50,7 +47,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
     val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-
     val punctToken = tokenV(1)._2
     assert (punctToken.lexicalCategory == Punctuation)
   }
@@ -59,14 +55,11 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ὁ θεὸς ὑπέσχετο τὸ <seg type="word"> κακ <choice> <sic> ὸν</sic> <corr> ῶς</corr></choice></seg> ἀπαλλάξειν</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-
     val correct = tokenV(0)._2
     val incorrect = tokenV(4)._2
     assert(correct.errors.size == 0)
     assert(incorrect.errors.size == 1)
   }
-
-
 
   // test all default values:
   it should "default to editorial status of clear" in {
@@ -76,6 +69,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val token1readings = tokenV(0)._2.readings
     assert(token1readings(0).status == Clear)
    }
+
    it should "default to value of grc for language" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
@@ -83,6 +77,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
      val token1 = tokenV(0)._2
      assert(token1.lang == "grc")
    }
+
    it should "default to lexical category of lexical item" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
@@ -90,14 +85,15 @@ class TeiIngestionSpec extends FlatSpec with Inside {
      val token1 = tokenV(0)._2
      assert(token1.lexicalCategory == LexicalToken)
    }
+
    it should "default to value of automated morphological parsing for lexical disambiguation" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
      val tokenV = TeiReader.teiToTokens(urn, xml)
      val token1 = tokenV(0)._2
      assert(token1.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
-
    }
+
    it should "default to value of direct voice for discourse category" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
@@ -105,14 +101,22 @@ class TeiIngestionSpec extends FlatSpec with Inside {
      val token1 = tokenV(0)._2
      assert(token1.discourse == DirectVoice)
    }
+
    it should "default to no alternate readings" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
      val tokenV = TeiReader.teiToTokens(urn, xml)
      val token1 = tokenV(0)._2
-     assert(token1.alternateReading.alternateCategory == Original)
-     assert(token1.alternateReading.reading.size == 0)
+     //assert(token1.alternateReading.alternateCategory == Original)
+     //assert(token1.alternateReading.reading.size == 0)
+     token1.alternateReading match {
+       case Some(alt) => {
+         fail("Should not have found alternate reading for " + token1)
+       }
+       case None => assert (1 == 1)
+     }
    }
+
    it should "default to no errors recorded" in {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
@@ -130,9 +134,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(mixedReadings(0).status == Unclear)
     assert(mixedReadings(1).status == Clear)
   }
-
-
-
 
   // lexical category
   it should "categorize TEI num content as numeric lexical category" in {
@@ -159,7 +160,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(sicToken.lexicalCategory == Unintelligible)
   }
 
-
   // language
   it should "use xml:lang attribute of TEI foreign element for language" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment")
@@ -181,37 +181,42 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 */
   }
 
-
   // alternate reading
-  it should "have no alternate reading strings when alternate reading category is Original" in {
+  it should "have no alternate reading by default" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:18.47.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἐν τῇ <sic> Μασσαλέωτικῆ</sic> <q> <sic> είμα</sic> τ' ἔχε</q> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val tkn = tokenV(0)._2
-    assert(tkn.alternateReading.reading.size == 0)
+    tkn.alternateReading match {
+      case Some(alt) => fail("Should not have found alternate reading for " + tkn)
+      case None => assert (1 == 1)
+    }
   }
-
 
   it should "categorize alternate category of TEI expan as restoration" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val expanAbbr = tokenV(0)._2
-    assert(expanAbbr.alternateReading.alternateCategory == Restoration)
+    expanAbbr.alternateReading match {
+      case Some(alt) => assert (alt.alternateCategory == Restoration)
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
 
   it should "have a single reading for TEI expan classed as restored" in {
-
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val expanAbbr = tokenV(0)._2
-    assert(expanAbbr.alternateReading.reading.size == 1)
-    val rdg = expanAbbr.alternateReading.reading(0)
-    assert (rdg.status == Restored)
+    expanAbbr.alternateReading match {
+      case Some(alt) => {
+        assert (alt.reading.size == 1)
+        assert (alt.reading(0).status == Restored)
+      }
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
-
-
 
   it should "categorize alternate category of TEI add as multiform" in pending /*{
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:17.15.comment")
@@ -230,15 +235,20 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τὸ μάχης ἑκατέροις <choice> <orig> δύνασθαι</orig> <reg> δύναται</reg></choice> προς δίδοσθαι ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val origReg = tokenV(3)._2
-    assert(origReg.alternateReading.alternateCategory == Multiform)
+    origReg.alternateReading match {
+      case Some(alt) => assert (alt.alternateCategory == Multiform)
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
 
   it should "read contents of reg element as regular editorial readings" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAim.hmt:9.625.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τὸ μάχης ἑκατέροις <choice> <orig> δύνασθαι</orig> <reg> δύναται</reg></choice> προς δίδοσθαι ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    val regAlternative = tokenV(3)._2.alternateReading.reading
-    assert(regAlternative(0).status == Clear)
+    tokenV(3)._2.alternateReading match {
+      case Some(alt) => assert (alt.reading(0).status == Clear)
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
 
   it should "categorize alternate category of TEI corr as correction" in {
@@ -246,16 +256,20 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val sicCorr = tokenV(1)._2
-    assert(sicCorr.alternateReading.alternateCategory == Correction)
+    sicCorr.alternateReading match {
+      case Some(alt) => assert (alt.alternateCategory == Correction)
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
 
   it should "read contents of corr element as regular editorial readings" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:10.2557.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> πρόφρων <choice> <sic> προμω</sic> <corr> προθύμως</corr></choice> · </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-
-    val corrAlternative = tokenV(1)._2.alternateReading.reading
-    assert(corrAlternative(0).status == Clear)
+    tokenV(1)._2.alternateReading match {
+      case Some(alt) => assert (alt.reading(0).status == Clear)
+      case None => fail("No alternate reading found for " + tokenV(1))
+    }
   }
 
   // discourse category
@@ -267,19 +281,18 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val cited = tokenV(tokenN)._2
     assert(cited.discourse == QuotedText)
   }
+
   it should "record reference of external source when discourse type is cited text" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:17.30.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> μακρὰ ἡ παρέκβασις καὶ <choice> <abbr> πάντ</abbr> <expan> πάντα</expan></choice> δια μέσου τὸ γὰρ ἑξῆς <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.611</ref> <q> <persName n="urn:cite:hmt:pers.pers1070"> Κοίρανον</persName></q></cit> , <cit> <ref type="urn"> urn:cts:greekLit:tlg0012.tlg001:17.617</ref> <q> βάλ' <choice> <abbr> υπ</abbr> <expan> ὑπὸ</expan></choice> γναθμοῖο</q></cit> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val cited = tokenV(10)._2
-
-
     assert(cited.discourse == QuotedText)
     assert(cited.externalSource == Some(CtsUrn( "urn:cts:greekLit:tlg0012.tlg001:17.611")))
   }
+
   it should "categorize discourse of TEI q outside of cit as quoted language" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment")
-
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val quoted = tokenV(4)._2
@@ -320,7 +333,6 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(trojans.lexicalDisambiguation == CiteUrn("urn:cite:hmt:place.place6"))
   }
 
-
   it should "read a tab-delimited two-column file and create a Vector of (urn,token) tuples" in {
     val fName = "src/test/resources/sample1-twocolumn.tsv"
     val tokens = TeiReader.fromTwoColumns(fName)
@@ -328,6 +340,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert (tokens.size > 150)
     assert (tokens.groupBy( _._1).size == 3)
   }
+
   it should "read a two-column file with specified  delimited and create a Vector of (urn,token) tuples" in {
     val fName = "src/test/resources/sample1-twocolumn-pound.txt"
     val separator = "#"
@@ -336,4 +349,5 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert (tokens.size > 150)
     assert (tokens.groupBy( _._1).size == 3)
   }
+
 }

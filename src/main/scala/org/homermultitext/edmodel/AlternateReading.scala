@@ -6,18 +6,14 @@ case object Restoration extends AlternateCategory {val name = "editorial restora
 case object Multiform extends AlternateCategory {val name
  = "scribally recorded multiform"}
 case object Correction extends AlternateCategory {val name = "scribal correction"}
-case object Original extends AlternateCategory {val name
-= "no alternate reading"}
+
 
 case class AlternateReading (
   var alternateCategory: AlternateCategory,
   var reading: Vector[Reading]
 )
 object AlternateReading {
-  def alternative (alt: AlternateReading) = {
-    alt.alternateCategory match {
-      case Original => "(no alternate)"
-      case _  => alt.reading.map(rdg => Reading.typedText(rdg)).mkString(" + ")
-    }
+  def alternative (alt: AlternateReading): String = {
+    alt.reading.map(rdg => Reading.typedText(rdg)).mkString(" + ")
   }
 }
