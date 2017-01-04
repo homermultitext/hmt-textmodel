@@ -22,7 +22,9 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.sourceSubref == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
 
   }
-  it should "have an analysis URN" in pending
+  it should "have an analysis URN" in {
+    assert (tkn.analysis == CiteUrn("urn:cite:hmt:urtoken.1.v1"))
+  }
 
   it should "have a vector of readings" in {
     assert (tkn.readings.size == 1)
@@ -35,9 +37,12 @@ class HmtTokenSpec extends FlatSpec {
   it should "have a default lang value of 'grc'" in {
     assert (tkn.lang == "grc")
   }
+
+  it should "really have CiteUrn objects for entity disambiguation" in pending
   it should "have a default for entity disambiguation of 'Automated disambiguation'" in {
     assert (tkn.lexicalDisambiguation == "Automated disambiguation")
   }
+
   it should "have a default discourse category of DirectVoice" in {
     assert (tkn.discourse == DirectVoice)
   }

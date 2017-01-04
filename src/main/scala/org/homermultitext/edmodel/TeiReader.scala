@@ -2,6 +2,7 @@ package org.homermultitext.edmodel
 
 
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.Map
 import scala.xml._
 import scala.io.Source
 
@@ -25,6 +26,10 @@ object TeiReader {
     "persName","placeName",
     "rs"
   )
+
+
+  var nodeText: String = ""
+  var tokenIndexCount = scala.collection.mutable.Map[String, Int]()
 
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
