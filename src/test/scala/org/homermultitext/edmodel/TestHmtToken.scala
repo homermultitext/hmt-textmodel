@@ -6,7 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"),
-  sourceSubref = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
+  sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
   analysis = CiteUrn("urn:cite:hmt:urtoken.1.v1"),
 
   lexicalCategory = LexicalToken,
@@ -19,7 +19,7 @@ class HmtTokenSpec extends FlatSpec {
   }
 
   it should "be indexed to a CTS URN with subref" in {
-    assert (tkn.sourceSubref == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
+    assert (tkn.sourceUrn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
 
   }
   it should "have an analysis URN" in {
@@ -40,7 +40,7 @@ class HmtTokenSpec extends FlatSpec {
 
   it should "really have CiteUrn objects for entity disambiguation" in pending
   it should "have a default for entity disambiguation of 'Automated disambiguation'" in {
-    assert (tkn.lexicalDisambiguation == "Automated disambiguation")
+    assert (tkn.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
   }
 
   it should "have a default discourse category of DirectVoice" in {

@@ -95,7 +95,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
      val tokenV = TeiReader.teiToTokens(urn, xml)
      val token1 = tokenV(0)._2
-     assert(token1.lexicalDisambiguation == "Automated disambiguation")
+     assert(token1.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
 
    }
    it should "default to value of direct voice for discourse category" in {
@@ -292,7 +292,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> εἰς <num value="5"> ε</num> τάξεις</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val numToken = tokenV(1)._2
-    assert (numToken.lexicalDisambiguation == "Automated numeric parsing")
+    assert (numToken.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.numeric.v1"))
   }
 
   it should "use n attribute of TEI persName element for lexical disambiguation" in {
@@ -301,7 +301,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val pn = tokenV(2)._2
-    assert(pn.lexicalDisambiguation == "urn:cite:hmt:pers.pers115")
+    assert(pn.lexicalDisambiguation == CiteUrn("urn:cite:hmt:pers.pers115"))
   }
 
   it should "use  n attribute of TEI placeName element for lexical disambiguation" in {
@@ -309,7 +309,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> οτ</abbr> <expan> ὅτι</expan></choice> θηλυκῶς τὴν <placeName n="urn:cite:hmt:place.place6"> Ἴλιον</placeName></p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val troy = tokenV(3)._2
-    assert(troy.lexicalDisambiguation == "urn:cite:hmt:place.place6")
+    assert(troy.lexicalDisambiguation == CiteUrn("urn:cite:hmt:place.place6"))
   }
 
   it should "use n attribute of TEI rs element for lexical disambiguation type attribute is ethnic" in {
@@ -317,7 +317,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τῶν τοις <rs n="urn:cite:hmt:place.place6" type="ethnic"> Τρωσὶ</rs> συμμαχούντων ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val trojans = tokenV(2)._2
-    assert(trojans.lexicalDisambiguation == "urn:cite:hmt:place.place6")
+    assert(trojans.lexicalDisambiguation == CiteUrn("urn:cite:hmt:place.place6"))
   }
 
 

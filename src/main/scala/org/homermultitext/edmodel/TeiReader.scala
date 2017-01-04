@@ -8,9 +8,10 @@ import scala.io.Source
 
 import edu.holycross.shot.cite._
 
-
+/**  Factory for Vectors of  [[org.homermultitext.edmodel.HmtToken]] instances.
+*/
 object TeiReader {
-  
+
   var nodeText: String = ""
   var tokenIndexCount = scala.collection.mutable.Map[String, Int]()
 
@@ -21,8 +22,8 @@ object TeiReader {
 
 
   /** Recursively collects all Reading objects descended
-  * from a given node.  Vector or Readings is
-  * added to the TeiReader's wrappedWordBuffer.
+  * from a given node, and adds a Vector of Readings
+  * to the TeiReader's wrappedWordBuffer.
   * @param editorialStatus Editorial status of surrounding context.
   * @param n Node to descend from.
   */
@@ -200,7 +201,7 @@ object TeiReader {
       }
 
     } else {
-      val newToken = currToken.copy(lexicalDisambiguation = nAttrs(0).text)
+      val newToken = currToken.copy(lexicalDisambiguation = CiteUrn(nAttrs(0).text))
       for (ch <- el.child) {
         collectTokens(newToken, ch)
       }
@@ -255,7 +256,7 @@ object TeiReader {
           }
           case "ref" => {}
           case "num" => {
-            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = "Automated numeric parsing")
+            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = CiteUrn("urn:cite:hmt:disambig.numeric.v1"))
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }
@@ -325,7 +326,7 @@ object TeiReader {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
       urn = u,
-      sourceSubref = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
+      sourceUrn = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
       analysis = CiteUrn("urn:cite:hmt:urtoken.DUMMYOBJECT.v1"),
       lexicalCategory = LexicalToken,
       readings = Vector.empty

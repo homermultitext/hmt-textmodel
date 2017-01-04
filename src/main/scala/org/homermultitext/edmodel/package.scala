@@ -1,10 +1,22 @@
 
 package org.homermultitext
 
-import java.text.Normalizer.Form
-import java.text.Normalizer
 
-package object edmodel {
+
+/** Provides classes modelling HMT editions of texts.
+ *
+ *  ==Overview==
+ *  The starting point is the factory object [[org.homermultitext.edmodel.TeiReader]], that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a [[org.homermultitext.edmodel.HmtToken]].  Example:
+ *  {{{
+ *  val tokenPairs = TeiReader.fromTwoColumns("SOURCEFILENAME.tsv")
+ *  }}}
+ *
+ */
+ package object edmodel {
+   import java.text.Normalizer.Form
+   import java.text.Normalizer
+
+
   // perhaps should be a function retrieving
   // list by text group and lexical category?
   val punctuation = Vector(",",".",";","⁑")
@@ -28,7 +40,7 @@ package object edmodel {
   * descendants of a given node.
   * @param n Node to collect from.
   * @param buff Buffer for collecting text contents.
-  * @returns A single String with all text from n.
+  * @return A single String with all text from n.
   */
   def collectText(n: xml.Node, s: String): String = {
     var buff = StringBuilder.newBuilder
