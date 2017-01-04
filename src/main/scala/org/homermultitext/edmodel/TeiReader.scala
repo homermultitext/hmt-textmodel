@@ -10,24 +10,7 @@ import edu.holycross.shot.cite._
 
 
 object TeiReader {
-  // perhaps should be a function retrieving
-  // list by text group and lexical category?
-  val punctuation = Vector(",",".",";","⁑")
-
-  // only need list of elements *not* explicitly
-  // caught in big case match below
-  val validElements = Vector(
-    "div", "l","p", "choice",
-    "foreign",
-    "num",
-    "unclear","add","orig","reg","sic","corr",
-    "abbr","expan",
-    "cite","q","ref",
-    "persName","placeName",
-    "rs"
-  )
-
-
+  
   var nodeText: String = ""
   var tokenIndexCount = scala.collection.mutable.Map[String, Int]()
 

@@ -5,6 +5,23 @@ import java.text.Normalizer.Form
 import java.text.Normalizer
 
 package object edmodel {
+  // perhaps should be a function retrieving
+  // list by text group and lexical category?
+  val punctuation = Vector(",",".",";","⁑")
+
+  // only need list of elements *not* explicitly
+  // caught in big case match below
+  val validElements = Vector(
+    "div", "l","p", "choice",
+    "foreign",
+    "num",
+    "unclear","add","orig","reg","sic","corr",
+    "abbr","expan",
+    "cite","q","ref",
+    "persName","placeName",
+    "rs"
+  )
+
 
 
   /** Recursively collects contents of all text-node
