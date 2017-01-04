@@ -13,8 +13,10 @@ class EdModelPackageSpec extends FlatSpec  {
    assert (expected == actual)
   }
 
-  it should "have configuration of valid characters for each document+token type"
+  it should "have configuration of valid characters for each document+token type" in pending
 
-  it should "map from source text urn to correct urn or derived edition"
+  it should "map from source text urn to correct urn or derived edition" in pending
+
+  it should "have a function normalizing strings to HMT form" in pending
 
 }

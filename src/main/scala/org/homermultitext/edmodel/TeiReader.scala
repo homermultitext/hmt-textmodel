@@ -338,11 +338,11 @@ object TeiReader {
   * fragment of TEI XML following HMT conventions
   * to an ordered sequence of (CtsUrn,HmtToken) tuples.
   */
-  def teiToTokens(urnStr: String, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
+  def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
-      urn = CtsUrn(urnStr),
-      sourceSubref = CtsUrn(urnStr + "@" + "UNSPECIFIED"),
+      urn = u,
+      sourceSubref = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
       analysis = CiteUrn("urn:cite:hmt:urtoken.DUMMYOBJECT.v1"),
       lexicalCategory = LexicalToken,
       readings = Vector.empty
@@ -367,8 +367,14 @@ object TeiReader {
   }
 
   def fromTwoColumns(fileName: String, separator: String): Vector[(CtsUrn, HmtToken)] = {
-    val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator))
-    pairArray.flatMap( arr => TeiReader.teiToTokens(arr(0), arr(1)))
+    val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator)).map( arr => (CtsUrn(arr(0)), arr(1)))
+/*
+val pairs = Source.fromFile("scholia-twocolumns.tsv").getLines.toVector.map(_.split("\t")).map( arr => (CtsUrn(arr(0)), arr(1)) )
+// extract list of distinct works:
+val workList = pairs.map{ case(u,x) => u.workComponent }.distinct
+
+    */
+    pairArray.flatMap{ case (u,x) => TeiReader.teiToTokens(u,x) }
   }
 
 }
