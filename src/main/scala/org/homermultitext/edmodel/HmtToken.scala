@@ -43,6 +43,9 @@ case object QuotedText extends DiscourseCategory {val name
 * @param lexicalCategory lexical category of this token
 * @param lexicalDisambiguation automated method to disambiguate tokens of a given type, or editorial disambiguation of named entity values
 * @param alternateReading option if done right...
+*
+*
+* @param errors list of error messages (hopefully empty)
 */
 case class HmtToken (var urn: CtsUrn,
   var lang : String = "grc",
@@ -56,7 +59,7 @@ case class HmtToken (var urn: CtsUrn,
   var alternateReading: AlternateReading = HmtToken.defaultAlternate,
 
   var discourse: DiscourseCategory = DirectVoice,
-  var externalSource: String = "none",
+  var externalSource: Option[CtsUrn] = None,
 
   var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
 ) {

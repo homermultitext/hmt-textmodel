@@ -275,7 +275,7 @@ class TeiIngestionSpec extends FlatSpec with Inside {
 
 
     assert(cited.discourse == QuotedText)
-    assert(cited.externalSource == "urn:cts:greekLit:tlg0012.tlg001:17.611")
+    assert(cited.externalSource == Some(CtsUrn( "urn:cts:greekLit:tlg0012.tlg001:17.611")))
   }
   it should "categorize discourse of TEI q outside of cit as quoted language" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment")

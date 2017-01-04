@@ -19,7 +19,10 @@ object TeiReader {
 
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
-
+  // the awesomeness of regular expressions:
+  // split on set of
+  // punctuation characters without losing them:
+  val punctuationSplitter = "((?<=[,;⁑\\.])|(?=[,;⁑\\.]))"
 
   /** Recursively collects all Reading objects descended
   * from a given node, and adds a Vector of Readings
@@ -144,7 +147,7 @@ object TeiReader {
       val refs = el \ "ref"
       val srcRef = refs(0).text.trim
       val newToken = currToken.copy(discourse = QuotedText,
-      externalSource = srcRef)
+      externalSource = Some(CtsUrn(srcRef)))
       for (ch <- el.child) {
         collectTokens(newToken, ch)
       }
@@ -212,9 +215,7 @@ object TeiReader {
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
-        // the awesomeness of regex: split on set of
-        // punctuation characters without losing them:
-        val depunctuate =   t.text.split("((?<=[,;⁑\\.])|(?=[,;⁑\\.]))")
+        val depunctuate =  t.text.split(punctuationSplitter)
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
