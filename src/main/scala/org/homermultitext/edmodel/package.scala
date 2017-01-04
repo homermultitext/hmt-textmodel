@@ -11,6 +11,8 @@ package org.homermultitext
  *  val tokenPairs = TeiReader.fromTwoColumns("SOURCEFILENAME.tsv")
  *  }}}
  *
+ * The crucial structure is the [[org.homermultitext.edmodel.HmtToken]], which
+ * captures everything known about a token from an HMT edition.
  */
  package object edmodel {
 

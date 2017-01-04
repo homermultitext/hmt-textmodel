@@ -15,20 +15,28 @@ object TeiReader {
   var nodeText: String = ""
   var tokenIndexCount = scala.collection.mutable.Map[String, Int]()
 
+
+
+  /** buffer for recursively accumulated [[org.homermultitext.edmodel.HmtToken]]s
+  */
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
+  /** buffer for recursively accumulated [[org.homermultitext.edmodel.Reading]]s
+  * for a single token */
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
-  // the awesomeness of regular expressions:
-  // split on set of
-  // punctuation characters without losing them:
+  /** awesome regular expression to split a string on
+  * HMT Greek punctuation characters while keeping the
+  * punctuation characters as individual tokens.
+  */
   val punctuationSplitter = "((?<=[,;⁑\\.])|(?=[,;⁑\\.]))"
 
-  /** Recursively collects all Reading objects descended
-  * from a given node, and adds a Vector of Readings
-  * to the TeiReader's wrappedWordBuffer.
-  * @param editorialStatus Editorial status of surrounding context.
-  * @param n Node to descend from.
+  /** recursively collect all [[org.homermultitext.edmodel.Reading]] objects descended
+  * from a given node, and add a Vector of [[org.homermultitext.edmodel.Reading]]s
+  * to the TeiReader's `wrappedWordBuffer`
+  *
+  * @param editorialStatus editorial status of surrounding context
+  * @param n node to descend from
   */
   def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
     n match {
@@ -57,10 +65,12 @@ object TeiReader {
   }
 
 
-  /** Collects tokens from a TEI abbr-expan pair.
-  * Results are added to the TeiReader's tokenBuffer.
-  * @param hmtToken Token with settings for parent context.
-  * @param el TEI choice element with abbr-expan children.
+  /** collect tokens from a TEI `abbr-expan` pair
+  *
+  * Results are added to the TeiReader's `tokenBuffer`.
+  *
+  * @param hmtToken token reflecting reading values for parent context
+  * @param el TEI `choice` element with `abbr-expan` children
   */
   def abbrExpanChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val abbrSeq = el \ "abbr"
@@ -73,10 +83,12 @@ object TeiReader {
     collectTokens(newToken,abbr)
   }
 
-  /** Collects tokens from a TEI sic-corr pair.
-  * Results are added to the TeiReader's tokenBuffer.
-  * @param hmtToken Token with settings for parent context.
-  * @param el TEI choice element with sic-corr children.
+  /** collect tokens from a TEI `sic-corr` pair
+  *
+  * Results are added to the TeiReader's `tokenBuffer`.
+  *
+  * @param hmtToken token reflecting reading values for parent context
+  * @param el TEI `choice` element with `sic-corr` children
   */
   def sicCorrChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val sicSeq = el \ "sic"
@@ -93,17 +105,18 @@ object TeiReader {
     collectTokens(newToken,sic)
   }
 
-  /** Collects tokens from a TEI orig-reg pair.
-  * Results are added to the TeiReader's tokenBuffer.
-  * @param hmtToken Token with settings for parent context.
-  * @param el TEI choice element with orig-reg children.
+  /** collect tokens from a TEI `orig-reg` pair
+  *
+  * Results are added to the TeiReader's `tokenBuffer`.
+  *
+  * @param hmtToken token reflecting reading values for parent context
+  * @param el TEI `choice` element with `orig-reg` children
   */
   def origRegChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val origSeq = el \ "orig"
     val orig = origSeq(0)
     val regSeq = el \ "reg"
     val reg  = regSeq(0)
-
 
     wrappedWordBuffer.clear
     collectWrappedWordReadings(Clear,reg)
@@ -115,9 +128,10 @@ object TeiReader {
   }
 
 
-  /** Collects tokens from a TEI choice element.
-  * @param hmtToken Token with settings for parent context.
-  * @param el TEI choice element.
+  /** get alternates as well as tokens from a TEI `choice` element
+  *
+  * @param hmtToken token reflecting reading values for parent context
+  * @param choiceElem TEI `choice` element
   */
   def getAlternate (hmtToken: HmtToken, choiceElem: xml.Elem) = {
     val cNames = choiceElem.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
@@ -138,17 +152,21 @@ object TeiReader {
     }
   }
 
-  def getCited(currToken: HmtToken, el: xml.Elem) {
+  /** collect tokens from cited context
+  *
+  * @param currToken token reflecting reading values for parent context
+  * @param citElem TEI `cit` element
+  */
+  def collectCited(currToken: HmtToken, citElem: xml.Elem) {
     val citeStruct = Array("ref","q")
-    val cNames = el.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
-
+    val cNames = citElem.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
 
     if (cNames.sameElements(citeStruct) ) {
-      val refs = el \ "ref"
+      val refs = citElem \ "ref"
       val srcRef = refs(0).text.trim
       val newToken = currToken.copy(discourse = QuotedText,
       externalSource = Some(CtsUrn(srcRef)))
-      for (ch <- el.child) {
+      for (ch <- citElem.child) {
         collectTokens(newToken, ch)
       }
 
@@ -156,19 +174,24 @@ object TeiReader {
       var errorList = currToken.errors :+  "Invalid structure: cit should have both q and ref children"
       val newToken = currToken.copy(discourse = QuotedText,
       errors = errorList)
-      for (ch <- el.child) {
+      for (ch <- citElem.child) {
         collectTokens(newToken, ch)
       }
     }
   }
 
 
-  def collectRefString(currToken: HmtToken, el: xml.Elem) = {
-    val typeAttrs = el \ "@type"
+  /** collect appropriate type of token for varieties of TEI `rs` usage
+  *
+  * @param currToken token reflecting reading values for parent context
+  * @param rsElem TEI `rs` element
+  */
+  def collectRefString(currToken: HmtToken, rsElem: xml.Elem) = {
+    val typeAttrs = rsElem \ "@type"
     if (typeAttrs.size == 0) {
       var errorList = currToken.errors :+ "rs element missing required @type attribute"
       val newToken = currToken.copy(errors = errorList)
-      for (ch <- el.child) {
+      for (ch <- rsElem.child) {
         collectTokens(newToken, ch)
       }
 
@@ -176,24 +199,33 @@ object TeiReader {
      typeAttrs(0).text match {
        case "waw" => {
          val newToken = currToken.copy(lexicalCategory = LiteralToken)
-         for (ch <- el.child) {
+         for (ch <- rsElem.child) {
            collectTokens(newToken, ch)
          }
        }
 
        case "ethnic" => {
-         disambiguateNamedEntity(currToken,el)
+         disambiguateNamedEntity(currToken,rsElem)
        }
 
-       case _ => {
-         for (ch <- el.child) {
-           collectTokens(currToken, ch)
+       case s: String => {
+         var errorList = currToken.errors :+ "unrecognized value for @type attribute on rs element " + s
+         val newToken = currToken.copy(errors = errorList)
+         for (ch <- rsElem.child) {
+           collectTokens(newToken, ch)
          }
        }
      }
    }
   }
 
+
+  /** collect tokens with appropriate disambiguation for varieties of named entities
+  *
+  * @param currToken token reflecting reading values for parent context
+  * @param el a TEI element disambiguating a named entity.
+  * Should be one of `persName`, `placeName` or `rs` with `type` = `ethnic`
+  */
   def disambiguateNamedEntity(currToken: HmtToken, el: xml.Elem) {
     val nAttrs = el \ "@n"
     if (nAttrs.size < 1) {
@@ -212,6 +244,13 @@ object TeiReader {
   }
 
 
+  /** collect all tokens descended from a given XML node
+  *
+  * Results are collected in `tokenBuffer`.
+  *
+  * @param currToken token reflecting reading values for parent context
+  * @param n XML node to collect content from
+  */
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
@@ -253,7 +292,7 @@ object TeiReader {
             }
           }
           case "cit" => {
-            getCited(currToken,e)
+            collectCited(currToken,e)
           }
           case "ref" => {}
           case "num" => {
@@ -319,9 +358,11 @@ object TeiReader {
 
 
 
-  /** Converts one well-formed
-  * fragment of TEI XML following HMT conventions
-  * to an ordered sequence of (CtsUrn,HmtToken) tuples.
+  /** read an XML fragment following HMT conventions to represent a single
+  * citable node, and construct a Vector of (CtsUrn,[[org.homermultitext.edmodel.HmtToken]]) tuples from it
+  *
+  * @param u URN for the citable node
+  * @param xmlStr XML text for the citable node
   */
   def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
     val root  = XML.loadString(xmlStr)
