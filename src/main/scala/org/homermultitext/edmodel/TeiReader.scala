@@ -164,11 +164,36 @@ object TeiReader {
     if (cNames.sameElements(citeStruct) ) {
       val refs = citElem \ "ref"
       val srcRef = refs(0).text.trim
-      val newToken = currToken.copy(discourse = QuotedText,
-      externalSource = Some(CtsUrn(srcRef)))
-      for (ch <- citElem.child) {
-        collectTokens(newToken, ch)
+      try {
+        val u = CtsUrn(srcRef)
+        val newToken = currToken.copy(discourse = QuotedText,
+        externalSource = Some(u))
+        for (ch <- citElem.child) {
+          collectTokens(newToken, ch)
+        }
+      } catch {
+        case badarg: java.lang.IllegalArgumentException => {
+          println(badarg)
+          var errorList = currToken.errors :+  "Exception: " + badarg
+          val newToken = currToken.copy(discourse = QuotedText,
+          errors = errorList)
+          for (ch <- citElem.child) {
+            collectTokens(newToken, ch)
+          }
+        }
+        case ex: Exception => {
+          println("Unrecognized exception " + ex)
+          var errorList = currToken.errors :+  "Exception: " + ex
+          val newToken = currToken.copy(discourse = QuotedText,
+          errors = errorList)
+          for (ch <- citElem.child) {
+            collectTokens(newToken, ch)
+          }
+        }
       }
+
+
+
 
     } else {
       var errorList = currToken.errors :+  "Invalid structure: cit should have both q and ref children"
@@ -236,9 +261,30 @@ object TeiReader {
       }
 
     } else {
-      val newToken = currToken.copy(lexicalDisambiguation = CiteUrn(nAttrs(0).text))
-      for (ch <- el.child) {
-        collectTokens(newToken, ch)
+      try {
+        val newToken = currToken.copy(lexicalDisambiguation = CiteUrn(nAttrs(0).text))
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      } catch {
+        case badarg: java.lang.IllegalArgumentException => {
+          println(badarg)
+          var errorList = currToken.errors :+  "Exception: " + badarg
+          val newToken = currToken.copy(discourse = QuotedText,
+          errors = errorList)
+          for (ch <- el.child) {
+            collectTokens(newToken, ch)
+          }
+        }
+        case ex: Exception => {
+          println("Unrecognized exception " + ex)
+          var errorList = currToken.errors :+  "Exception: " + ex
+          val newToken = currToken.copy(discourse = QuotedText,
+          errors = errorList)
+          for (ch <- el.child) {
+            collectTokens(newToken, ch)
+          }
+        }
       }
     }
   }
