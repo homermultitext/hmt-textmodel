@@ -5,17 +5,7 @@ import scala.xml._
 class TeiIngestionSpec extends FlatSpec with Inside {
 
   // test structure of result
-  "The TeiReader object" should "have a function to collect text from an XML node" in {
-    val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
-
-    val expected = "ουτ οὕτως δια τοῦ ο ζεύγνυον ⁑"
-    val actual = TeiReader.collectText(XML.loadString(xml),"").trim.replaceAll("[ ]+"," ")
-    assert (expected == actual)
-  }
-
-  it should "index token string within the text of the source element" in pending
-
-  it should "have an analysis URN" in pending
+  "The TeiReader object" should "index token string within the text of the source element" in pending
 
   it should "convert well-formed HMT TEI to a Vector of (urn, HmtToken) tuples" in {
 
@@ -48,6 +38,11 @@ class TeiIngestionSpec extends FlatSpec with Inside {
     assert(tokenV.size == 2)
     assert (tokenV(0)._2.readings.size == 2)
   }
+
+
+  it should "ensure that w element wraps both clear and unclear readings" in pending
+
+  it should "ensure that w element wraps no TEI elements other than unclear" in pending
 
   it should "treat individual punctuation characters as tokens of lexical category punctuation" in {
     val urn = "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment"

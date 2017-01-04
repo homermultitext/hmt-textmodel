@@ -12,7 +12,7 @@ class ReadingSpec extends FlatSpec {
     assert(rdg.reading == "Now is the time")
   }
 
-  "Object's pretty printing function" should "show both reading and status" in {
+  "The Reading object's pretty printing function" should "show both reading and status" in {
     assert(Reading.typedText(rdg) == "Now is the time (clear)")
   }
 }
