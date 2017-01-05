@@ -410,12 +410,16 @@ object TeiReader {
   * @param u URN for the citable node
   * @param xmlStr XML text for the citable node
   */
-  def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[ (CtsUrn, HmtToken)]  = {
+  def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[TokenAnalysis]  = {
+    val urnKey = u.workComponent + "_tkns"
+    //  generate editionUrn CtsUrn base like  "tlg5026.msA.hmt_tkns"
+    // get analysis CiteUrn from analyticalCollections map keyed to that value
+
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
-      urn = u,
+      editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":"),
       sourceUrn = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
-      analysis = CiteUrn("urn:cite:hmt:urtoken.DUMMYOBJECT.v1"),
+      analysis = analyticalCollections(urnKey),
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )
@@ -425,27 +429,23 @@ object TeiReader {
     // in the final result, add exemplar-level
     // citation element
     val zippedVal = tokenBuffer.zipWithIndex.map{ case (t,i) => {
-      val baseUrn = t.urn
-      t.urn = CtsUrn(baseUrn.toString + "." + (i +1))
+      val baseUrn = t.editionUrn
+      t.editionUrn = CtsUrn(baseUrn.toString + "." + (i +1))
       (baseUrn, t) }
     }.toVector
 
-    zippedVal
+    zippedVal.map{
+      case (u,t) => TokenAnalysis(u,t)
+    }
   }
 
 
-  def fromTwoColumns(fileName: String): Vector[(CtsUrn, HmtToken)] = {
+  def fromTwoColumns(fileName: String): Vector[TokenAnalysis] = {
     fromTwoColumns(fileName,"\t")
   }
 
-  def fromTwoColumns(fileName: String, separator: String): Vector[(CtsUrn, HmtToken)] = {
+  def fromTwoColumns(fileName: String, separator: String): Vector[TokenAnalysis] = {
     val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator)).map( arr => (CtsUrn(arr(0)), arr(1)))
-/*
-val pairs = Source.fromFile("scholia-twocolumns.tsv").getLines.toVector.map(_.split("\t")).map( arr => (CtsUrn(arr(0)), arr(1)) )
-// extract list of distinct works:
-val workList = pairs.map{ case(u,x) => u.workComponent }.distinct
-
-    */
     pairArray.flatMap{ case (u,x) => TeiReader.teiToTokens(u,x) }
   }
 

@@ -8,11 +8,11 @@ import scala.collection.mutable.ArrayBuffer
 /** A fully documented, semantically distinct token.
 *
 * @constructor create a token
-* @param urn URN for this token in an analytical exemplar
+* @param analysis CITE URN for this token analysis
+* @param sourceUrn URN for this token in the analyzed text
+* @param editionUrn URN for this token in an analytical exemplar when promoted to an edition
 * @param lang 3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language
 * @param readings All [[org.homermultitext.edmodel.Reading]]s belonging to this token
-* @param sourceUrn URN for this token in analyzed text ( requiring subref on the )
-* @param analysis CITE URN for the ORCA analysis given by the members of the token
 * @param lexicalCategory lexical category of this token
 * @param lexicalDisambiguation URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values
 * @param alternateReading optional [[org.homermultitext.edmodel.AlternateReading]]s belonging to this token
@@ -20,12 +20,14 @@ import scala.collection.mutable.ArrayBuffer
 * @param externalSource URN of source this token is quoted from
 * @param errors list of error messages (hopefully empty)
 */
-case class HmtToken (var urn: CtsUrn,
+case class HmtToken ( var analysis: CiteUrn,
+  var sourceUrn: CtsUrn,
+  var editionUrn: CtsUrn,
+
   var lang : String = "grc",
   var readings: Vector[Reading],
-  var sourceUrn: CtsUrn,
-  var analysis: CiteUrn,
-  var lexicalCategory: LexicalCategory ,
+  var lexicalCategory: LexicalCategory,
+
   var lexicalDisambiguation: CiteUrn = CiteUrn("urn:cite:hmt:disambig.lexical.v1"),
   var alternateReading: Option[AlternateReading] = None,
   var discourse: DiscourseCategory = DirectVoice,
@@ -48,9 +50,9 @@ case class HmtToken (var urn: CtsUrn,
   * as a secondary delimiter for lists within a single property.
   */
   def rowString: String = {
-    urn + propertySeparator +
-    sourceUrn + propertySeparator +
     analysis + propertySeparator +
+    sourceUrn + propertySeparator +
+    editionUrn + propertySeparator +
     lang + propertySeparator +
     readings + propertySeparator +
     lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + alternateReading + propertySeparator +
@@ -73,11 +75,11 @@ case class HmtToken (var urn: CtsUrn,
 
     withLabels match {
       case false => {
-        Vector(urn,sourceUrn,analysis,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
+        Vector(analysis,sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
       }
 
       case true => {
-        val stringVals = Vector(urn,sourceUrn,analysis,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
+        val stringVals = Vector(analysis,sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
 
         val labelled = stringVals.zip(HmtToken.paddedLabels)
         labelled.map {
@@ -99,7 +101,7 @@ case class HmtToken (var urn: CtsUrn,
 object HmtToken {
 
   /** English labels for properties */
-   val labels = Vector("URN","Source URN", "Analysis","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
+   val labels = Vector("Analysis URN","Source URN", "Edition URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
 
    /** Width in characters to allocate for widest label */
    val labelWidth = labels.map(_.size).max

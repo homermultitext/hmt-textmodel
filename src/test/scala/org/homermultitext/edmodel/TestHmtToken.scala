@@ -5,23 +5,25 @@ import edu.holycross.shot.cite._
 import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
-  val tkn = HmtToken(urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"),
-  sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
-  analysis = CiteUrn("urn:cite:hmt:urtoken.1.v1"),
-  lexicalCategory = LexicalToken,
-  readings = Vector(Reading("μῆνιν",Clear))
+  val tkn = HmtToken(
+    analysis = CiteUrn("urn:cite:hmt:va_il_tkns.tkn1.v1"),
+    editionUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"),
+    sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
+
+    lexicalCategory = LexicalToken,
+    readings = Vector(Reading("μῆνιν",Clear))
   )
 
-  "A token"  should "have a URN" in {
-    assert (tkn.urn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1"))
+  "A token analysis"  should "have an identifying URN" in {
+    assert (tkn.analysis == CiteUrn("urn:cite:hmt:va_il_tkns.tkn1.v1") )
   }
 
-  it should "be indexed to a CTS URN with subref" in {
+  it should "be indexed to a CTS URN" in {
     assert (tkn.sourceUrn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
-
   }
-  it should "have an analysis URN" in {
-    assert (tkn.analysis == CiteUrn("urn:cite:hmt:urtoken.1.v1"))
+
+  it should "have a CTS URN situating the token in an analytical edition" in {
+    assert (tkn.editionUrn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"))
   }
 
   it should "have a vector of readings" in {
@@ -90,7 +92,7 @@ class HmtTokenSpec extends FlatSpec {
 
   it should  "support turning off labels" in {
     val columns = tkn.columnString(false).split("\n")
-    assert (columns(0) == "urn:cts:greekLit:tlg0012.tlg001.msA.urtoken:1.1.1")
+    assert (columns(0) == "urn:cite:hmt:va_il_tkns.tkn1.v1")
   }
 
 }
