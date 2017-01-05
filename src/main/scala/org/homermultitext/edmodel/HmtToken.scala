@@ -93,7 +93,14 @@ case class HmtToken ( var analysis: CiteUrn,
   /** Format a string representation as one value per line,
   * including labels.
   */
-  def columnString(): String = columnString(true)
+  def columnString: String = columnString(true)
+
+  def orcaColumn: String = {
+    val rows = columnString.split("\n")
+    val urns = rows.slice(0,3).toVector.mkString("\n")
+    val props = rows.slice(3,10).toVector.mkString("\n")
+    "ORCA identifiers:\n" + urns + "\n\n" + "Analysis properties:\n" + props + "\n\n" + "Data quality:\n" + rows(10)
+  }
 }
 
 /** Labelling information

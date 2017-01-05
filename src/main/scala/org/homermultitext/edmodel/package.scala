@@ -88,6 +88,10 @@ package org.homermultitext
     buff.toString
   }
 
+  def collectText(n: xml.Node): String = {
+    collectText(n,"")
+  }
+
 
   def hmtNormalize(s: String): String = {
     Normalizer.normalize(s,Form.NFC).trim.replaceAll("[ ]+"," ")

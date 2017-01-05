@@ -12,8 +12,9 @@ import edu.holycross.shot.cite._
 */
 object TeiReader {
 
-  var nodeText: String = ""
-  var tokenIndexCount = scala.collection.mutable.Map[String, Int]()
+  /**  */
+  var nodeText = StringBuilder.newBuilder
+
 
 
 
@@ -290,6 +291,31 @@ object TeiReader {
   }
 
 
+  /** find CTS subref index value of sub in s
+  *
+  * The map in the hideously global tokenIndexCount
+  * is updated as a side effect of this.
+  *
+  * @param s string to index in
+  * @param sub substring to find in s
+  */
+  def indexSubstring(s: String, sub: String) = {
+    var idx = 0
+    var counter = 0
+    var done = false
+    while ((! done)) {
+      val newIdx = s.indexOf(sub,idx)
+      if (newIdx == -1 ) {
+        done = true
+      } else {
+        idx = newIdx + 1
+        counter = counter + 1
+      }
+    }
+    counter
+  }
+
+
   /** collect all tokens descended from a given XML node
   *
   * Results are collected in `tokenBuffer`.
@@ -300,11 +326,16 @@ object TeiReader {
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
-        val depunctuate =  t.text.split(punctuationSplitter)
+        val hmtText = hmtNormalize(t.text)
+        val depunctuate =  hmtText.split(punctuationSplitter)
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
-          var newToken = currToken.copy(readings = Vector(rdg))
+
+          nodeText.append(tk)
+          val subrefIndex = indexSubstring(nodeText.toString,tk)
+          val src = CtsUrn(currToken.sourceUrn.toString + "@" + tk + "[" + subrefIndex + "]")
+          var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
           if (punctuation.contains(tk)) {
             newToken.lexicalCategory = Punctuation
           }
@@ -359,7 +390,13 @@ object TeiReader {
           case "w" => {
             wrappedWordBuffer.clear
             collectWrappedWordReadings(Clear,e)
-            val newToken = currToken.copy(readings = wrappedWordBuffer.toVector)
+
+
+            nodeText.append(wrappedWordBuffer.toVector)
+            val deformation = wrappedWordBuffer.map(_.reading).mkString
+            val subrefIndex = indexSubstring(nodeText.toString,deformation)
+            val src = CtsUrn(currToken.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
+            var newToken = currToken.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
             tokenBuffer += newToken
           }
           case "foreign" => {
@@ -416,14 +453,16 @@ object TeiReader {
     // get analysis CiteUrn from analyticalCollections map keyed to that value
 
     val root  = XML.loadString(xmlStr)
+    //nodeText = hmtNormalize(collectText(root))
     val currToken = HmtToken(
       editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":" + u.passageComponent),
-      sourceUrn = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
+      sourceUrn = u,
       analysis = analyticalCollections(urnKey),
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )
     tokenBuffer.clear
+    nodeText.clear
     collectTokens(currToken, root)
 
     // in the final result, add exemplar-level index to
