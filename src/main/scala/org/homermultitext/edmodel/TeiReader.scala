@@ -331,7 +331,7 @@ object TeiReader {
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
-
+          println("WORK ON TOKEN "  + tk)
           nodeText.append(tk)
           val subrefIndex = indexSubstring(nodeText.toString,tk)
           val src = CtsUrn(currToken.sourceUrn.toString + "@" + tk + "[" + subrefIndex + "]")
