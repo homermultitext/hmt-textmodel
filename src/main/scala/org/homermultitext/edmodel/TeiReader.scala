@@ -417,7 +417,7 @@ object TeiReader {
 
     val root  = XML.loadString(xmlStr)
     val currToken = HmtToken(
-      editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":"),
+      editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":" + u.passageComponent),
       sourceUrn = CtsUrn(u.toString + "@" + "UNSPECIFIED"),
       analysis = analyticalCollections(urnKey),
       lexicalCategory = LexicalToken,
@@ -426,12 +426,14 @@ object TeiReader {
     tokenBuffer.clear
     collectTokens(currToken, root)
 
-    // in the final result, add exemplar-level
-    // citation element
+    // in the final result, add exemplar-level index to
+    // citation element and to analysis urn
     val zippedVal = tokenBuffer.zipWithIndex.map{ case (t,i) => {
-      val baseUrn = t.editionUrn
-      t.editionUrn = CtsUrn(baseUrn.toString + "." + (i +1))
-      (baseUrn, t) }
+      val baseEdition = t.editionUrn
+      val baseAnalysis = t.analysis
+      t.editionUrn = CtsUrn(baseEdition.toString + "." + (i +1))
+      t.analysis = CiteUrn(baseAnalysis.toString + ".tkn"  + (i + 1))
+      (u, t) }
     }.toVector
 
     zippedVal.map{

@@ -9,16 +9,18 @@ class TeiIngestionSpec extends FlatSpec {
   // test structure of result
   "The TeiReader object" should "index token string within the text of the source element" in pending
 
-  it should "convert well-formed HMT TEI to a Vector of TokenAnalysis objects" in pending /* {
+  it should "convert well-formed HMT TEI to a Vector of TokenAnalysis objects" in   {
     val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = tokenV(0)
+    println("HERE: \n"  + firstEntry.longString)
+    /*
     firstEntry match {
       case ta: TokenAnalysis => assert( ta.analysis.urn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.1") )
       case _ => fail("Object is not a TokenAnalysis")
-    }
-  }*/
+    }*/
+  }
 }
 /*
   // test tokenization
