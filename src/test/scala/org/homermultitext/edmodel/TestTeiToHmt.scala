@@ -12,7 +12,6 @@ class TeiIngestionSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
     val analysisV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = analysisV(0)
-    println("HERE: \n"  + firstEntry.longString)
 
     firstEntry match {
       case ta: TokenAnalysis => assert( ta.analysis.analysis == CiteUrn("urn:cite:hmt:va_schAint_tkns.tkn1") )
