@@ -20,7 +20,7 @@ case class HmtOrcaToken (urn: CtsUrn,
 * @param tokens sequence of [[org.homermultitext.edmodel.HmtEditionToken]]s
 * defining an analytical edition
 */
-case class HmtReading(title: String, tokens: Vector[HmtOrcaToken])
+case class HmtReading(title: String, description: String, tokens: Vector[HmtOrcaToken])
 
 object HmtReading {
   val titleMap = Map(
@@ -31,12 +31,19 @@ object HmtReading {
   )
 
   def apply(editionKey: String, analyses: Vector[HmtToken]): HmtReading = {
-
-
     val orcaTokens = Vector.empty[HmtOrcaToken]
+    HmtReading(titleMap(editionKey), "Description supplied from key", orcaTokens)
+/*
+    if (titleMap contains editionKey) {
+      val orcaTokens = Vector.empty[HmtOrcaToken]
+      HmtReading(titleMap(editionKey), orcaTokens)
 
-
-
-    HmtReading(titleMap(editionKey), dummyTokens)
+    } else {
+        throw new Exception("HmtReading: unrecognized key " + editionKey)
+      //val pairs = Source.fromFile("scholia-twocolumns.tsv").getLines.toVector.map(_.split("\t")).map( arr => (CtsUrn(arr(0)), arr(1)) )
+      // extract list of distinct works:
+      //val workList = pairs.map{ case(u,x) => u.workComponent }.distinct
+    }
+*/
   }
 }

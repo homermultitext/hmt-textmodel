@@ -5,46 +5,6 @@ import edu.holycross.shot.cite._
 import scala.collection.mutable.ArrayBuffer
 
 
-/** All possible lexical categories for a token
-* are enumerated by case objects extending this trait
-*
-* The `name` member must be implemented with an English description of the lexical category
-*
-* Used by [[org.homermultitext.edmodel.HmtToken]] and therefore also by [[org.homermultitext.edmodel.TeiReader]]
-*/
-sealed trait LexicalCategory {def name : String}
-/** parseable lexical token */
-case object LexicalToken extends LexicalCategory {val name = "lexical token"}
-/** token in Milesian numeric notation */
-case object NumericToken extends LexicalCategory {val name = "numeric token"}
-/** single punctuation character */
-case object Punctuation extends LexicalCategory {val name = "punctuation"}
-/** quoted literal string not parseable as a lexical token */
-case object LiteralToken extends LexicalCategory {val name = "string literal"}
-/** token not parseable due to error in HMT edition */
-case object Unintelligible extends LexicalCategory {val name = "unparseable lexical token"}
-
-
-/** All possible categories for discourse of a token
-* are enumerated by case objects extending this trait
-*
-* The `name` member must be implemented with an English description of the discourse status
-*
-* Used by [[org.homermultitext.edmodel.HmtToken]] and therefore also by [[org.homermultitext.edmodel.TeiReader]]
-*/
-sealed trait DiscourseCategory {def name : String}
-/** token in direct voice of text */
-case object DirectVoice extends DiscourseCategory {val name = "voice of text"}
-/** quoted word in the natural language of text */
-case object QuotedLanguage extends DiscourseCategory {val
- name = "quoted language"}
- /** quoted string of characters not forming a valid lexical entity */
-case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal string"}
-/** token in quotation of another text */
-case object QuotedText extends DiscourseCategory {val name
- = "quoted passage of text"}
-
-
 /** A fully documented, semantically distinct token.
 *
 * @constructor create a token
