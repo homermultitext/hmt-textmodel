@@ -30,7 +30,7 @@ object TeiReader {
   * HMT Greek punctuation characters while keeping the
   * punctuation characters as individual tokens.
   */
-  val punctuationSplitter = "((?<=[,;⁑\\.])|(?=[,;⁑\\.]))"
+  val punctuationSplitter = "((?<=[,;:⁑\\.])|(?=[,;:⁑\\.]))"
 
   /** recursively collect all [[org.homermultitext.edmodel.Reading]] objects descended
   * from a given node, and add a Vector of [[org.homermultitext.edmodel.Reading]]s
@@ -344,6 +344,7 @@ object TeiReader {
       }
       case e: xml.Elem => {
         e.label match {
+          case "note" => {} // to be removed from archive
           case "add" => {
             //  multiform
             //
