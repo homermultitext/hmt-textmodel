@@ -40,7 +40,10 @@ package org.homermultitext
      "tlg5026.msAim.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAim_tkns"),
      "tlg5026.msAint.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAint_tkns"),
      "tlg5026.msAext.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAext_tkns"),
-     "tlg5026.msAil.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAil_tkns")
+     "tlg5026.msAil.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAil_tkns"),
+     "tlg5026.msAimlater.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAimlater_tkns")
+
+
    )
 
 

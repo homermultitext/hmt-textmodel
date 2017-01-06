@@ -331,15 +331,20 @@ object TeiReader {
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
-          println("WORK ON TOKEN "  + tk)
-          nodeText.append(tk)
-          val subrefIndex = indexSubstring(nodeText.toString,tk)
-          val src = CtsUrn(currToken.sourceUrn.toString + "@" + tk + "[" + subrefIndex + "]")
-          var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
-          if (punctuation.contains(tk)) {
-            newToken.lexicalCategory = Punctuation
+
+          if (tk == ":") {
+            // COME UP WITH A SUBSTITUTE...
+          } else {
+            println("WORK ON TOKEN "  + tk)
+            nodeText.append(tk)
+            val subrefIndex = indexSubstring(nodeText.toString,tk)
+            val src = CtsUrn(currToken.sourceUrn.toString + "@" + tk + "[" + subrefIndex + "]")
+            var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
+            if (punctuation.contains(tk)) {
+              newToken.lexicalCategory = Punctuation
+            }
+            tokenBuffer += newToken
           }
-          tokenBuffer += newToken
         }
       }
       case e: xml.Elem => {
