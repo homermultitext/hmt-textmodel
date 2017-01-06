@@ -48,7 +48,7 @@ package org.homermultitext
 
   // perhaps should be a function retrieving
   // list by text group and lexical category?
-  val punctuation = Vector(",",".",";","⁑")
+  val punctuation = Vector(",",".",";",":","⁑")
 
   // only need list of elements *not* explicitly
   // caught in big case match below
