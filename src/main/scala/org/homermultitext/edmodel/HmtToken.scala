@@ -20,7 +20,7 @@ import scala.collection.mutable.ArrayBuffer
 * @param externalSource URN of source this token is quoted from
 * @param errors list of error messages (hopefully empty)
 */
-case class HmtToken ( var analysis: CiteUrn,
+case class HmtToken ( var analysis: Cite2Urn,
   var sourceUrn: CtsUrn,
   var editionUrn: CtsUrn,
 
@@ -28,7 +28,7 @@ case class HmtToken ( var analysis: CiteUrn,
   var readings: Vector[Reading],
   var lexicalCategory: LexicalCategory,
 
-  var lexicalDisambiguation: CiteUrn = CiteUrn("urn:cite:hmt:disambig.lexical.v1"),
+  var lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
   var alternateReading: Option[AlternateReading] = None,
   var discourse: DiscourseCategory = DirectVoice,
   var externalSource: Option[CtsUrn] = None,

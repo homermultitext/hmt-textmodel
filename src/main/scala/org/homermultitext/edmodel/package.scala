@@ -20,7 +20,7 @@ package org.homermultitext
    import java.text.Normalizer
    import edu.holycross.shot.cite._
 
-   val collectionId = "urn:cite:hmt:urtoken"
+   val collectionId = "urn:cite2:hmt:urtoken"
    val versionId = "v1"
 
    case class ReadingConfig(title: String, description: String)
@@ -34,14 +34,14 @@ package org.homermultitext
    )
 
    val analyticalCollections = Map(
-     "tlg0012.tlg001.msA_tkns"-> CiteUrn("urn:cite:hmt:va_il_tkns"),
+     "tlg0012.tlg001.msA_tkns"-> Cite2Urn("urn:cite2:hmt:va_il_tkns:"),
 
-     "tlg5026.msA.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schA_tkns"),
-     "tlg5026.msAim.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAim_tkns"),
-     "tlg5026.msAint.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAint_tkns"),
-     "tlg5026.msAext.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAext_tkns"),
-     "tlg5026.msAil.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAil_tkns"),
-     "tlg5026.msAimlater.hmt_tkns" -> CiteUrn("urn:cite:hmt:va_schAimlater_tkns")
+     "tlg5026.msA.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schA_tkns:"),
+     "tlg5026.msAim.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAim_tkns:"),
+     "tlg5026.msAint.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAint_tkns:"),
+     "tlg5026.msAext.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAext_tkns:"),
+     "tlg5026.msAil.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAil_tkns:"),
+     "tlg5026.msAimlater.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tkns:")
 
 
    )

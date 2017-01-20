@@ -263,7 +263,7 @@ object TeiReader {
 
     } else {
       try {
-        val newToken = currToken.copy(lexicalDisambiguation = CiteUrn(nAttrs(0).text))
+        val newToken = currToken.copy(lexicalDisambiguation = Cite2Urn(nAttrs(0).text))
         for (ch <- el.child) {
           collectTokens(newToken, ch)
         }
@@ -290,6 +290,13 @@ object TeiReader {
     }
   }
 
+  def ctsSafe(s: String): String = {
+    if (s == ":") {
+      java.net.URLEncoder.encode(s, "utf-8")
+    } else {
+      s
+    }
+  }
 
   /** find CTS subref index value of sub in s
   *
@@ -331,20 +338,16 @@ object TeiReader {
         val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
         for (tk <- tokenList) {
           val rdg = Reading(tk, Clear)
-
-          if (tk == ":") {
-            // COME UP WITH A SUBSTITUTE...
-          } else {
-            println("WORK ON TOKEN "  + tk)
-            nodeText.append(tk)
-            val subrefIndex = indexSubstring(nodeText.toString,tk)
-            val src = CtsUrn(currToken.sourceUrn.toString + "@" + tk + "[" + subrefIndex + "]")
-            var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
-            if (punctuation.contains(tk)) {
-              newToken.lexicalCategory = Punctuation
-            }
-            tokenBuffer += newToken
+          val subref = ctsSafe(tk)
+            //println("WORK ON TOKEN "  + tk)
+          nodeText.append(tk)
+          val subrefIndex = indexSubstring(nodeText.toString,tk)
+          val src = CtsUrn(currToken.sourceUrn.toString + "@" + subref + "[" + subrefIndex + "]")
+          var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
+          if (punctuation.contains(tk)) {
+            newToken.lexicalCategory = Punctuation
           }
+          tokenBuffer += newToken
         }
       }
       case e: xml.Elem => {
@@ -379,7 +382,7 @@ object TeiReader {
           }
           case "ref" => {}
           case "num" => {
-            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = CiteUrn("urn:cite:hmt:disambig.numeric.v1"))
+            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite:hmt:disambig.numeric.v1"))
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }
@@ -456,7 +459,7 @@ object TeiReader {
   def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[TokenAnalysis]  = {
     val urnKey = u.workComponent + "_tkns"
     //  generate editionUrn CtsUrn base like  "tlg5026.msA.hmt_tkns"
-    // get analysis CiteUrn from analyticalCollections map keyed to that value
+    // get analysis Cite2Urn from analyticalCollections map keyed to that value
 
     val root  = XML.loadString(xmlStr)
     //nodeText = hmtNormalize(collectText(root))
@@ -477,7 +480,7 @@ object TeiReader {
       val baseEdition = t.editionUrn
       val baseAnalysis = t.analysis
       t.editionUrn = CtsUrn(baseEdition.toString + "." + (i +1))
-      t.analysis = CiteUrn(baseAnalysis.toString + ".tkn"  + (i + 1))
+      t.analysis = Cite2Urn(baseAnalysis.toString + "tkn"  + (i + 1))
       (u, t) }
     }.toVector
 

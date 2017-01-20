@@ -14,7 +14,10 @@ class TeiIngestionSpec extends FlatSpec {
     val firstEntry = analysisV(0)
 
     firstEntry match {
-      case ta: TokenAnalysis => assert( ta.analysis.analysis == CiteUrn("urn:cite:hmt:va_schAint_tkns.tkn1") )
+      // urn:cite2:hmt:va_schAint_tkns:.tkn1
+      //did not equal
+      //urn:cite2:hmt:va_schAint_tkns:tkn1 
+      case ta: TokenAnalysis => assert( ta.analysis.analysis == Cite2Urn("urn:cite2:hmt:va_schAint_tkns:tkn1") )
       case _ => fail("Object is not a TokenAnalysis")
     }
   }
@@ -104,7 +107,7 @@ class TeiIngestionSpec extends FlatSpec {
      val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
      val tokenV = TeiReader.teiToTokens(urn, xml)
      val token1 = tokenV(0)._2
-     assert(token1.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
+     assert(token1.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:disambig.lexical.v1"))
    }
 
    it should "default to value of direct voice for discourse category" in {
@@ -302,7 +305,7 @@ class TeiIngestionSpec extends FlatSpec {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> εἰς <num value="5"> ε</num> τάξεις</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val numToken = tokenV(1)._2
-    assert (numToken.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.numeric.v1"))
+    assert (numToken.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:disambig.numeric.v1"))
   }
 
   it should "use n attribute of TEI persName element for lexical disambiguation" in {
@@ -311,7 +314,7 @@ class TeiIngestionSpec extends FlatSpec {
 
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val pn = tokenV(2)._2
-    assert(pn.lexicalDisambiguation == CiteUrn("urn:cite:hmt:pers.pers115"))
+    assert(pn.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:pers.pers115"))
   }
 
   it should "use  n attribute of TEI placeName element for lexical disambiguation" in {
@@ -319,7 +322,7 @@ class TeiIngestionSpec extends FlatSpec {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <choice> <abbr> οτ</abbr> <expan> ὅτι</expan></choice> θηλυκῶς τὴν <placeName n="urn:cite:hmt:place.place6"> Ἴλιον</placeName></p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val troy = tokenV(3)._2
-    assert(troy.lexicalDisambiguation == CiteUrn("urn:cite:hmt:place.place6"))
+    assert(troy.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:place.place6"))
   }
 
   it should "use n attribute of TEI rs element for lexical disambiguation type attribute is ethnic" in {
@@ -327,7 +330,7 @@ class TeiIngestionSpec extends FlatSpec {
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> τῶν τοις <rs n="urn:cite:hmt:place.place6" type="ethnic"> Τρωσὶ</rs> συμμαχούντων ⁑</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     val trojans = tokenV(2)._2
-    assert(trojans.lexicalDisambiguation == CiteUrn("urn:cite:hmt:place.place6"))
+    assert(trojans.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:place.place6"))
   }
 
   it should "read a tab-delimited two-column file and create a Vector of (urn,token) tuples" in {

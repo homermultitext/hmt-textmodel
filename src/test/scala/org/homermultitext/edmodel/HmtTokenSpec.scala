@@ -6,7 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(
-    analysis = CiteUrn("urn:cite:hmt:va_il_tkns.tkn1.v1"),
+    analysis = Cite2Urn("urn:cite2:hmt:va_il_tkns.v1:tkn1"),
     editionUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"),
     sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
 
@@ -14,9 +14,11 @@ class HmtTokenSpec extends FlatSpec {
     readings = Vector(Reading("μῆνιν",Clear))
   )
 
+
   "A token analysis"  should "have an identifying URN" in {
-    assert (tkn.analysis == CiteUrn("urn:cite:hmt:va_il_tkns.tkn1.v1") )
+    assert (tkn.analysis == Cite2Urn("urn:cite2:hmt:va_il_tkns.v1:tkn1") )
   }
+
 
   it should "be indexed to a CTS URN" in {
     assert (tkn.sourceUrn == CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"))
@@ -38,14 +40,14 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.lang == "grc")
   }
 
-  it should "have CiteUrn objects for entity disambiguation" in {
+  it should "have Cite2Urn objects for entity disambiguation" in {
     tkn.lexicalDisambiguation match {
-      case u: CiteUrn => assert (1 == 1)
+      case u: Cite2Urn => assert (1 == 1)
       case _ => fail("Wrong class of lexical disambiguation for " + tkn)
     }
   }
-  it should "have a default CiteUrn for entity disambiguation with string value 'urn:cite:hmt:disambig.lexical.v1'" in {
-    assert (tkn.lexicalDisambiguation == CiteUrn("urn:cite:hmt:disambig.lexical.v1"))
+  it should "have a default Cite2Urn for entity disambiguation with string value 'urn:cite2:hmt:disambig.v1:lexical'" in {
+    assert (tkn.lexicalDisambiguation == Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"))
   }
 
   it should "have a default discourse category of DirectVoice" in {
@@ -92,7 +94,7 @@ class HmtTokenSpec extends FlatSpec {
 
   it should  "support turning off labels" in {
     val columns = tkn.columnString(false).split("\n")
-    assert (columns(0) == "urn:cite:hmt:va_il_tkns.tkn1.v1")
+    assert (columns(0) == "urn:cite2:hmt:va_il_tkns.v1:tkn1")
   }
 
 }

@@ -3,10 +3,10 @@ import org.scalatest.FlatSpec
 
 import edu.holycross.shot.cite._
 
-class OrcaTokenSpec extends FlatSpec {
+class HmtOrcaTokenSpec extends FlatSpec {
 
   val tkn = HmtToken(
-    analysis = CiteUrn("urn:cite:hmt:va_il_tkns.tkn1.v1"),
+    analysis = Cite2Urn("urn:cite2:hmt:va_il_tkns.v1:tkn1"),
     editionUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"),
     sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
 
