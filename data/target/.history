@@ -1,0 +1,4 @@
+++ 2.12.1
+:load tokenAnalysis.ksc
+:load tokenAnalysis.sc
+console

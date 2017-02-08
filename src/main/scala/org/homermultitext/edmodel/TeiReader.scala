@@ -382,7 +382,7 @@ object TeiReader {
           }
           case "ref" => {}
           case "num" => {
-            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite:hmt:disambig.numeric.v1"))
+            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite2:hmt:disambig.r1:numeric"))
             for (ch <- e.child) {
               collectTokens(newToken, ch)
             }
