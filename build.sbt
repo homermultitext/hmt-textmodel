@@ -1,8 +1,8 @@
 
 organization := "org.homermultitext"
-name := "hmt_textmodel"
+name := "hmt-textmodel"
 
-version := "1.1.0"
+version := "1.1.1"
 
 crossScalaVersions := Seq("2.11.8", "2.12.1")
 
