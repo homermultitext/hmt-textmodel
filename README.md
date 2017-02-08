@@ -1,8 +1,10 @@
-# edmodel
+# HMT text model
 
-Editions of the HMT project follow the OHCO2 model for citable texts.  In addition, the text contents of citable nodes are modelled as a sequence of tokens with multiple properties.
+Editions of the HMT project follow the OHCO2 model for citable texts.
 
-The initial focus of the library is code to instantiate this model from TEI-conformant XML following HMT guidelines.
+This library supports working with the text contents of citable nodes as a sequence of tokens with specified properties.
+
+The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines, and generating a variety of analytical exemplars from the resulting analyses.
 
 ## Status
 
