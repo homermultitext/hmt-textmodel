@@ -1,6 +1,6 @@
 # edmodel
 
-Editions of the HMT project follow the OHCO2 model for citable .  In addition, the text contents of citable nodes are modelled as a sequence of tokens with multiple properties.
+Editions of the HMT project follow the OHCO2 model for citable texts.  In addition, the text contents of citable nodes are modelled as a sequence of tokens with multiple properties.
 
 The initial focus of the library is code to instantiate this model from TEI-conformant XML following HMT guidelines.
 
@@ -9,3 +9,12 @@ The initial focus of the library is code to instantiate this model from TEI-conf
  The library is in development. The current test suite defines approximately 50 tests that specify its basic functionality.  To see which specifiying tests have been successfully implemented and passed, run `sbt test`.
 
  All tests for correct usage work on examples taken from the HMT archive.  Tests for handling errors are based on errors that have been encountered in editing HMT texts, but for obvious reasons have been corrected in the HMT archive.
+
+## Examples of usage
+
+Read a citable passage in a HMT-compliant well-formed fragment of TEI XML, and return a vector of analyzed tokens:
+
+    val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:1.1303.comment")
+    val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἢ απαρνησαι</p></div>"""
+
+    val tokens = TeiReader.teiToTokens(urn, xml)
