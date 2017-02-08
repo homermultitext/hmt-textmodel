@@ -10,6 +10,10 @@ The initial focus of the library is code to instantiate this model from TEI-conf
 
  All tests for correct usage work on examples taken from the HMT archive.  Tests for handling errors are based on errors that have been encountered in editing HMT texts, but for obvious reasons have been corrected in the HMT archive.
 
+ ## Building
+
+ Requires scala 2.11 or higher.  Binaries compiled with Scala 2.11 and 2.12 are available from bintray.
+
 ## Examples of usage
 
 Read a citable passage in a HMT-compliant well-formed fragment of TEI XML, and return a vector of analyzed tokens:
