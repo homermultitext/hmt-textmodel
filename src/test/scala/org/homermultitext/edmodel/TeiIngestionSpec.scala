@@ -37,9 +37,12 @@ class TeiIngestionSpec extends FlatSpec {
     assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt_tkns:19.hc_5.1"))
   }
   it should "index compute a subreference value for token string within the text of the source element" in pending
+
+
+  it should "recognize legitmate choice pairings without regard to order" in pending
+  
 }
 
-it should "recognize legitmate choice pairings without regard to order" in pending
 /*
   // test tokenization
   it should "tokenize on white space by default" in {

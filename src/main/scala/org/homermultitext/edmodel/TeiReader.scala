@@ -323,6 +323,26 @@ object TeiReader {
     counter
   }
 
+  def addTokensFromText(s: String, tokenSettings: HmtToken): Unit = {
+    val hmtText = hmtNormalize(s)
+    val depunctuate =  hmtText.split(punctuationSplitter)
+    val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
+    for (tk <- tokenList) {
+      val rdg = Reading(tk, Clear)
+      val subref = ctsSafe(tk)
+        //println("WORK ON TOKEN "  + tk)
+      nodeText.append(tk)
+      val subrefIndex = indexSubstring(nodeText.toString,tk)
+      val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + subref + "[" + subrefIndex + "]")
+      var newToken = tokenSettings.copy(readings = Vector(rdg),sourceUrn = src)
+      if (punctuation.contains(tk)) {
+        newToken.lexicalCategory = Punctuation
+      }
+      tokenBuffer += newToken
+    }
+  }
+
+
 
   /** collect all tokens descended from a given XML node
   *
@@ -334,22 +354,8 @@ object TeiReader {
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
-        val hmtText = hmtNormalize(t.text)
-        val depunctuate =  hmtText.split(punctuationSplitter)
-        val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
-        for (tk <- tokenList) {
-          val rdg = Reading(tk, Clear)
-          val subref = ctsSafe(tk)
-            //println("WORK ON TOKEN "  + tk)
-          nodeText.append(tk)
-          val subrefIndex = indexSubstring(nodeText.toString,tk)
-          val src = CtsUrn(currToken.sourceUrn.toString + "@" + subref + "[" + subrefIndex + "]")
-          var newToken = currToken.copy(readings = Vector(rdg),sourceUrn = src)
-          if (punctuation.contains(tk)) {
-            newToken.lexicalCategory = Punctuation
-          }
-          tokenBuffer += newToken
-        }
+        addTokensFromText(t.text, currToken)
+
       }
       case e: xml.Elem => {
         e.label match {

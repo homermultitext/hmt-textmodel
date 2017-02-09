@@ -20,7 +20,7 @@ package org.homermultitext
    import java.text.Normalizer
    import edu.holycross.shot.cite._
 
-   val collectionId = "urn:cite2:hmt:urtoken"
+   val collectionId = "urn:cite2:hmt:urtoken:"
    val versionId = "v1"
 
    case class ReadingConfig(title: String, description: String)
