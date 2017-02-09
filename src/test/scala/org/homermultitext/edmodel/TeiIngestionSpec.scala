@@ -16,7 +16,7 @@ class TeiIngestionSpec extends FlatSpec {
     firstEntry match {
       // urn:cite2:hmt:va_schAint_tkns:.tkn1
       //did not equal
-      //urn:cite2:hmt:va_schAint_tkns:tkn1 
+      //urn:cite2:hmt:va_schAint_tkns:tkn1
       case ta: TokenAnalysis => assert( ta.analysis.analysis == Cite2Urn("urn:cite2:hmt:va_schAint_tkns:tkn1") )
       case _ => fail("Object is not a TokenAnalysis")
     }
@@ -38,6 +38,8 @@ class TeiIngestionSpec extends FlatSpec {
   }
   it should "index compute a subreference value for token string within the text of the source element" in pending
 }
+
+it should "recognize legitmate choice pairings without regard to order" in pending
 /*
   // test tokenization
   it should "tokenize on white space by default" in {

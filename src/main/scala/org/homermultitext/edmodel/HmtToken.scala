@@ -117,6 +117,11 @@ case class HmtToken ( var analysis: Cite2Urn,
   def leidenNormalized: String = {
 "hmm"
   }
+
+
+  def errorReport(separator: String = "\t"): String = {
+    editionUrn.toString + separator + readings.map(_.leidenize).mkString + separator + errors.mkString(" ++ ")
+  }
 }
 
 /** Labelling information

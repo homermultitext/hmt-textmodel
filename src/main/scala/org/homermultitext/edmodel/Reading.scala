@@ -46,18 +46,11 @@ case class Reading (val reading: String, val status: EditorialStatus ) {
     }
   }
 }
-/*
-object Reading {
-  def typedText(rdg: Reading) = rdg.reading + " (" + rdg.status.name + ")"
 
-  def leidenize(rdg: Reading) = {
-    rdg.status match {
-      case Restored => "[" + rdg.reading + "]"
-      case Unclear => {
-        val codepts = codeptList(rdg.reading)
-        codepts.map(_.toChar).mkString("?") + "?"
-      }
-      case Clear => rdg.reading
-    }
+object Reading {
+
+
+  def leidenize(readings: Vector[Reading]): String = {
+    readings.map(_.leidenize).mkString
   }
-}*/
+}

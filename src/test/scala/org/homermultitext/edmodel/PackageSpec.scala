@@ -19,4 +19,13 @@ class PackageSpec extends FlatSpec  {
 
   it should "have a function normalizing strings to HMT form" in pending
 
+  it should "map a string to a list of code points" in {
+    val s = "μῆνιν"
+    val codepts = codeptList(s)
+    assert (codepts.size == 5 )
+    val uchars = codepts.map(_.toChar)
+    val s2 = uchars.mkString
+    assert(s == s2)
+  }
+
 }

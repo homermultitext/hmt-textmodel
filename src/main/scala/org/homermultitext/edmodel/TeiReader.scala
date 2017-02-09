@@ -138,15 +138,15 @@ object TeiReader {
   def getAlternate (hmtToken: HmtToken, choiceElem: xml.Elem) = {
     val cNames = choiceElem.child.map(_.label).distinct.filterNot(_ == "#PCDATA")
 
-    val abbrExpan = Array("abbr","expan")
-    val sicCorr = Array("sic", "corr")
-    val origReg = Array("orig", "reg")
+    val abbrExpan = Set("abbr","expan")
+    val sicCorr = Set("sic", "corr")
+    val origReg = Set("orig", "reg")
 
-    if (cNames.sameElements(abbrExpan) ) {
+    if (cNames.toSet == abbrExpan ) {
       abbrExpanChoice(hmtToken, choiceElem)
-    } else if (cNames.sameElements(sicCorr) ) {
+    } else if (cNames.toSet == sicCorr ) {
       sicCorrChoice(hmtToken, choiceElem)
-    } else if (cNames.sameElements(origReg) ) {
+    } else if (cNames.toSet == origReg) {
       origRegChoice(hmtToken,choiceElem)
 
     } else {
