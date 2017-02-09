@@ -19,3 +19,4 @@ case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal 
 /** token in quotation of another text */
 case object QuotedText extends DiscourseCategory {val name
  = "quoted passage of text"}
+ case object Citation extends DiscourseCategory{val name = "explicit citation with title of a text"}

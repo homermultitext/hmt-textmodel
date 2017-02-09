@@ -342,7 +342,116 @@ object TeiReader {
     }
   }
 
+  def addTokensFromElement(el: xml.Elem, tokenSettings: HmtToken): Unit = {
 
+    el.label match {
+      case "note" => {} // to be removed from archive
+      case "figDesc" => {} // metdata, don't process
+      case "ref" => {}
+
+      case "persName" => {
+        disambiguateNamedEntity(tokenSettings,el)
+      }
+      case "placeName" => {
+        disambiguateNamedEntity(tokenSettings,el)
+      }
+
+      case "num" => {
+        val newToken = tokenSettings.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite2:hmt:disambig.r1:numeric"))
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      }
+      case "sic" => {
+        val newToken = tokenSettings.copy(lexicalCategory = Unintelligible)
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      }
+
+      case "add" => {
+        //  multiform
+        //
+        wrappedWordBuffer.clear
+        collectWrappedWordReadings(Clear,el)
+        val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
+      }
+
+      case "q" => {
+        tokenSettings.discourse match {
+            case QuotedText => {
+              for (ch <- el.child) {
+                collectTokens(tokenSettings, ch)
+              }
+            }
+            case _ => {
+              val newToken = tokenSettings.copy(discourse = QuotedLanguage)
+              for (ch <- el.child) {
+                collectTokens(newToken, ch)
+              }
+            }
+        }
+      }
+
+      case "title" => {
+        val newToken = tokenSettings.copy(discourse = Citation)
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      }
+
+
+      case "cit" => {
+        collectCited(tokenSettings,el)
+      }
+
+      case "rs" => {
+        collectRefString(tokenSettings,el )
+      }
+      case "w" => {
+        wrappedWordBuffer.clear
+        collectWrappedWordReadings(Clear,el)
+
+
+        nodeText.append(wrappedWordBuffer.toVector)
+        val deformation = wrappedWordBuffer.map(_.reading).mkString
+        val subrefIndex = indexSubstring(nodeText.toString,deformation)
+        val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
+        var newToken = tokenSettings.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
+        tokenBuffer += newToken
+      }
+      case "foreign" => {
+        val langAttributes = el.attributes.toVector.filter(_.key == "lang").map(_.value)
+        require (langAttributes.size == 1)
+        val langVal = langAttributes(0).text
+        val newToken = tokenSettings.copy(lang = langVal)
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      }
+
+      case "choice" => {
+        getAlternate(tokenSettings,el)
+      }
+
+
+      case l: String =>  {
+        if (validElements.contains(l)) {
+          for (ch <- el.child) {
+            collectTokens(tokenSettings, ch)
+          }
+        } else {
+          var errorList = tokenSettings.errors :+  "Invalid element name: " + l
+          val newToken = tokenSettings.copy(errors = errorList)
+          for (ch <- el.child) {
+            collectTokens(newToken, ch)
+          }
+        }
+
+      }
+    }
+  }
 
   /** collect all tokens descended from a given XML node
   *
@@ -355,102 +464,9 @@ object TeiReader {
     n match {
       case t: xml.Text => {
         addTokensFromText(t.text, currToken)
-
       }
       case e: xml.Elem => {
-        e.label match {
-          case "note" => {} // to be removed from archive
-          case "add" => {
-            //  multiform
-            //
-            wrappedWordBuffer.clear
-            collectWrappedWordReadings(Clear,e)
-            val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
-            wrappedWordBuffer.clear
-          }
-
-          case "q" => {
-            currToken.discourse match {
-                case QuotedText => { // don't change!
-                  for (ch <- e.child) {
-                    collectTokens(currToken, ch)
-                  }
-                }
-                case _ => {
-                  val newToken = currToken.copy(discourse = QuotedLanguage)
-                  for (ch <- e.child) {
-                    collectTokens(newToken, ch)
-                  }
-                }
-            }
-          }
-          case "cit" => {
-            collectCited(currToken,e)
-          }
-          case "ref" => {}
-          case "num" => {
-            val newToken = currToken.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite2:hmt:disambig.r1:numeric"))
-            for (ch <- e.child) {
-              collectTokens(newToken, ch)
-            }
-          }
-          case "sic" => {
-            val newToken = currToken.copy(lexicalCategory = Unintelligible)
-            for (ch <- e.child) {
-              collectTokens(newToken, ch)
-            }
-          }
-          case "rs" => {
-            collectRefString(currToken,e )
-          }
-          case "w" => {
-            wrappedWordBuffer.clear
-            collectWrappedWordReadings(Clear,e)
-
-
-            nodeText.append(wrappedWordBuffer.toVector)
-            val deformation = wrappedWordBuffer.map(_.reading).mkString
-            val subrefIndex = indexSubstring(nodeText.toString,deformation)
-            val src = CtsUrn(currToken.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
-            var newToken = currToken.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
-            tokenBuffer += newToken
-          }
-          case "foreign" => {
-            val langAttributes = e.attributes.toVector.filter(_.key == "lang").map(_.value)
-            require (langAttributes.size == 1)
-            val langVal = langAttributes(0).text
-            val newToken = currToken.copy(lang = langVal)
-            for (ch <- e.child) {
-              collectTokens(newToken, ch)
-            }
-          }
-
-          case "choice" => {
-            getAlternate(currToken,e)
-          }
-
-          case "persName" => {
-            disambiguateNamedEntity(currToken,e)
-          }
-          case "placeName" => {
-            disambiguateNamedEntity(currToken,e)
-          }
-
-          case l: String =>  {
-            if (validElements.contains(l)) {
-              for (ch <- e.child) {
-                collectTokens(currToken, ch)
-              }
-            } else {
-              var errorList = currToken.errors :+  "Invalid element name: " + l
-              val newToken = currToken.copy(errors = errorList)
-              for (ch <- e.child) {
-                collectTokens(newToken, ch)
-              }
-            }
-
-          }
-        }
+        addTokensFromElement(e, currToken)
       }
     }
   }

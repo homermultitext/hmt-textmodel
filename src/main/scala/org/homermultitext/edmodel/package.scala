@@ -58,12 +58,12 @@ package org.homermultitext
   // only need list of elements *not* explicitly
   // caught in big case match below
   val validElements = Vector(
-    "div", "l","p", "choice",
+    "div", "l","p", "choice","list","item",  "figure","figDesc","floatingText",
     "foreign",
     "num",
     "unclear","add","orig","reg","sic","corr",
     "abbr","expan",
-    "cite","q","ref",
+    "cite","q","ref", "title",
     "persName","placeName",
     "rs"
   )
