@@ -19,7 +19,7 @@ case object Unclear extends EditorialStatus {val name = "unclear"}
 /** reading supplied by modern editor
 *
 * Applies only to editorial expansion of abbreviations.
-* 
+*
 */
 case object Restored extends EditorialStatus {val name = "restored"}
 
@@ -32,10 +32,32 @@ case object Restored extends EditorialStatus {val name = "restored"}
 * @param reading string read with given status
 * @param status status of the given string
 */
-case class Reading (
-  val reading: String,
-  val status: EditorialStatus
-)
+case class Reading (val reading: String, val status: EditorialStatus ) {
+  def typedText = reading + " (" + status.name + ")"
+
+  def leidenize = {
+    status match {
+      case Restored => "[" + reading + "]"
+      case Unclear => {
+        val codepts = codeptList(reading)
+        codepts.map(_.toChar).mkString("?") + "?"
+      }
+      case Clear => reading
+    }
+  }
+}
+/*
 object Reading {
   def typedText(rdg: Reading) = rdg.reading + " (" + rdg.status.name + ")"
-}
+
+  def leidenize(rdg: Reading) = {
+    rdg.status match {
+      case Restored => "[" + rdg.reading + "]"
+      case Unclear => {
+        val codepts = codeptList(rdg.reading)
+        codepts.map(_.toChar).mkString("?") + "?"
+      }
+      case Clear => rdg.reading
+    }
+  }
+}*/

@@ -101,4 +101,15 @@ package org.homermultitext
   def hmtNormalize(s: String): String = {
     Normalizer.normalize(s,Form.NFC).trim.replaceAll("[ ]+"," ")
   }
+
+  // get list of code points for string
+  def codeptList (s: String, idx : Int = 0, codepoints: List[Int] = Nil): List[Int] = {
+    if (idx >= s.length) {
+      codepoints.reverse
+    } else {
+      val cp = s.codePointAt(idx)
+      codeptList(s, idx + java.lang.Character.charCount(cp), cp :: codepoints)
+    }
+  }
+
 }

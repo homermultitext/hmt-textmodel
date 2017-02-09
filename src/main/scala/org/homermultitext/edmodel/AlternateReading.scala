@@ -35,6 +35,6 @@ object AlternateReading {
 
   /** format all [[org.homermultitext.edmodel.Reading]]s in a single string*/
   def alternative (alt: AlternateReading): String = {
-    alt.reading.map(rdg => Reading.typedText(rdg)).mkString(" + ")
+    alt.reading.map(rdg => rdg.typedText).mkString(" + ")
   }
 }

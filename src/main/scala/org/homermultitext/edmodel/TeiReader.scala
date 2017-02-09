@@ -6,6 +6,7 @@ import scala.collection.mutable.Map
 import scala.xml._
 import scala.io.Source
 
+import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 /**  Factory for Vectors of  [[org.homermultitext.edmodel.HmtToken]] instances.
@@ -489,6 +490,10 @@ object TeiReader {
     }
   }
 
+
+  def fromCorpus(c: Corpus): Vector[TokenAnalysis] = {
+    c.nodes.flatMap(cn => TeiReader.teiToTokens(cn.urn, cn.text))
+  }
 
   def fromTwoColumns(fileName: String): Vector[TokenAnalysis] = {
     fromTwoColumns(fileName,"\t")

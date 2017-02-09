@@ -101,6 +101,22 @@ case class HmtToken ( var analysis: Cite2Urn,
     val props = rows.slice(3,10).toVector.mkString("\n")
     "ORCA identifiers:\n" + urns + "\n\n" + "Analysis properties:\n" + props + "\n\n" + "Data quality:\n" + rows(10)
   }
+
+
+  def leidenDiplomatic: String = {
+     alternateReading match {
+       case None => {
+         "hmm"
+       }
+       case _ => "mmm"
+     }
+  }
+  def leidenFull: String = {
+"hmm"
+  }
+  def leidenNormalized: String = {
+"hmm"
+  }
 }
 
 /** Labelling information
