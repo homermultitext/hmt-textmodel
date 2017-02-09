@@ -37,7 +37,7 @@ case class Reading (val reading: String, val status: EditorialStatus ) {
 
   def leidenize = {
     status match {
-      case Restored => "[" + reading + "]"
+      case Restored => "(" + reading +")"
       case Unclear => {
         val codepts = codeptList(reading)
         codepts.map(_.toChar).mkString("?") + "?"

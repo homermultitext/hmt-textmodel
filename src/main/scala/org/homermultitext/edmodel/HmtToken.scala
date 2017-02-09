@@ -117,7 +117,19 @@ case class HmtToken ( var analysis: Cite2Urn,
 "hmm"
   }
   def leidenNormalized: String = {
-"hmm"
+    alternateReading match {
+      case None => {
+        readings.map(_.leidenize).mkString
+      }
+      case Some(alt) => {
+        alt.alternateCategory match {
+          case Restoration =>
+          readings.map(_.leidenize).mkString +
+           alt.reading.map(_.leidenize).mkString
+          case _ =>  readings.map(_.leidenize).mkString
+        }
+      }
+    }
   }
 
 

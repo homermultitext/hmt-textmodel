@@ -14,7 +14,7 @@ class ReadingSpec extends FlatSpec {
 
   it should "use square brackets for restorations in leiden convention stringification" in {
     val restoration = Reading("not", Restored)
-    assert(restoration.leidenize == "[not]")
+    assert(restoration.leidenize == "(not)")
   }
 
   it should "use question marks for unclear characters in leiden convention stringification" in {

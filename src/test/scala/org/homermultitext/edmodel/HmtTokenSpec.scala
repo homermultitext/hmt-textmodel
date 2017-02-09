@@ -126,6 +126,19 @@ class HmtTokenSpec extends FlatSpec {
     assert(tkn.leidenDiplomatic == "αὐτῶ?")
   }
 
-  //			grc		LexicalToken	urn:cite2:hmt:disambig.v1:lexical	None	DirectVoice	None
+  it should "prefer restorations for normalized edition" in {
+    val tkn = HmtToken(
+      analysis = Cite2Urn("urn:cite2:hmt:va_schA_tkns:tkn21"),
+      editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:19.hc_21.comment.21"),
+      sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:19.hc_21.comment@γίνεσθ[1]"),
+
+      lexicalCategory = LexicalToken,
+      readings = Vector(Reading("γίνεσθ",Clear)),
+
+      alternateReading = Some(AlternateReading(Restoration,Vector(Reading( "γίνεσθαι",Restored))))
+    )
+    assert(tkn.leidenNormalized == "γίνεσθ(γίνεσθαι)")
+  }
+
 
 }
