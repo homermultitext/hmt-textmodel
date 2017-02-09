@@ -97,4 +97,35 @@ class HmtTokenSpec extends FlatSpec {
     assert (columns(0) == "urn:cite2:hmt:va_il_tkns.v1:tkn1")
   }
 
+  "Formatting strings for various text deformations" should "include only clear and unclear readings in diplomatic" in {
+    val tkn = HmtToken(
+      analysis = Cite2Urn("urn:cite2:hmt:va_schA_tkns:tkn70"),
+      editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:1.7.comment.70"),
+      sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.7.comment@ἄνοι[1]"),
+
+      lexicalCategory = LexicalToken,
+      readings = Vector(Reading("ἄνοι",Clear)),
+      alternateReading = Some(
+        AlternateReading(Restoration,Vector(
+          Reading( "ἄνθρωποι",Restored)))
+      )
+    )
+    assert(tkn.leidenDiplomatic == "ἄνοι")
+  }
+
+  it should "distinguish unclear readings in diplomatic deformation" in {
+    val tkn = HmtToken(
+      analysis = Cite2Urn("urn:cite2:hmt:va_schA_tkns:tkn21"),
+      editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:19.hc_19.comment.21"),
+      sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:19.hc_19.comment@αὐτῶ[0]"),
+
+      lexicalCategory = LexicalToken,
+      readings = Vector(Reading("αὐτ",Clear), Reading("ῶ",Unclear))
+    )
+
+    assert(tkn.leidenDiplomatic == "αὐτῶ?")
+  }
+
+  //			grc		LexicalToken	urn:cite2:hmt:disambig.v1:lexical	None	DirectVoice	None
+
 }

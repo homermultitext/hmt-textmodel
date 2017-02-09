@@ -104,12 +104,14 @@ case class HmtToken ( var analysis: Cite2Urn,
 
 
   def leidenDiplomatic: String = {
-     alternateReading match {
-       case None => {
-         "hmm"
-       }
-       case _ => "mmm"
-     }
+    readings.map{ rdg =>
+      rdg.status match {
+        case Clear => rdg.leidenize
+        case Unclear => rdg.leidenize
+        case _ => ""
+      }
+    }.mkString
+
   }
   def leidenFull: String = {
 "hmm"
