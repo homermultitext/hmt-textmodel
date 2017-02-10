@@ -120,10 +120,17 @@ case class HmtToken ( var analysis: Cite2Urn,
     }.mkString
 
   }
-  def leidenFull: String = {
-"hmm"
+  def singleReading: String = {
+    alternateReading match {
+      case None => {
+        readings.map(_.reading).mkString
+      }
+      case Some(alt) => {
+        alt.reading.map(_.reading).mkString
+      }
+    }
   }
-  def leidenNormalized: String = {
+  def leidenFull: String = {
     alternateReading match {
       case None => {
         readings.map(_.leidenize).mkString
