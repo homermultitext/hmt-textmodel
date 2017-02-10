@@ -3,6 +3,7 @@ import org.scalatest._
 import scala.xml._
 
 import edu.holycross.shot.cite._
+import edu.holycross.shot.ohco2._
 
 class TeiIngestionSpec extends FlatSpec {
 
@@ -34,13 +35,20 @@ class TeiIngestionSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
     val analysisV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = analysisV(0)
-    assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt_tkns:19.hc_5.1"))
+    assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt.tkns:19.hc_5.1"))
   }
   it should "index compute a subreference value for token string within the text of the source element" in pending
 
 
   it should "recognize legitmate choice pairings without regard to order" in pending
-  
+
+  it should "number analysis continuously across texts" in {
+    val corpus = CorpusFileIO.fromFile("src/test/resources/sample1-twocolumn.tsv")
+    val tokens = TeiReader.fromCorpus(corpus)
+    for (ta <- tokens) {
+      println(ta.analysis.analysis)
+    }
+  }
 }
 
 /*

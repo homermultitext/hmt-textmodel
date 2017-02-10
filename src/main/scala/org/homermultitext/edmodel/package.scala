@@ -34,16 +34,16 @@ package org.homermultitext
    )
 
    val analyticalCollections = Map(
-     "tlg0012.tlg001.msA_tkns"-> Cite2Urn("urn:cite2:hmt:va_il_tkns:"),
+     "tlg0012.tlg001.msA.tkns"-> Cite2Urn("urn:cite2:hmt:va_il_tkns:"),
 
-     "tlg0012.tlg001.hmt01_tkns"-> Cite2Urn("urn:cite2:hmt:va_il_tkns:"),
+     "tlg0012.tlg001.hmt01.tkns"-> Cite2Urn("urn:cite2:hmt:va_il_tkns:"),
 
-     "tlg5026.msA.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schA_tkns:"),
-     "tlg5026.msAim.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAim_tkns:"),
-     "tlg5026.msAint.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAint_tkns:"),
-     "tlg5026.msAext.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAext_tkns:"),
-     "tlg5026.msAil.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAil_tkns:"),
-     "tlg5026.msAimlater.hmt_tkns" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tkns:")
+     "tlg5026.msA.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schA_tkns:"),
+     "tlg5026.msAim.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schAim_tkns:"),
+     "tlg5026.msAint.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schAint_tkns:"),
+     "tlg5026.msAext.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schAext_tkns:"),
+     "tlg5026.msAil.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schAil_tkns:"),
+     "tlg5026.msAimlater.hmt.tkns" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tkns:")
 
 
    )

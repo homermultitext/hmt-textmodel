@@ -16,9 +16,13 @@ case class HmtOrcaToken (
   textDeformation: String,
   hmtToken: HmtToken) {
 
-    def orcaColumn = {
+    def orcaColumn: String = {
       val analysisCols =  hmtToken.columnString.split("\n").slice(3,10).toVector.mkString("\n")
       "Passage: " + urn + "\nAnalyzes: " + src + "\nReading: " + textDeformation + "\nAnalyses as: \n" + analysisCols
+    }
+
+    def rowString(separator: String = "\t"): String = {
+      urn.toString +separator + src.toString + separator + textDeformation
     }
   }
 

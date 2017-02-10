@@ -17,8 +17,6 @@ object TeiReader {
   var nodeText = StringBuilder.newBuilder
 
 
-
-
   /** buffer for recursively accumulated [[org.homermultitext.edmodel.HmtToken]]s
   */
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
@@ -206,7 +204,6 @@ object TeiReader {
       }
     }
   }
-
 
   /** collect appropriate type of token for varieties of TEI `rs` usage
   *
@@ -479,8 +476,8 @@ object TeiReader {
   * @param u URN for the citable node
   * @param xmlStr XML text for the citable node
   */
-  def teiToTokens(u: CtsUrn, xmlStr: String) : Vector[TokenAnalysis]  = {
-    val urnKey = u.workComponent + "_tkns"
+  def teiToTokens(u: CtsUrn, xmlStr: String, tokenCount: Int = 0) : Vector[TokenAnalysis]  = {
+    val urnKey = u.workComponent + ".tkns"
     //  generate editionUrn CtsUrn base like  "tlg5026.msA.hmt_tkns"
     // get analysis Cite2Urn from analyticalCollections map keyed to that value
 
@@ -497,13 +494,18 @@ object TeiReader {
     nodeText.clear
     collectTokens(currToken, root)
 
+
+
+    // THIS IS RIGHT FOR TEXT INDEX BUT NOT FOR ANALYSIS URN
     // in the final result, add exemplar-level index to
     // citation element and to analysis urn
+    var currentToken = tokenCount
     val zippedVal = tokenBuffer.zipWithIndex.map{ case (t,i) => {
+      currentToken = currentToken + 1
       val baseEdition = t.editionUrn
       val baseAnalysis = t.analysis
       t.editionUrn = CtsUrn(baseEdition.toString + "." + (i +1))
-      t.analysis = Cite2Urn(baseAnalysis.toString + "tkn"  + (i + 1))
+      t.analysis = Cite2Urn(baseAnalysis.toString + "tkn"  + (currentToken))
       (u, t) }
     }.toVector
 
@@ -513,9 +515,25 @@ object TeiReader {
   }
 
 
-  def fromCorpus(c: Corpus): Vector[TokenAnalysis] = {
-    c.nodes.flatMap(cn => TeiReader.teiToTokens(cn.urn, cn.text))
+  def fromCorpus(c: Corpus, startIdx : Int = 0): Vector[TokenAnalysis] = {
+//val stackedNodes = for (cn <- scholia.nodes) yield {
+//  TeiReader.teiToTokens(cn.urn, cn.text, idx)
+//}
+    var idx = startIdx
+    val groupedAnalyses = for (cn <- c.nodes) yield {
+      val tokenized = TeiReader.teiToTokens(cn.urn, cn.text, idx)
+      idx = idx + tokenized.size
+      tokenized
+    }
+    groupedAnalyses.flatMap(ta => ta)
   }
+
+  /*  c.nodes.flatMap(cn => {
+      TeiReader.teiToTokens(cn.urn, cn.text, startIdx)
+    }
+  }U*/
+
+
 
   def fromTwoColumns(fileName: String): Vector[TokenAnalysis] = {
     fromTwoColumns(fileName,"\t")
