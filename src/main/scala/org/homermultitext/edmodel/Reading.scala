@@ -48,8 +48,6 @@ case class Reading (val reading: String, val status: EditorialStatus ) {
 }
 
 object Reading {
-
-
   def leidenize(readings: Vector[Reading]): String = {
     readings.map(_.leidenize).mkString
   }

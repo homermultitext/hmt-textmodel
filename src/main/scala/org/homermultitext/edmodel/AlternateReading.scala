@@ -26,8 +26,11 @@ case object Correction extends AlternateCategory {val name = "scribal correction
 */
 case class AlternateReading (
   var alternateCategory: AlternateCategory,
-  var reading: Vector[Reading]
-)
+  var reading: Vector[Reading] ) {
+  def leidenize: String = {
+    Reading.leidenize(reading) + " (" + alternateCategory + ")"
+  }
+}
 
 /** string formatting function
 */

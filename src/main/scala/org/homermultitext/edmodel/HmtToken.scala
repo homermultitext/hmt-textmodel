@@ -45,6 +45,13 @@ case class HmtToken ( var analysis: Cite2Urn,
   */
   var listSeparator = "#"
 
+  def altString: String = {
+    alternateReading match {
+      case None => "None"
+      case Some(alt) => alt.leidenize
+    }
+  }
+
   /** Format a string representation as a single line of delimited text
   * usng `propertySeparator` value as the delimiter, and `listSeparator`
   * as a secondary delimiter for lists within a single property.
@@ -54,8 +61,8 @@ case class HmtToken ( var analysis: Cite2Urn,
     sourceUrn + propertySeparator +
     editionUrn + propertySeparator +
     lang + propertySeparator +
-    readings + propertySeparator +
-    lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + alternateReading + propertySeparator +
+    Reading.leidenize(readings) + propertySeparator +
+    lexicalCategory + propertySeparator + lexicalDisambiguation + propertySeparator + altString + propertySeparator +
     discourse + propertySeparator +
     externalSource  + propertySeparator +
     errors.mkString(listSeparator) + propertySeparator
