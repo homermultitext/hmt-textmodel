@@ -67,7 +67,6 @@ case class HmtToken ( var analysis: Cite2Urn,
       }
     }
   }
-
   def hasScribalMultiform: Boolean = {
     alternateReading match {
       case None => false
@@ -88,6 +87,8 @@ case class HmtToken ( var analysis: Cite2Urn,
       }
     }
   }
+
+
   def lexMatch(urn: Cite2Urn) : Boolean = {
     lexicalDisambiguation ~~ urn
   }

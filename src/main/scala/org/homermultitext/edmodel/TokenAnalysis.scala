@@ -28,6 +28,27 @@ case class  TokenAnalysis(textNode: CtsUrn, analysis: HmtToken) {
     analysis.hasScribalCorrection
   }
 
+
+
+  def isCitation: Boolean = {
+    (analysis.discourse == Citation)
+  }
+  def isQuotedText: Boolean = {
+    (analysis.discourse == QuotedText)
+  }
+  def isQuotedLiteral: Boolean = {
+    (analysis.discourse == QuotedLiteral)
+  }
+  def isQuotedLanguage: Boolean = {
+    (analysis.discourse == QuotedLanguage)
+  }
+  def isDirectVoice: Boolean = {
+    (analysis.discourse == DirectVoice)
+  }
+  def notDirectVoice:  Boolean = {
+    (analysis.discourse != DirectVoice)
+  }
+
   def lexMatch(urn: Cite2Urn): Boolean = {
     analysis lexMatch urn
   }
