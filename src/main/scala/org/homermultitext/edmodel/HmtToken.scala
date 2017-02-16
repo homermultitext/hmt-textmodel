@@ -52,6 +52,11 @@ case class HmtToken ( var analysis: Cite2Urn,
     }
   }
 
+  def lexMatch(urn: Cite2Urn) : Boolean = {
+    lexicalDisambiguation ~~ urn
+  }
+
+
   /** Format a string representation as a single line of delimited text
   * usng `propertySeparator` value as the delimiter, and `listSeparator`
   * as a secondary delimiter for lists within a single property.
@@ -120,6 +125,13 @@ case class HmtToken ( var analysis: Cite2Urn,
     }.mkString
 
   }
+  def hasAlternate: Boolean = {
+    alternateReading match {
+      case None => false
+      case _ => true
+    }
+  }
+
   def singleReading: String = {
     alternateReading match {
       case None => {

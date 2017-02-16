@@ -43,7 +43,7 @@ class TeiIngestionSpec extends FlatSpec {
   it should "recognize legitmate choice pairings without regard to order" in pending
 
   it should "number analysis continuously across texts" in {
-    val corpus = CorpusFileIO.fromFile("src/test/resources/sample1-twocolumn.tsv")
+    val corpus = CorpusSource.fromFile("src/test/resources/sample1-twocolumn.tsv")
     val tokens = TeiReader.fromCorpus(corpus)
     for (ta <- tokens) {
       println(ta.analysis.analysis)

@@ -30,6 +30,9 @@ case class AlternateReading (
   def leidenize: String = {
     Reading.leidenize(reading) + " (" + alternateCategory + ")"
   }
+  def simpleString: String = {
+    reading.map(_.reading).mkString
+  }
 }
 
 /** string formatting function
