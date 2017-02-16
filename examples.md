@@ -1,8 +1,8 @@
-# Examples of usage
+# Examples of usage of the `hmt-textmodel` library
 
 
 
-## Analyze a corpus of texts
+## Overview: analyze a corpus of texts
 
 Use the `ohco2` library to create a corpus of the whole HMT project:
 
@@ -12,7 +12,7 @@ Use URN twiddling to select the main scholia as a corpus:
 
     val mainScholia = corpus ~~ CtsUrn("urn:cts:greekLit:tlg5026.msA:")
 
-Analyze the corpus. The result is a Vector of `TokenAnalysis` objects.
+Analyze the scholia. The result is a Vector of `TokenAnalysis` objects.
 
     val tokens = TeiReader.fromCorpus(mainScholia)
 
@@ -21,18 +21,36 @@ A `TokenAnalysis` has two members: a CTS URN identifying the text, and a `HmtTok
 The following examples illustrate ways to work with vectors of token analyses.
 
 
-## Turn a vector analyses into a new text corpus citable by token
+## Turn a vector of analyses into a new text corpus citable by token
 
-    val citableNodes = tokens.map(_.simpleText)
+Create a text corpus using alternate readings, where they exist, rather than diplomatic readings:
+
+    val citableNodes = tokens.map(_.readWithAlternate)
     val newCorpus = Corpus(citableNodes)
 
+Create a text corpus using purely diplomatic readings:
 
+    val citableNodes = tokens.map(_.readWithDiplomatic)
+    val newCorpus = Corpus(citableNodes)
 
 ## Alternate readings
 
-From a vector of analyses, select all the analyses that include an alternate reading from the diplomatic reading:
+From a vector of analyses, select all the analyses that include *any* category of alternate reading differing from the diplomatic reading:
 
     val altTokens = tokens.filter(_.hasAlternate)
+
+Select all analyses that include an expanded abbrevation:
+
+    val abbrTokens = tokens.filter(_.isAbbreviation)
+
+Select all analyses that include a scribal correction:
+
+    val abbrTokens = tokens.filter(_.hasScribalCorrection)
+
+Select all analyses that include a scribal multiform:
+
+    val abbrTokens = tokens.filter(_.hasMultiform)
+
 
 ## Lexical disambiguation
 
@@ -47,7 +65,7 @@ Use URN twiddling to select all analyses with matching lexical disambiguation.  
 
 
 
-## More
+## Working with TEI fragments in a script
 
 Read a citable passage in a HMT-compliant well-formed fragment of TEI XML, and return a vector of analyzed tokens:
 

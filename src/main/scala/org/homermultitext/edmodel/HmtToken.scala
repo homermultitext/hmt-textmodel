@@ -51,7 +51,43 @@ case class HmtToken ( var analysis: Cite2Urn,
       case Some(alt) => alt.leidenize
     }
   }
+  def hasAlternate: Boolean = {
+    alternateReading match {
+      case None => false
+      case _ => true
+    }
+  }
+  def isAbbreviation: Boolean = {
+    alternateReading match {
+      case None => false
+      case Some(alt) => if (alt.alternateCategory == Restoration) {
+        true
+      } else {
+        false
+      }
+    }
+  }
 
+  def hasScribalMultiform: Boolean = {
+    alternateReading match {
+      case None => false
+      case Some(alt) => if (alt.alternateCategory == Multiform) {
+        true
+      } else {
+        false
+      }
+    }
+  }
+  def hasScribalCorrection: Boolean = {
+    alternateReading match {
+      case None => false
+      case Some(alt) => if (alt.alternateCategory == Correction) {
+        true
+      } else {
+        false
+      }
+    }
+  }
   def lexMatch(urn: Cite2Urn) : Boolean = {
     lexicalDisambiguation ~~ urn
   }
@@ -125,14 +161,9 @@ case class HmtToken ( var analysis: Cite2Urn,
     }.mkString
 
   }
-  def hasAlternate: Boolean = {
-    alternateReading match {
-      case None => false
-      case _ => true
-    }
-  }
 
-  def singleReading: String = {
+
+  def readWithAlternate: String = {
     alternateReading match {
       case None => {
         readings.map(_.reading).mkString
@@ -142,6 +173,11 @@ case class HmtToken ( var analysis: Cite2Urn,
       }
     }
   }
+  def readWithDiplomatic: String = {
+    val dipl = readings.filter(_.status == Clear)
+    dipl.map(_.reading).mkString
+  }
+
   def leidenFull: String = {
     alternateReading match {
       case None => {
