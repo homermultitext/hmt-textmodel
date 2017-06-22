@@ -4,7 +4,7 @@
 
 ## Introduction
 
-The `hmt-textmodel` for working HMT text content abstracts a number of important features of the HMT text archive.  It relies on the generic `ohco2` library for two important  constructs:
+The `hmt-textmodel` for working with HMT text content abstracts a number of important features of the HMT text archive.  It relies on the generic `ohco2` library for two important  constructs:
 
 1. a `Corpus` of texts, made from a Vector of `CitableNode`s.
 2. the `CitableNode` object, a single citable passage of text with URN and text content

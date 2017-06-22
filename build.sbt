@@ -12,10 +12,10 @@ resolvers += Resolver.jcenterRepo
 
 
 libraryDependencies ++= Seq(
-  "edu.holycross.shot.cite" %% "xcite" % "1.3.0",
-  "edu.holycross.shot" %% "ohco2" % "4.0.0",
-  "edu.holycross.shot" %% "orca" % "2.1.0",
-  "edu.holycross.shot" %% "greek" % "1.3.1",
+  "edu.holycross.shot.cite" %% "xcite" % "2.4.0",
+  "edu.holycross.shot" %% "ohco2" % "9.0.1",
+  "edu.holycross.shot" %% "orca" % "3.0.0",
+  "edu.holycross.shot" %% "greek" % "1.3.3",
   "edu.holycross.shot" %% "gsphone" % "1.0.1",
 
 
