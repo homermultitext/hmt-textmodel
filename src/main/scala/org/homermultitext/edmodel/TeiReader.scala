@@ -545,7 +545,7 @@ object TeiReader {
 //val stackedNodes = for (cn <- scholia.nodes) yield {
 //  TeiReader.teiToTokens(cn.urn, cn.text, idx)
 //}
-    var idx = startIdx
+    var idx = 0 //startIdx
     val groupedAnalyses = for (cn <- c.nodes) yield {
       val tokenized = TeiReader.teiToTokens(cn.urn, cn.text, 0)
       idx = idx + tokenized.size
