@@ -288,6 +288,12 @@ object TeiReader {
     }
   }
 
+
+  /** URL encode any colon characters in s so that s
+  * can be used as the extended citation string of a CtsUrn.
+  *
+  * @param s String to use as extended citation string of a CtsUrn.
+  */
   def ctsSafe(s: String): String = {
     if (s == ":") {
       java.net.URLEncoder.encode(s, "utf-8")
@@ -320,6 +326,12 @@ object TeiReader {
     counter
   }
 
+
+  /**  Parse a string and add all tokens in it to tokenBuffer.
+  *
+  * @param s String to parse.
+  * @param tokenSettings Initial contextual setting for tokens.
+  */
   def addTokensFromText(s: String, tokenSettings: HmtToken): Unit = {
     val hmtText = hmtNormalize(s)
     val depunctuate =  hmtText.split(punctuationSplitter)
@@ -339,12 +351,19 @@ object TeiReader {
     }
   }
 
+
+
+  /** Parse an XML element and add all tokens in it to tokenBuffer.
+  *
+  * @param el XML element to parse.
+  * @param tokenSettings Initial contextual setting for tokens.
+  */
   def addTokensFromElement(el: xml.Elem, tokenSettings: HmtToken): Unit = {
 
     el.label match {
       case "note" => {} // to be removed from archive
-      case "figDesc" => {} // metdata, don't process
-      case "ref" => {}
+      case "figDesc" => {} // metadata, don't process
+      case "ref" => {} // metadata, don't process
 
       case "persName" => {
         disambiguateNamedEntity(tokenSettings,el)
@@ -470,11 +489,12 @@ object TeiReader {
 
 
 
-  /** read an XML fragment following HMT conventions to represent a single
-  * citable node, and construct a Vector of (CtsUrn,[[org.homermultitext.edmodel.HmtToken]]) tuples from it
+  /** Read an XML fragment following HMT conventions to represent a single
+  * citable node, and construct a Vector of (CtsUrn,[[org.homermultitext.edmodel.HmtToken]]) tuples from it.
   *
   * @param u URN for the citable node
   * @param xmlStr XML text for the citable node
+  * @param tokenCount
   */
   def teiToTokens(u: CtsUrn, xmlStr: String, tokenCount: Int = 0) : Vector[TokenAnalysis]  = {
     val urnKey = u.workComponent + ".tkns"
@@ -515,13 +535,19 @@ object TeiReader {
   }
 
 
-  def fromCorpus(c: Corpus, startIdx : Int = 0): Vector[TokenAnalysis] = {
+  /** Parse a corpus into a vector of analyzed tokens.
+  *
+  * @param c Corpus to parse.
+  *
+  */
+  //def fromCorpus(c: Corpus, startIdx : Int = 0): Vector[TokenAnalysis] = {
+  def fromCorpus(c: Corpus): Vector[TokenAnalysis] = {
 //val stackedNodes = for (cn <- scholia.nodes) yield {
 //  TeiReader.teiToTokens(cn.urn, cn.text, idx)
 //}
     var idx = startIdx
     val groupedAnalyses = for (cn <- c.nodes) yield {
-      val tokenized = TeiReader.teiToTokens(cn.urn, cn.text, idx)
+      val tokenized = TeiReader.teiToTokens(cn.urn, cn.text, 0)
       idx = idx + tokenized.size
       tokenized
     }

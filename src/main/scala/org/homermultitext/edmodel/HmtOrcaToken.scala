@@ -21,7 +21,7 @@ case class HmtOrcaToken (
       "Passage: " + urn + "\nAnalyzes: " + src + "\nReading: " + textDeformation + "\nAnalyses as: \n" + analysisCols
     }
 
-    def rowString(separator: String = "\t"): String = {
+    def rowString(separator: String = "#"): String = {
       urn.toString +separator + src.toString + separator + textDeformation
     }
   }
