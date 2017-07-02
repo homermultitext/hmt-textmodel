@@ -10,13 +10,16 @@ package org.homermultitext.edmodel
 *
 */
 sealed trait EditorialStatus {def name : String}
-/** paleographically unambiguous reading
+/** Paleographically unambiguous reading.
 */
 case object Clear extends EditorialStatus {val name = "clear"}
-/** paleographically ambiguous reading
+/** Paleographically ambiguous reading.
 */
 case object Unclear extends EditorialStatus {val name = "unclear"}
-/** reading supplied by modern editor
+/**  Lacuna.
+*/
+case object Missing extends EditorialStatus {val name = "mis  sing"}
+/** Reading supplied by modern editor.
 *
 * Applies only to editorial expansion of abbreviations.
 *
@@ -35,7 +38,9 @@ case object Restored extends EditorialStatus {val name = "restored"}
 case class Reading (val reading: String, val status: EditorialStatus ) {
   def typedText = reading + " (" + status.name + ")"
 
-  def leidenize = {
+  /**  Format text value of readings in Leiden-like string.
+  */
+  def leidenize: String = {
     status match {
       case Restored => "(" + reading +")"
       case Unclear => {
@@ -43,11 +48,15 @@ case class Reading (val reading: String, val status: EditorialStatus ) {
         codepts.map(_.toChar).mkString("?") + "?"
       }
       case Clear => reading
+      case Missing => "…"
     }
   }
 }
 
+/** Companion object for formatting Vectors of [[Reading]]s as Strings.
+*/
 object Reading {
+
   def leidenize(readings: Vector[Reading]): String = {
     readings.map(_.leidenize).mkString
   }

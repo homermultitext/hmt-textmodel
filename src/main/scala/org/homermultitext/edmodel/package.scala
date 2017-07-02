@@ -70,7 +70,7 @@ package org.homermultitext
 
 
 
-  /** Recursively collects contents of all text-node
+  /** Recursively collect contents of all text-node
   * descendants of a given node.
   * @param n Node to collect from.
   * @param buff Buffer for collecting text contents.
@@ -102,7 +102,12 @@ package org.homermultitext
     Normalizer.normalize(s,Form.NFC).trim.replaceAll("[ ]+"," ")
   }
 
-  // get list of code points for string
+  /** Recursively get list of code points for a String.
+  *
+  * @param s String to get codepoints for.
+  * @param idx Index of codepoint to start from.
+  * @param codepoints List of codepoints seen so fare.
+  */
   def codeptList (s: String, idx : Int = 0, codepoints: List[Int] = Nil): List[Int] = {
     if (idx >= s.length) {
       codepoints.reverse
