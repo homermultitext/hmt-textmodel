@@ -8,7 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 /** A fully documented, semantically distinct token.
 *
 * @constructor create a token
-* @param analysis CITE URN for this token analysis
+* @param analysis CITE URN for this token analysis.
 * @param sourceUrn URN for this token in the analyzed text
 * @param editionUrn URN for this token in an analytical exemplar when promoted to an edition
 * @param lang 3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language
@@ -20,7 +20,8 @@ import scala.collection.mutable.ArrayBuffer
 * @param externalSource URN of source this token is quoted from
 * @param errors list of error messages (hopefully empty)
 */
-case class HmtToken ( var analysis: Cite2Urn,
+case class HmtToken (
+  var analysis: Cite2Urn,
   var sourceUrn: CtsUrn,
   var editionUrn: CtsUrn,
 
@@ -45,18 +46,26 @@ case class HmtToken ( var analysis: Cite2Urn,
   */
   var listSeparator = "#"
 
+
+
   def altString: String = {
     alternateReading match {
       case None => "None"
       case Some(alt) => alt.leidenize
     }
   }
+
+  /** True if token has an alternate reading of any kind.
+  */
   def hasAlternate: Boolean = {
     alternateReading match {
       case None => false
       case _ => true
     }
   }
+
+  /** True is token is abbreviated in diplomatic reading.
+  */
   def isAbbreviation: Boolean = {
     alternateReading match {
       case None => false
@@ -67,6 +76,10 @@ case class HmtToken ( var analysis: Cite2Urn,
       }
     }
   }
+
+  /** True if scribe offers a variant reading (multiform) for
+  * this token.
+  */
   def hasScribalMultiform: Boolean = {
     alternateReading match {
       case None => false
@@ -77,6 +90,10 @@ case class HmtToken ( var analysis: Cite2Urn,
       }
     }
   }
+
+
+  /** True if scribe offers a correction fo this token.
+  */
   def hasScribalCorrection: Boolean = {
     alternateReading match {
       case None => false
@@ -89,6 +106,11 @@ case class HmtToken ( var analysis: Cite2Urn,
   }
 
 
+  /**  True if value for lexical disambiguation of this token matches
+  * a give URN.
+  *
+  * @param urn The URN to compare.
+  */
   def lexMatch(urn: Cite2Urn) : Boolean = {
     lexicalDisambiguation ~~ urn
   }
@@ -152,6 +174,7 @@ case class HmtToken ( var analysis: Cite2Urn,
   }
 
 
+
   def leidenDiplomatic: String = {
     readings.map{ rdg =>
       rdg.status match {
@@ -196,12 +219,17 @@ case class HmtToken ( var analysis: Cite2Urn,
   }
 
 
+  /**  Format human-readable report of errors encountered reading this token.
+  *
+  * @param separator String to use as structural delimiter in report.
+  */
   def errorReport(separator: String = "\t"): String = {
     editionUrn.toString + separator + readings.map(_.leidenize).mkString + separator + errors.mkString(" ++ ")
   }
+
 }
 
-/** Labelling information
+/** Factory for labelling information about tokens.
 */
 object HmtToken {
 
