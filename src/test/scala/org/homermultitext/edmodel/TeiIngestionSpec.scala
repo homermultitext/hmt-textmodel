@@ -15,10 +15,10 @@ class TeiIngestionSpec extends FlatSpec {
     val firstEntry = analysisV(0)
 
     firstEntry match {
-      // urn:cite2:hmt:va_schAint_tkns:.tkn1
+      // urn:cite2:hmt:va_schAint_tokens:.tkn1
       //did not equal
-      //urn:cite2:hmt:va_schAint_tkns:tkn1
-      case ta: TokenAnalysis => assert( ta.analysis.analysis == Cite2Urn("urn:cite2:hmt:va_schAint_tkns:tkn1") )
+      //urn:cite2:hmt:va_schAint_tokens:tkn1
+      case ta: TokenAnalysis => assert( ta.analysis.analysis == Cite2Urn("urn:cite2:hmt:va_schAint_tokens:tkn1") )
       case _ => fail("Object is not a TokenAnalysis")
     }
   }
@@ -35,7 +35,7 @@ class TeiIngestionSpec extends FlatSpec {
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
     val analysisV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = analysisV(0)
-    assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt.tkns:19.hc_5.1"))
+    assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt.tokens:19.hc_5.1"))
   }
   it should "index compute a subreference value for token string within the text of the source element" in pending
 
@@ -49,7 +49,25 @@ class TeiIngestionSpec extends FlatSpec {
       println(ta.analysis.analysis)
     }
   }
+
+  it should "read a two-column string and create a Vector of tokens" in {
+    val lines = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>
+urn:cts:greekLit:tlg0012.tlg001.msA:1.2#<l n="2">οὐλομένην· ἡ μυρί' <rs type="ethnic" n="urn:cite2:hmt:place.r1:place96"   >Ἀχαιοῖς</rs> ἄλγε' ἔθηκεν· </l>
+urn:cts:greekLit:tlg0012.tlg001.msA:1.3#<l n="3">πολλὰς δ' ἰφθίμους ψυχὰς <placeName n="urn:cite2:hmt:place.r1:place67"   >Ἄϊδι</placeName> προΐαψεν </l>
+urn:cts:greekLit:tlg0012.tlg001.msA:1.4#<l n="4">ἡρώων· αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν </l>
+urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶσι· <persName n="urn:cite2:hmt:pers.r1:pers8">Διὸς</persName> δ'  ἐτελείετο βουλή· </l>
+"""
+    val tokens = TeiReader.fromString(lines)
+    val expectedTokens = 30
+    assert(tokens.size == expectedTokens)
+    for (t <- tokens) {
+      println(t.readWithDiplomatic.urn + " ==> " + t.readWithDiplomatic.text)
+    }
+  }
+
 }
+
+
 
 /*
   // test tokenization

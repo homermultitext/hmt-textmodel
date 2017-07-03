@@ -187,6 +187,8 @@ case class HmtToken (
   }
 
 
+  /** Collect alternate reading for this token.
+  */
   def readWithAlternate: String = {
     alternateReading match {
       case None => {
@@ -197,6 +199,9 @@ case class HmtToken (
       }
     }
   }
+
+  /** Collect clear diplomatic readings for this token.
+  */
   def readWithDiplomatic: String = {
     val dipl = readings.filter(_.status == Clear)
     dipl.map(_.reading).mkString

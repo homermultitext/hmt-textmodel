@@ -20,7 +20,6 @@ libraryDependencies ++= Seq(
   "edu.holycross.shot" %% "greek" % "1.3.3",
   "edu.holycross.shot" %% "gsphone" % "1.0.1",
 
-
-   "org.scalatest" %% "scalatest" % "3.0.1" %  "test",
-   "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
+  "org.scalatest" %% "scalatest" % "3.0.1" %  "test",
+  "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
 )

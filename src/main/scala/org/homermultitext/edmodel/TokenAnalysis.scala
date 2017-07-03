@@ -52,4 +52,8 @@ case class  TokenAnalysis(textNode: CtsUrn, analysis: HmtToken) {
   def lexMatch(urn: Cite2Urn): Boolean = {
     analysis lexMatch urn
   }
+
+  def columnString: String = {
+    analysis.columnString
+  }
 }
