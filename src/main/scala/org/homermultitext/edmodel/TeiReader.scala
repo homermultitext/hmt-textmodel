@@ -13,16 +13,17 @@ import edu.holycross.shot.cite._
 */
 object TeiReader {
 
-  /**  */
+  /**  Builder for recursively accumulated String value of a node.
+  */
   var nodeText = StringBuilder.newBuilder
 
 
-  /** buffer for recursively accumulated [[org.homermultitext.edmodel.HmtToken]]s
+  /** Buffer of recursively accumulated [[org.homermultitext.edmodel.HmtToken]]s.
   */
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
-  /** buffer for recursively accumulated [[org.homermultitext.edmodel.Reading]]s
-  * for a single token */
+  /** Buffer of recursively accumulated [[org.homermultitext.edmodel.Reading]]s
+  * for a single token. */
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
   /** awesome regular expression to split a string on
@@ -469,10 +470,8 @@ object TeiReader {
     }
   }
 
-  /** collect all tokens descended from a given XML node
-  *
+  /** Collect all tokens descended from a given XML node.
   * Results are collected in `tokenBuffer`.
-  *
   * @param currToken token reflecting reading values for parent context
   * @param n XML node to collect content from
   */
@@ -502,7 +501,6 @@ object TeiReader {
     // get analysis Cite2Urn from analyticalCollections map keyed to that value
 
     val root  = XML.loadString(xmlStr)
-    //nodeText = hmtNormalize(collectText(root))
     val currToken = HmtToken(
       editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":" + u.passageComponent),
       sourceUrn = u,
@@ -540,12 +538,8 @@ object TeiReader {
   * @param c Corpus to parse.
   *
   */
-  //def fromCorpus(c: Corpus, startIdx : Int = 0): Vector[TokenAnalysis] = {
   def fromCorpus(c: Corpus): Vector[TokenAnalysis] = {
-//val stackedNodes = for (cn <- scholia.nodes) yield {
-//  TeiReader.teiToTokens(cn.urn, cn.text, idx)
-//}
-    var idx = 0 //startIdx
+    var idx = 0
     val groupedAnalyses = for (cn <- c.nodes) yield {
       val tokenized = TeiReader.teiToTokens(cn.urn, cn.text, 0)
       idx = idx + tokenized.size
@@ -554,18 +548,13 @@ object TeiReader {
     groupedAnalyses.flatMap(ta => ta)
   }
 
-  /*  c.nodes.flatMap(cn => {
-      TeiReader.teiToTokens(cn.urn, cn.text, startIdx)
-    }
-  }U*/
-
-
-
-  def fromTwoColumns(fileName: String): Vector[TokenAnalysis] = {
-    fromTwoColumns(fileName,"\t")
-  }
-
-  def fromTwoColumns(fileName: String, separator: String): Vector[TokenAnalysis] = {
+  /** Parse text in a two-column delimited-text file into a vector of analyzed tokens.
+  *
+  * @param fileName Name of file to parse.
+  * @param separator String value to use as column delimiter.
+  *
+  */
+  def fromTwoColumns(fileName: String, separator: String = "#"): Vector[TokenAnalysis] = {
     val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator)).map( arr => (CtsUrn(arr(0)), arr(1)))
     pairArray.flatMap{ case (u,x) => TeiReader.teiToTokens(u,x) }
   }
