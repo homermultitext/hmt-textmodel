@@ -14,7 +14,7 @@ resolvers += "uh-nexus" at "http://beta.hpcc.uh.edu/nexus/content/groups/public"
 
 
 libraryDependencies ++= Seq(
-  "edu.holycross.shot.cite" %% "xcite" % "2.4.0",
+  "edu.holycross.shot.cite" %% "xcite" % "2.5.1",
   "edu.holycross.shot" %% "ohco2" % "9.1.0",
   "edu.holycross.shot" %% "orca" % "3.0.0",
   "edu.holycross.shot" %% "greek" % "1.3.3",
