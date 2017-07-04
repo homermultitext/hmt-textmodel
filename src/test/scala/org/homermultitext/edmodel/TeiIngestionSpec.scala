@@ -68,7 +68,26 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     //println(tokens.map(_.text).mkString(" "))
   }
 
-  it should "distinguish sic from corr in diplomatic reading" in pending
+  it should "prefer sic over corr in diplomatic reading" in {
+
+    val cex = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
+
+
+    val tokens = TeiReader.fromString(cex)
+    val expected = "Μῆνιν ἄιδε θεὰ Πηληϊάδεω Ἀχιλῆος"
+    assert( tokens.map(_.readWithDiplomatic.text).mkString(" ")  == expected)
+  }
+
+  it should "prefer corr over sic scribal reading" in {
+    val cex = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
+
+
+    val tokens = TeiReader.fromString(cex)
+    val expected = "Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος"
+    assert( tokens.map(_.readWithScribal.text).mkString(" ")  == expected)
+  }
+  it should "distinguish orig from reg in diplomatic reading" in pending
+  it should "distinguish orig from reg in scribal reading" in pending
 
 }
 

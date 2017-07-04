@@ -1,7 +1,7 @@
 Feature#Diplomatic#Scribal A#Scribal B
 add#x#√#√
-sic/corr#sic#corr#corr
-orig/reg#orig#orig#reg
-del/add#del#add#add
+Correction (TEI sic/corr)#sic#corr#corr
+Mutiform (TEI orig/reg)#orig#orig#reg
+Restoration (TEI abbr/expan)#abbr#abbr#abbr
 unclear#√#√#√
 gap#?#?#?

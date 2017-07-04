@@ -560,7 +560,7 @@ object TeiReader {
 
   /** Parse a String in two-column format into a vector of analyzed tokens.
   *
-  * @param twoColumns Name of file to parse.
+  * @param twoColumns String in two-column forat.
   * @param delimiter String value to use as column delimiter.
   *
   */

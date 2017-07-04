@@ -14,6 +14,10 @@ case class  TokenAnalysis(textNode: CtsUrn, analysis: HmtToken) {
   def readWithDiplomatic: CitableNode = {
     CitableNode(analysis.editionUrn, analysis.readWithDiplomatic)
   }
+  def readWithScribal: CitableNode = {
+    CitableNode(analysis.editionUrn, analysis.readWithScribal)
+  }
+
 
   def hasAlternate: Boolean = {
     analysis.hasAlternate
