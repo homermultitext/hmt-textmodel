@@ -8,14 +8,12 @@ import edu.holycross.shot.ohco2._
 */
 object DiplomaticEditionFactory {
 
-
 /*
-  def corpusFromTokens(textRepository: TextRepository): Corpus = {
-    Corpus(Vector[CitableNode]())
-  }
-
-  def catalogEntries(catalog: Catalog): Corpus = {
-
+  def corpusFromTokens(tokens: Vector[TokenAnalysis]): Corpus = {
+    val diplomaticTokens = tokens.map ( t => {
+      val diplomaticUrn = t.urn.a
+    })
+    Corpus(diplomaticTokens)
   }
 */
 

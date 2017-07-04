@@ -200,6 +200,29 @@ case class HmtToken (
     }
   }
 
+
+
+  /** Collect scribal text, adding corrections to diplomatic readings.
+  */
+  def readWithScribal: String = {
+    alternateReading match {
+      case None => {
+        readings.map(_.reading).mkString
+      }
+      case Some(alt) => {
+        alt.alternateCategory match {
+          case Correction => {
+            alt.reading.map(_.reading).mkString
+          }
+          case _ => {
+            val readingList = readings.filter(r => (r.status == Clear) || (r.status == Unclear))
+            readingList.map(_.reading).mkString
+          }
+        }
+      }
+    }
+  }
+
   /** Collect clear diplomatic readings for this token.
   */
   def readWithDiplomatic: String = {

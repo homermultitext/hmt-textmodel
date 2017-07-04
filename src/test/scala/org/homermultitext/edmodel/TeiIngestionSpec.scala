@@ -45,9 +45,12 @@ class TeiIngestionSpec extends FlatSpec {
   it should "number analysis continuously across texts" in {
     val corpus = CorpusSource.fromFile("src/test/resources/sample1-twocolumn.tsv")
     val tokens = TeiReader.fromCorpus(corpus)
+
+
+    /*()
     for (ta <- tokens) {
       println(ta.analysis.analysis)
-    }
+    }*/
   }
 
   it should "read a two-column string and create a Vector of tokens" in {
@@ -60,10 +63,12 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     val tokens = TeiReader.fromString(lines)
     val expectedTokens = 30
     assert(tokens.size == expectedTokens)
-    for (t <- tokens) {
-      println(t.readWithDiplomatic.urn + " ==> " + t.readWithDiplomatic.text)
-    }
+    println(tokens.map(_.readWithDiplomatic.text).mkString(" "))
+    //println(tokens)
+    //println(tokens.map(_.text).mkString(" "))
   }
+
+  it should "distinguish sic from corr in diplomatic reading" in pending
 
 }
 

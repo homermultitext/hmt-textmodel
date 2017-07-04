@@ -94,6 +94,7 @@ object TeiReader {
   def sicCorrChoice(hmtToken: HmtToken, el: xml.Elem) = {
     val sicSeq = el \ "sic"
     val sic = sicSeq(0)
+
     val corrSeq = el \ "corr"
     val corr  = corrSeq(0)
 
@@ -105,6 +106,13 @@ object TeiReader {
     val newToken = hmtToken.copy(alternateReading = Some(alt))
     collectTokens(newToken,sic)
   }
+
+
+  def deletedText(hmtToken: HmtToken, el: xml.Elem) = {
+    /// make a null string alternate!
+
+  }
+
 
   /** collect tokens from a TEI `orig-reg` pair
   *
