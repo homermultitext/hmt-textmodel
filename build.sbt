@@ -2,7 +2,7 @@
 organization := "org.homermultitext"
 name := "hmt-textmodel"
 
-version := "1.3.0"
+version := "1.4.0"
 
 scalaVersion := "2.12.1"
 crossScalaVersions := Seq("2.11.8", "2.12.1")
@@ -16,7 +16,7 @@ resolvers += "uh-nexus" at "http://beta.hpcc.uh.edu/nexus/content/groups/public"
 
 libraryDependencies ++= Seq(
   "edu.holycross.shot.cite" %% "xcite" % "2.6.0",
-  "edu.holycross.shot" %% "ohco2" % "9.1.0",
+  "edu.holycross.shot" %% "ohco2" % "9.3.0",
   "edu.holycross.shot" %% "orca" % "3.0.0",
   "edu.holycross.shot" %% "greek" % "1.3.3",
   "edu.holycross.shot" %% "gsphone" % "1.0.1",

@@ -115,10 +115,12 @@ case class HmtToken (
     readWithDiplomatic.contains(cf)
   }
   def scribalMatch(s: String): Boolean = {
-    false
+    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+    readWithScribal.contains(cf)
   }
   def alternateMatch(s: String): Boolean = {
-    false
+    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+    readWithAlternate.contains(cf)
   }
 
   def stringMatch(s : String, readingType: String = "diplomatic" ): Boolean = {

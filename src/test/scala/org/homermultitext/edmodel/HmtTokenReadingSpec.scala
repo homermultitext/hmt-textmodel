@@ -12,7 +12,7 @@ class HmtTokenReadingSpec extends FlatSpec {
   val analysisV = TeiReader.teiToTokens(urn, xml)
 
 
-  "A token analysis"  should "have a URN identifyiing the text node" in  {
+  "A token analysis"  should "have a URN identifying the text node" in  {
     for (a <- analysisV) {
       a.textNode match {
         case u: CtsUrn => assert(true)
@@ -34,10 +34,19 @@ class HmtTokenReadingSpec extends FlatSpec {
     val testToken = analysisV(2)
     val formC =  Normalizer.normalize("τοῦ", Normalizer.Form.NFC)
     val formD =  Normalizer.normalize("τοῦ", Normalizer.Form.NFD)
-
+    assert(formC != formD)
     assert(testToken.analysis.diplomaticMatch(formC))
     assert(testToken.analysis.diplomaticMatch(formD))
-}
+  }
+
+  it should "match alternate text of tokens" in {
+    val testToken = analysisV(0)
+    val formC =  Normalizer.normalize("οὕτως", Normalizer.Form.NFC)
+    val formD =  Normalizer.normalize("οὕτως", Normalizer.Form.NFD)
+    assert(formC != formD)
+    assert(testToken.analysis.alternateMatch(formC))
+    assert(testToken.analysis.alternateMatch(formD))
+  }
 
 
 }
