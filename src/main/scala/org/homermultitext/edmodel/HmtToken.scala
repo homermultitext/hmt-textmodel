@@ -3,7 +3,7 @@ package org.homermultitext.edmodel
 import edu.holycross.shot.cite._
 
 import scala.collection.mutable.ArrayBuffer
-
+import java.text.Normalizer
 
 /** A fully documented, semantically distinct token.
 *
@@ -106,6 +106,31 @@ case class HmtToken (
   }
 
 
+
+  /** True if diplomatic reading matches a String.
+  * Comparison is based on Unicode NFC forms of the strings.
+  */
+  def diplomaticMatch(s: String): Boolean = {
+    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+    readWithDiplomatic.contains(cf)
+  }
+  def scribalMatch(s: String): Boolean = {
+    false
+  }
+  def alternateMatch(s: String): Boolean = {
+    false
+  }
+
+  def stringMatch(s : String, readingType: String = "diplomatic" ): Boolean = {
+    readingType match {
+      case "diplomatic" => diplomaticMatch(s)
+
+      case "scribal" => scribalMatch(s)
+      case "alternate" => alternateMatch(s)
+      case _ => throw new Exception(s"${readingType} is not a valid value for type of reading to match")
+    }
+  }
+
   /**  True if value for lexical disambiguation of this token matches
   * a give URN.
   *
@@ -188,14 +213,18 @@ case class HmtToken (
 
 
   /** Collect alternate reading for this token.
+  *  Strings are normalized to Unicode form NFC.
   */
   def readWithAlternate: String = {
     alternateReading match {
       case None => {
-        readings.map(_.reading).mkString
+        val reading = readings.map(_.reading).mkString
+        Normalizer.normalize(reading, Normalizer.Form.NFC)
+
       }
       case Some(alt) => {
-        alt.reading.map(_.reading).mkString
+        val reading = alt.reading.map(_.reading).mkString
+        Normalizer.normalize(reading, Normalizer.Form.NFC)
       }
     }
   }
@@ -207,16 +236,19 @@ case class HmtToken (
   def readWithScribal: String = {
     alternateReading match {
       case None => {
-        readings.map(_.reading).mkString
+        val reading = readings.map(_.reading).mkString
+        Normalizer.normalize(reading, Normalizer.Form.NFC)
       }
       case Some(alt) => {
         alt.alternateCategory match {
           case Correction => {
-            alt.reading.map(_.reading).mkString
+            val reading = alt.reading.map(_.reading).mkString
+            Normalizer.normalize(reading, Normalizer.Form.NFC)
           }
           case _ => {
             val readingList = readings.filter(r => (r.status == Clear) || (r.status == Unclear))
-            readingList.map(_.reading).mkString
+            val reading = readingList.map(_.reading).mkString
+            Normalizer.normalize(reading, Normalizer.Form.NFC)
           }
         }
       }
@@ -227,7 +259,8 @@ case class HmtToken (
   */
   def readWithDiplomatic: String = {
     val dipl = readings.filter(_.status == Clear)
-    dipl.map(_.reading).mkString
+    val reading = dipl.map(_.reading).mkString
+    Normalizer.normalize(reading, Normalizer.Form.NFC)
   }
 
   def leidenFull: String = {
