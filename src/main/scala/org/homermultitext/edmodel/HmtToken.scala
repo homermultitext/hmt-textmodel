@@ -1,6 +1,7 @@
 package org.homermultitext.edmodel
 
 import edu.holycross.shot.cite._
+import edu.holycross.shot.greek._
 
 import scala.collection.mutable.ArrayBuffer
 import java.text.Normalizer
@@ -110,17 +111,49 @@ case class HmtToken (
   /** True if diplomatic reading matches a String.
   * Comparison is based on Unicode NFC forms of the strings.
   */
-  def diplomaticMatch(s: String): Boolean = {
-    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-    readWithDiplomatic.contains(cf)
+  def diplomaticMatch(s: String, accent: Boolean = true): Boolean = {
+    if (accent) {
+      println("Looking at form C...")
+      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithDiplomatic.contains(cf)
+    } else {
+      val strippedQuery =  Normalizer.normalize(LiteraryGreekString(s).stripAccent.ucode, Normalizer.Form.NFC)
+      val strippedSrc = Normalizer.normalize( LiteraryGreekString(readWithDiplomatic).stripAccent.ucode, Normalizer.Form.NFC)
+      strippedSrc.contains(strippedQuery)
+    }
   }
-  def scribalMatch(s: String): Boolean = {
-    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-    readWithScribal.contains(cf)
+  def scribalMatch(s: String, accent: Boolean = true): Boolean = {
+    if (accent) {
+      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithScribal.contains(cf)
+    } else {
+      val strippedQuery =  Normalizer.normalize(LiteraryGreekString(s).stripAccent.ucode, Normalizer.Form.NFC)
+      val strippedSrc = Normalizer.normalize( LiteraryGreekString(readWithScribal).stripAccent.ucode, Normalizer.Form.NFC)
+      strippedSrc.contains(strippedQuery)
+    }
   }
-  def alternateMatch(s: String): Boolean = {
-    def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-    readWithAlternate.contains(cf)
+  def alternateMatch(s: String, accent: Boolean = true): Boolean = {
+    if (accent) {
+      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithAlternate.contains(cf)
+
+    }  else {
+      println(s"Given ${s} ... compare to ${readWithAlternate}")
+
+
+      val stripped = LiteraryGreekString(s).stripAccent.ascii
+      println("Stripped query to " + stripped)
+      val alt = readWithAlternate
+      println("Alt " + alt)
+      val altText = LiteraryGreekString(alt)
+      println(s"Alt lgs ${altText} / ${altText.ascii} / ${altText.ucode}")
+      val altStripped = altText.stripAccent.ascii
+      println("Stripped source to " + altStripped )
+
+      println("Query " + stripped + " compares to " + altStripped)
+      println("Manualy entered == " + LiteraryGreekString("οὕτως").stripAccent.ascii)
+      altStripped.contains(stripped)
+    }
   }
 
   def stringMatch(s : String, readingType: String = "diplomatic" ): Boolean = {
