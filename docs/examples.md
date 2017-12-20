@@ -6,14 +6,14 @@
 
 The `hmt-textmodel` for working with HMT text content abstracts a number of important features of the HMT text archive.  It relies on the generic `ohco2` library for two important  constructs:
 
-1. a `Corpus` of texts, made from a Vector of `CitableNode`s.
-2. the `CitableNode` object, a single citable passage of text with URN and text content
+1.  a `Corpus` of texts, made from a Vector of `CitableNode`s.
+2.  the `CitableNode` object, a single citable passage of text with URN and text content
 
 
 The top-level concept of the `hmt-textmodel` is the `TokenAnalysis`.  A `TokenAnalysis` has two members: a CTS URN identifying the text, and a complex `HmtToken` with analytical data. The `HmtToken` captures everything expressed about a token by HMT project XML editions, but the `TokenAnalysis`  has high-level functions (illustrated here) for working with its contents.  These functions either:
 
-- *filter* a Vector of analyses to create a new Vector of analyses, or
-- *transform* a Vector of analyses to a Vector of citable text nodes
+-   *filter* a Vector of analyses to create a new Vector of analyses, or
+-   *transform* a Vector of analyses to a Vector of citable text nodes
 
 
 
@@ -71,7 +71,6 @@ Use URN twiddling to select all analyses with matching lexical disambiguation.  
 
     val achilles = Cite2Urn("urn:cite2:hmt:pers:pers1")
     val achillesTokens = tokens.filter(_.lexMatch(achilles))
-
 
 
 ## Filter analyses by discourse analysis

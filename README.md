@@ -6,7 +6,7 @@ This library supports working with the text contents of citable nodes as a seque
 
 The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines, and generating a variety of analytical exemplars from the resulting analyses.
 
-## Current version: 1.4
+## Current version: 2.0.0
 
  The library is in early but active development.
 
@@ -17,8 +17,8 @@ The initial focus of the library is instantiating this model from TEI-conformant
 
 ## Building
 
- Requires scala 2.11 or higher.  Binaries compiled with Scala 2.11 and 2.12 are available from bintray.
+Requires scala 2.11 or higher.  Binaries compiled with Scala 2.11 and 2.12 are available from bintray.
 
 ## Examples of usage
 
-See [these examples](examples.md).
+Documentation is being added at <https://homermultitext.github.io/hmt-textmodel>
