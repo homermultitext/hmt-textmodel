@@ -48,5 +48,23 @@ class HmtTokenReadingSpec extends FlatSpec {
     assert(testToken.analysis.alternateMatch(formD))
   }
 
+  it should "match diplomatic texts accent-free" in {
+    val testToken = analysisV(2)
+    val formC =  Normalizer.normalize("του", Normalizer.Form.NFC)
+    val formD =  Normalizer.normalize("του", Normalizer.Form.NFD)
+    assert(formC == formD)
+    assert(testToken.analysis.diplomaticMatch(formC, false))
+    assert(testToken.analysis.diplomaticMatch(formD, false))
+  }
+
+
+  it should "match alternate text of tokens accent-free" in pending /*{
+    val testToken = analysisV(0)
+    val formC =  Normalizer.normalize("ουτως", Normalizer.Form.NFC)
+    val formD =  Normalizer.normalize("ουτως", Normalizer.Form.NFD)
+    assert(formC == formD)
+    assert(testToken.analysis.alternateMatch(formC, false))
+    assert(testToken.analysis.alternateMatch(formD, false))
+  }*/
 
 }

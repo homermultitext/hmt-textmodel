@@ -323,6 +323,38 @@ case class HmtToken (
     editionUrn.toString + separator + readings.map(_.leidenize).mkString + separator + errors.mkString(" ++ ")
   }
 
+
+  def debug : String = {
+    "analysis=" + analysis.toString + "\n"    +
+    "source URN=" + sourceUrn.toString + "\n" +
+    "edition URN=" + editionUrn.toString + "\n" +
+    "lang=" +lang  + "\n" +
+    "lexical cagtegory=" + lexicalCategory.toString
+
+/*
+    nalysis
+CITE URN for this token analysis.
+sourceUrn
+URN for this token in the analyzed text
+editionUrn
+URN for this token in an analytical exemplar when promoted to an edition
+lang
+3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language
+readings
+All org.homermultitext.edmodel.Readings belonging to this token
+lexicalCategory
+lexical category of this token
+lexicalDisambiguation
+URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values
+alternateReading
+optional org.homermultitext.edmodel.AlternateReadings belonging to this token
+discourse
+category of discourse of this token
+externalSource
+URN of source this token is quoted from
+errors
+list of error messages (hopefully empty)*/
+  }
 }
 
 /** Factory for labelling information about tokens.

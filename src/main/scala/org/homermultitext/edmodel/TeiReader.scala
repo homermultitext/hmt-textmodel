@@ -9,6 +9,7 @@ import scala.io.Source
 import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
+
 /**  Factory for Vectors of  [[org.homermultitext.edmodel.HmtToken]] instances.
 */
 object TeiReader {
@@ -26,7 +27,7 @@ object TeiReader {
   * for a single token. */
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
-  /** awesome regular expression to split a string on
+  /** Terrifying regular expression to split a string on
   * HMT Greek punctuation characters while keeping the
   * punctuation characters as individual tokens.
   */
@@ -566,18 +567,40 @@ object TeiReader {
   */
   def fromString(twoColumns: String, delimiter: String = "#") :Vector[TokenAnalysis] = {
     val pairArray = twoColumns.split("\n").map(_.split("#")).map( arr => (CtsUrn(arr(0)), arr(1)))
+
+
     pairArray.flatMap{ case (u,x) => TeiReader.teiToTokens(u,x) }.toVector
   }
 
-  /** Parse text in a two-column delimited-text file into a vector of analyzed tokens.
+  /** Parse text in a two-column delimited-text file into a vector of
+  * CitableNode objects, and from that, create a vector of analyzed tokens.
   *
   * @param fileName Name of file to parse.
   * @param separator String value to use as column delimiter.
   *
   */
   def fromTwoColumnFile(fileName: String, separator: String = "#"): Vector[TokenAnalysis] = {
-    val pairArray = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator)).map( arr => (CtsUrn(arr(0)), arr(1)))
-    pairArray.flatMap{ case (u,x) => TeiReader.teiToTokens(u,x) }
+    val nodeVector = scala.io.Source.fromFile(fileName).getLines.toVector.map(_.split(separator)).map( arr => CitableNode(CtsUrn(arr(0)), arr(1)) )
+    tokensFromNodeVector(nodeVector, Vector.empty[TokenAnalysis])
   }
 
+
+  /**  Parse a vector of CitableNode objects into a Vector
+  * of [TokenAnalysis] objects by recursively splitting each
+  * citable node into tokens and analyzing them.
+  *
+  * @param nodes Vector of CitableNode objects.  Their text content
+  * must be XML conforming to HMT project conventions.
+  * @param tokens Accumulated Vector of analyzed tokens.
+  */
+  def tokensFromNodeVector(nodes: Vector[CitableNode], tokens: Vector[TokenAnalysis]): Vector[TokenAnalysis] = {
+    val n = nodes.head
+    val newTokens = tokens ++ TeiReader.teiToTokens(n.urn, n.text, tokens.size)
+    val remainder = nodes.tail
+    if (remainder.size == 0) {
+      newTokens
+    } else{
+      tokensFromNodeVector(remainder, newTokens)
+    }
+  }
 }

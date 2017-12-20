@@ -7,13 +7,13 @@ import edu.holycross.shot.ohco2._
 
 class TeiIngestionSpec extends FlatSpec {
 
-  // test structure of result
-  "The TeiReader object"  should "convert well-formed HMT TEI to a Vector of TokenAnalysis objects" in   {
+
+  "The TeiReader object"  should "convert well-formed HMT TEI to a Vector of TokenAnalysis objects" in  {
     val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
     val analysisV = TeiReader.teiToTokens(urn, xml)
     val firstEntry = analysisV(0)
-
+    //println("FIRST ENTRY \n" + firstEntry.analysis.debug)
     firstEntry match {
       // urn:cite2:hmt:va_schAint_tokens:.tkn1
       //did not equal
@@ -37,21 +37,25 @@ class TeiIngestionSpec extends FlatSpec {
     val firstEntry = analysisV(0)
     assert (firstEntry.analysis.editionUrn == CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt.tokens:19.hc_5.1"))
   }
-  it should "index compute a subreference value for token string within the text of the source element" in pending
 
+
+  it should "index compute a subreference value for token string within the text of the source element" in pending
 
   it should "recognize legitmate choice pairings without regard to order" in pending
 
-  it should "number analysis continuously across texts" in  pending /*{
-    val corpus = CorpusSource.fromFile("src/test/resources/sample1-twocolumn.tsv")
-    val tokens = TeiReader.fromCorpus(corpus)
+  it should "number analysis continuously across texts" in  {
+  //  val corpus = CorpusSource.fromTwoColumnFile("src/test/resources/sample1-twocolumn.tsv")
+    val tokens = TeiReader.fromTwoColumnFile("src/test/resources/sample1-twocolumn.tsv","\t")
 
 
+    val sz = tokens.map(_.analysis.analysis).size
+    val setSize = tokens.map(_.analysis.analysis).toSet.size
+    assert (sz == setSize)
 
     for (ta <- tokens) {
-      println(ta.analysis.analysis)
+      //println(ta.analysis.analysis)
     }
-  }*/
+  }
 
 
 
@@ -65,7 +69,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     val tokens = TeiReader.fromString(lines)
     val expectedTokens = 30
     assert(tokens.size == expectedTokens)
-    println(tokens.map(_.readWithDiplomatic.text).mkString(" "))
+    //println(tokens.map(_.readWithDiplomatic.text).mkString(" "))
     //println(tokens)
     //println(tokens.map(_.text).mkString(" "))
   }
@@ -346,7 +350,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     val cited = tokenV(10)._2
     assert(cited.discourse == QuotedText)
     assert(cited.externalSource == Some(CtsUrn( "urn:cts:greekLit:tlg0012.tlg001:17.611")))
-  } *
+  } */
 
   it should "categorize discourse of TEI q outside of cit as quoted language" in pending  /*  {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5.comment")
@@ -390,14 +394,14 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     assert(trojans.lexicalDisambiguation == Cite2Urn("urn:cite:hmt:place.place6"))
   }*/
 
-  it should "read a tab-delimited two-column file and create a Vector of (urn,token) tuples" in{
+  it should "read a tab-delimited two-column file and create a Vector of (urn,token) tuples" in  pending /*{
     val fName = "src/test/resources/sample1-twocolumn.tsv"
     val tokens = TeiReader.fromTwoColumns(fName)
     // more than 150 tokens from 3 scholia
     assert (tokens.size > 150)
     assert (tokens.groupBy( _._1).size == 3)
-  }*/
-
+  }
+*/
   it should "read a two-column file with specified  delimited and create a Vector of (urn,token) tuples" in pending   /*{
 
     val fName = "src/test/resources/sample1-twocolumn-pound.txt"
@@ -408,6 +412,4 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     assert (tokens.groupBy( _._1).size == 3)
 
   }*/
-
-
 }
