@@ -2,11 +2,11 @@
 organization := "org.homermultitext"
 name := "hmt-textmodel"
 
-version := "1.4.1"
+version := "2.0.0"
 
 scalaVersion := "2.12.1"
-crossScalaVersions := Seq("2.11.8", "2.12.1")
-//crossScalaVersions := Seq("2.11.8")
+//crossScalaVersions := Seq("2.11.8", "2.12.1")
+
 
 licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html"))
 
