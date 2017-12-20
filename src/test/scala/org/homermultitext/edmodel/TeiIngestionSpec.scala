@@ -44,17 +44,9 @@ class TeiIngestionSpec extends FlatSpec {
   it should "recognize legitmate choice pairings without regard to order" in pending
 
   it should "number analysis continuously across texts" in  {
-  //  val corpus = CorpusSource.fromTwoColumnFile("src/test/resources/sample1-twocolumn.tsv")
     val tokens = TeiReader.fromTwoColumnFile("src/test/resources/sample1-twocolumn.tsv","\t")
-
-
-    val sz = tokens.map(_.analysis.analysis).size
     val setSize = tokens.map(_.analysis.analysis).toSet.size
-    assert (sz == setSize)
-
-    for (ta <- tokens) {
-      //println(ta.analysis.analysis)
-    }
+    assert (tokens.size == setSize)
   }
 
 
@@ -69,9 +61,6 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
     val tokens = TeiReader.fromString(lines)
     val expectedTokens = 30
     assert(tokens.size == expectedTokens)
-    //println(tokens.map(_.readWithDiplomatic.text).mkString(" "))
-    //println(tokens)
-    //println(tokens.map(_.text).mkString(" "))
   }
 
 
@@ -102,59 +91,59 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
 
 
   // test tokenization
-  it should "tokenize on white space by default" in  pending  /*{
+  it should "tokenize on white space by default" in  {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:1.1303.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ἢ απαρνησαι</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     assert(tokenV.size == 2)
-  }*/
+  }
 
-  it should "ignore white space within TEI w elements" in  pending  /* {
+  it should "ignore white space within TEI w elements" in   {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAext.hmt:15.8.comment")
     val xml =  """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> <w> <unclear> ἔν</unclear> θ'</w> εἴη</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
     assert(tokenV.size == 2)
-    assert (tokenV(0)._2.readings.size == 2)
-  }*/
+    assert (tokenV(0).analysis.readings.size == 2)
+  }
 
   it should "ensure that w element wraps both clear and unclear readings" in pending
 
   it should "ensure that w element wraps no TEI elements other than unclear" in pending
 
-  it should "treat individual punctuation characters as tokens of lexical category punctuation" in  pending  /*{
+  it should "treat individual punctuation characters as tokens of lexical category punctuation" in  {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
     val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    val punctToken = tokenV(1)._2
+    val punctToken = tokenV(1).analysis
     assert (punctToken.lexicalCategory == Punctuation)
-  }*/
+  }
 
-  it should "note instances of invalid element names" in  pending  /*{
+  it should "note instances of invalid element names" in  {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msA.hmt:1.39.comment")
     val xml = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> ὁ θεὸς ὑπέσχετο τὸ <seg type="word"> κακ <choice> <sic> ὸν</sic> <corr> ῶς</corr></choice></seg> ἀπαλλάξειν</p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    val correct = tokenV(0)._2
-    val incorrect = tokenV(4)._2
+    val correct = tokenV(0).analysis
+    val incorrect = tokenV(4).analysis
     assert(correct.errors.size == 0)
     assert(incorrect.errors.size == 1)
   }
-*/
+
   // test all default values:
-  it should "default to editorial status of clear" in  pending  /* {
+  it should "default to editorial status of clear" in {
     val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
     val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
     val tokenV = TeiReader.teiToTokens(urn, xml)
-    val token1readings = tokenV(0)._2.readings
+    val token1readings = tokenV(0).analysis.readings
     assert(token1readings(0).status == Clear)
-  }*/
+  }
 
-   it should "default to value of grc for language" in  pending  /* {
+   it should "default to value of grc for language" in  {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
        val xml  = """<div xmlns="http://www.tei-c.org/ns/1.0" n="comment"> <p> βαρεῖ, </p></div>"""
      val tokenV = TeiReader.teiToTokens(urn, xml)
-     val token1 = tokenV(0)._2
+     val token1 = tokenV(0).analysis
      assert(token1.lang == "grc")
-   }*/
+   }
 
    it should "default to lexical category of lexical item" in  pending  /* {
      val urn = CtsUrn( "urn:cts:greekLit:tlg5026.msAil.hmt:12.F20.comment")
