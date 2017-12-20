@@ -5,7 +5,7 @@ title: HMT text model
 
 ## Why
 
-"Digital reading" does not simply mean display a digital document for human readers.  It means that a machine can unambiguously parse a text into units with specified semantics.
+"Digital reading" does not simply mean displaying a digital document for human readers.  It means that a machine can unambiguously parse a text into units with specified semantics.
 
 `hmt-textmodel` allows you to do this with the digital editions of the HMT project digitally.
 
