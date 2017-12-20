@@ -1,0 +1,26 @@
+
+
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            HMT text model
+tagline:          'A machine model of HMT project editions'
+description:      ''
+
+
+baseurl: '/hmt-textmodel/'
+
+
+author:
+  name:           'Neel Smith'
+
+
+links:
+  - title: HMT on github
+    url: http://homermultitext.github.io/
+    external: true
+  - title: HMT web
+    url: http://www.homermultitext.org/
+    external: true

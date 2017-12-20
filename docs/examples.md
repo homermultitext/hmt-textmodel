@@ -1,4 +1,7 @@
-# Using the `hmt-textmodel` library
+---
+title: "Old notes on using the `hmt-textmodel` library"
+layout: page
+---
 
 
 
