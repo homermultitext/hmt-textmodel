@@ -22,7 +22,7 @@ The `hmt-textmodel` library uses the generic `ohco2` library for two important  
 1.  a `Corpus` of texts, made from a Vector of `CitableNode`s.
 2.  the `CitableNode` object, a single citable passage of text with URN and text content
 
-## Citing texts
+## Citing objects
 
 
 ## See also
