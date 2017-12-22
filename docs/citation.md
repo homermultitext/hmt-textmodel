@@ -26,3 +26,8 @@ The `hmt-textmodel` library uses the generic `ohco2` library for two important  
 
 
 ## See also
+
+
+
+-   [editorial principles](https://homermultitext.github.io/hmt-editing-principles/citation) modeled by these libraries
+-   the HMT editor's guide on [encoding citation](https://homermultitext.github.io/hmt-editors-guide/citation)
