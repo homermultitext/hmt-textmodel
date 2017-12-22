@@ -3,17 +3,28 @@ layout: page
 title: HMT text model
 ---
 
-## Why
+## Overview
 
 "Digital reading" does not simply mean displaying a digital document for human readers.  It means that a machine can unambiguously parse a text into units with specified semantics.
 
-`hmt-textmodel` allows you to do this with the digital editions of the HMT project digitally.
+The `hmt-textmodel` library allows you to do this with the digital editions of the HMT project.
 
-## What
+## Contents
 
 
--   HMT [editions are canonically citable](citation)
+-   HMT editions are [canonically citable](citation)
+-   digital editions
+-   diplomatic editions
 -   The contents of citable passages are [analyzed tokens](tokens)
+
+
+
+## See also
+
+-   [editorial principles](https://homermultitext.github.io/hmt-editing-principles) modeled by this library
+-   [how to encode HMT editions](https://homermultitext.github.io/hmt-editors-guide) used by this library
+
+
 
 
 ## Old notes
