@@ -6,14 +6,10 @@ title:  HMT editions are citable
 
 ## Citation
 
-
-
 The HMT project uses IETF-standard URN notation for all scholarly citation.  URNs are text strings with a specified syntax and semantics.  They are independent of any specific technology, can be parsed by human readers, and are machine-actionable.
 
-Citation uses
 
-All editions of the HMT project are citable with CTS URNs.
-
+The `hmt-textmodel` library depends on the CITE architecture's `cite` library for `CtsUrn` and `Cite2Urn` classes that you can instantiate from a string value.  These classes include numerous functions for manipulating the URN objects.
 
 ## Citing texts
 
@@ -24,6 +20,7 @@ The `hmt-textmodel` library uses the generic `ohco2` library for two important  
 
 ## Citing objects
 
+TBA
 
 ## See also
 
