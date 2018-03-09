@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**2.1.0**:  Further dependency updates introducing new functionality in underlying libraries.
+
 **2.0.1**:  Update dependencies on multiple libraries.
 
 **2.0.0**: API-breaking change to `TokenAnalysis` object;  update CITE references to `cite2`.
