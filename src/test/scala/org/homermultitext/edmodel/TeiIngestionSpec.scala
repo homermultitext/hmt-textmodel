@@ -52,11 +52,11 @@ class TeiIngestionSpec extends FlatSpec {
 
 
   it should "read a two-column string and create a Vector of tokens" in {
-    val lines = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>
-urn:cts:greekLit:tlg0012.tlg001.msA:1.2#<l n="2">οὐλομένην· ἡ μυρί' <rs type="ethnic" n="urn:cite2:hmt:place.r1:place96"   >Ἀχαιοῖς</rs> ἄλγε' ἔθηκεν· </l>
-urn:cts:greekLit:tlg0012.tlg001.msA:1.3#<l n="3">πολλὰς δ' ἰφθίμους ψυχὰς <placeName n="urn:cite2:hmt:place.r1:place67"   >Ἄϊδι</placeName> προΐαψεν </l>
-urn:cts:greekLit:tlg0012.tlg001.msA:1.4#<l n="4">ἡρώων· αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν </l>
-urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶσι· <persName n="urn:cite2:hmt:pers.r1:pers8">Διὸς</persName> δ'  ἐτελείετο βουλή· </l>
+    val lines = """urn:cts:greekLit:tlg0012.tlg001.va_xml:1.1#<l n="1">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>
+urn:cts:greekLit:tlg0012.tlg001.va_xml:1.2#<l n="2">οὐλομένην· ἡ μυρί' <rs type="ethnic" n="urn:cite2:hmt:place.r1:place96"   >Ἀχαιοῖς</rs> ἄλγε' ἔθηκεν· </l>
+urn:cts:greekLit:tlg0012.tlg001.va_xml:1.3#<l n="3">πολλὰς δ' ἰφθίμους ψυχὰς <placeName n="urn:cite2:hmt:place.r1:place67"   >Ἄϊδι</placeName> προΐαψεν </l>
+urn:cts:greekLit:tlg0012.tlg001.va_xml:1.4#<l n="4">ἡρώων· αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν </l>
+urn:cts:greekLit:tlg0012.tlg001.va_xml:1.5#<l n="5">οἰωνοῖσί τε πᾶσι· <persName n="urn:cite2:hmt:pers.r1:pers8">Διὸς</persName> δ'  ἐτελείετο βουλή· </l>
 """
     val tokens = TeiReader.fromString(lines)
     val expectedTokens = 30
@@ -67,7 +67,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
 
   it should "prefer sic over corr in diplomatic reading" in {
 
-    val cex = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
+    val cex = """urn:cts:greekLit:tlg0012.tlg001.va_xml:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
 
 
     val tokens = TeiReader.fromString(cex)
@@ -76,7 +76,7 @@ urn:cts:greekLit:tlg0012.tlg001.msA:1.5#<l n="5">οἰωνοῖσί τε πᾶ�
   }
 
   it should "prefer corr over sic scribal reading" in {
-    val cex = """urn:cts:greekLit:tlg0012.tlg001.msA:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
+    val cex = """urn:cts:greekLit:tlg0012.tlg001.va_xml:1.1#<l n="1">Μῆνιν <choice><corr>ἄειδε</corr><sic>ἄιδε</sic></choice> θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω  Ἀχιλῆος</persName></l>"""
 
 
     val tokens = TeiReader.fromString(cex)

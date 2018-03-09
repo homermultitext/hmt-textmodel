@@ -1,5 +1,8 @@
 # `hmt-textmodel`: release notes
 
+
+**2.2.0**:  Support for new editions in HMT 2018 releases.
+
 **2.1.0**:  Further dependency updates introducing new functionality in underlying libraries.
 
 **2.0.1**:  Update dependencies on multiple libraries.

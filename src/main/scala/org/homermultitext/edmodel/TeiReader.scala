@@ -10,7 +10,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
-/**  Factory for Vectors of  [[org.homermultitext.edmodel.HmtToken]] instances.
+/**  Factory for Vectors of  [[HmtToken]] instances.
 */
 object TeiReader {
 
@@ -19,11 +19,11 @@ object TeiReader {
   var nodeText = StringBuilder.newBuilder
 
 
-  /** Buffer of recursively accumulated [[org.homermultitext.edmodel.HmtToken]]s.
+  /** Buffer of recursively accumulated [[HmtToken]]s.
   */
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
-  /** Buffer of recursively accumulated [[org.homermultitext.edmodel.Reading]]s
+  /** Buffer of recursively accumulated [[Reading]]s
   * for a single token. */
   var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
@@ -33,8 +33,8 @@ object TeiReader {
   */
   val punctuationSplitter = "((?<=[,;:⁑\\.])|(?=[,;:⁑\\.]))"
 
-  /** recursively collect all [[org.homermultitext.edmodel.Reading]] objects descended
-  * from a given node, and add a Vector of [[org.homermultitext.edmodel.Reading]]s
+  /** recursively collect all [[Reading]] objects descended
+  * from a given node, and add a Vector of [[Reading]]s
   * to the TeiReader's `wrappedWordBuffer`
   *
   * @param editorialStatus editorial status of surrounding context
@@ -498,7 +498,7 @@ object TeiReader {
 
 
   /** Read an XML fragment following HMT conventions to represent a single
-  * citable node, and construct a Vector of (CtsUrn,[[org.homermultitext.edmodel.HmtToken]]) tuples from it.
+  * citable node, and construct a Vector of (CtsUrn,[[HmtToken]]) tuples from it.
   *
   * @param u URN for the citable node
   * @param xmlStr XML text for the citable node

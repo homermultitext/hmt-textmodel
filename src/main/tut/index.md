@@ -23,7 +23,7 @@ The `hmt-textmodel` library allows you to do this with the digital editions of t
 
 -   [editorial principles](https://homermultitext.github.io/hmt-editing-principles) modeled by this library
 -   [how to encode HMT editions](https://homermultitext.github.io/hmt-editors-guide) used by this library
-
+-  [API docs](api) for this library
 
 
 

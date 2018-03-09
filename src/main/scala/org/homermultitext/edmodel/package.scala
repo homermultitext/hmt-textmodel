@@ -36,7 +36,7 @@ package org.homermultitext
 
 
    val analyticalCollections = Map(
-     "tlg0012.tlg001.msA.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
+     "tlg0012.tlg001.va_xml.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
 
      "tlg0012.tlg001.hmt01.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
 

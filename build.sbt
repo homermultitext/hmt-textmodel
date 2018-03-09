@@ -2,7 +2,7 @@
 organization := "org.homermultitext"
 name := "hmt-textmodel"
 
-version := "2.1.0"
+version := "2.2.0"
 
 crossScalaVersions in ThisBuild := Seq("2.11.8", "2.12.4")
 scalaVersion := (crossScalaVersions in ThisBuild).value.last
