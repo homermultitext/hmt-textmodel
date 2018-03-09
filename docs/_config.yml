@@ -21,6 +21,9 @@ links:
   - title: Github repo for HMT text model
     url: http://homermultitext.github.io/hmt-textmodel/
     external: true
+  - title: API docs
+    url: http://homermultitext.github.io/hmt-textmodel/api/org/homermultitext/edmodel/index.html
+    external: true
   - title: HMT on github
     url: http://homermultitext.github.io/
     external: true

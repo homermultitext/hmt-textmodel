@@ -1,0 +1,1258 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <title></title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/index.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.panzoom.min.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="../../../lib/index.js"></script>
+      <script type="text/javascript" src="../../../index.js"></script>
+      <script type="text/javascript" src="../../../lib/scheduler.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+        /* this variable can be used by the JS to determine the path to the root document */
+        var toRoot = '../../../';
+      </script>
+    
+        </head>
+        <body>
+      <div id="search">
+        <span id="doc-title"><span id="doc-version"></span></span>
+        <span class="close-results"><span class="left">&lt;</span> Back</span>
+        <div id="textfilter">
+          <span class="input">
+            <input autocapitalize="none" placeholder="Search" id="index-input" type="text" accesskey="/" />
+            <i class="clear material-icons"></i>
+            <i id="search-icon" class="material-icons"></i>
+          </span>
+        </div>
+    </div>
+      <div id="search-results">
+        <div id="search-progress">
+          <div id="progress-fill"></div>
+        </div>
+        <div id="results-content">
+          <div id="entity-results"></div>
+          <div id="member-results"></div>
+        </div>
+      </div>
+      <div id="content-scroll-container" style="-webkit-overflow-scrolling: touch;">
+        <div id="content-container" style="-webkit-overflow-scrolling: touch;">
+          <div id="subpackage-spacer">
+            <div id="packages">
+              <h1>Packages</h1>
+              <ul>
+                <li name="_root_.root" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="_root_"></a><a id="root:_root_"></a>
+      <span class="permalink">
+      <a href="index.html#_root_" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../../index.html"><span class="name">root</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="_root_.org" visbl="pub" class="indented1 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="org"></a><a id="org:org"></a>
+      <span class="permalink">
+      <a href="index.html#org" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../../index.html"><span class="name">org</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../index.html" class="extype" name="_root_">root</a></dd></dl></div>
+    </li><li name="org.homermultitext" visbl="pub" class="indented2 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="homermultitext"></a><a id="homermultitext:homermultitext"></a>
+      <span class="permalink">
+      <a href="../org/index.html#homermultitext" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="../index.html"><span class="name">homermultitext</span></a>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../index.html" class="extype" name="org">org</a></dd></dl></div>
+    </li><li name="org.homermultitext.edmodel" visbl="pub" class="indented3 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="edmodel"></a><a id="edmodel:edmodel"></a>
+      <span class="permalink">
+      <a href="../../org/homermultitext/index.html#edmodel" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a title="Provides classes modelling HMT editions of texts." href="index.html"><span class="name">edmodel</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">org.homermultitext.edmodel.TeiReader</a>, that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a <a href="" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromTwoColumns(<span class="lit">"SOURCEFILENAME.tsv"</span>)</pre><p>The crucial structure is the <a href="" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>, which
+captures everything known about a token from an HMT edition.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="org.homermultitext">homermultitext</a></dd></dl></div>
+    </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="AlternateCategory.html" title="All possible categories for alternate readings are enumerated by case objects extending this trait"></a>
+                        <a href="AlternateCategory.html" title="All possible categories for alternate readings are enumerated by case objects extending this trait">AlternateCategory</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="AlternateReading$.html" title="string formatting function"></a>
+                        <a class="class" href="AlternateReading.html" title="an alternate reading for a token"></a>
+                        <a href="AlternateReading.html" title="an alternate reading for a token">AlternateReading</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Citation$.html" title=""></a>
+                        <a href="Citation$.html" title="">Citation</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Clear$.html" title="Paleographically unambiguous reading."></a>
+                        <a href="Clear$.html" title="Paleographically unambiguous reading.">Clear</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Correction$.html" title="scribal correction of text"></a>
+                        <a href="Correction$.html" title="scribal correction of text">Correction</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="DiplomaticEditionFactory$.html" title="Factory to build a diplomatic edition from a Vector of TokenAnalysiss."></a>
+                        <a href="DiplomaticEditionFactory$.html" title="Factory to build a diplomatic edition from a Vector of TokenAnalysiss.">DiplomaticEditionFactory</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="DirectVoice$.html" title="token in direct voice of text"></a>
+                        <a href="DirectVoice$.html" title="token in direct voice of text">DirectVoice</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="DiscourseCategory.html" title="All possible categories for discourse of a token are enumerated by case objects extending this trait"></a>
+                        <a href="DiscourseCategory.html" title="All possible categories for discourse of a token are enumerated by case objects extending this trait">DiscourseCategory</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="EditorialStatus.html" title="All possible values for the editorial status of a token are enumerated by case objects extending this trait"></a>
+                        <a href="EditorialStatus.html" title="All possible values for the editorial status of a token are enumerated by case objects extending this trait">EditorialStatus</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="HmtOrcaToken$.html" title=""></a>
+                        <a class="class" href="HmtOrcaToken.html" title="token in an ORCA analytical exemplar"></a>
+                        <a href="HmtOrcaToken.html" title="token in an ORCA analytical exemplar">HmtOrcaToken</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="HmtReading$.html" title=""></a>
+                        <a class="class" href="HmtReading.html" title="a complete reading of a text expressed as an analytical exemplar"></a>
+                        <a href="HmtReading.html" title="a complete reading of a text expressed as an analytical exemplar">HmtReading</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="HmtToken$.html" title="Factory for labelling information about tokens."></a>
+                        <a class="class" href="" title="A fully documented, semantically distinct token."></a>
+                        <a href="" title="A fully documented, semantically distinct token.">HmtToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="trait" href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait"></a>
+                        <a href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait">LexicalCategory</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="LexicalToken$.html" title="parseable lexical token"></a>
+                        <a href="LexicalToken$.html" title="parseable lexical token">LexicalToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="LiteralToken$.html" title="quoted literal string not parseable as a lexical token"></a>
+                        <a href="LiteralToken$.html" title="quoted literal string not parseable as a lexical token">LiteralToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Missing$.html" title="Lacuna."></a>
+                        <a href="Missing$.html" title="Lacuna.">Missing</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Multiform$.html" title="alternate reading offered by scribe"></a>
+                        <a href="Multiform$.html" title="alternate reading offered by scribe">Multiform</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="NumericToken$.html" title="token in Milesian numeric notation"></a>
+                        <a href="NumericToken$.html" title="token in Milesian numeric notation">NumericToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Punctuation$.html" title="single punctuation character"></a>
+                        <a href="Punctuation$.html" title="single punctuation character">Punctuation</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="QuotedLanguage$.html" title="quoted word in the natural language of text"></a>
+                        <a href="QuotedLanguage$.html" title="quoted word in the natural language of text">QuotedLanguage</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="QuotedLiteral$.html" title="quoted string of characters not forming a valid lexical entity"></a>
+                        <a href="QuotedLiteral$.html" title="quoted string of characters not forming a valid lexical entity">QuotedLiteral</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="QuotedText$.html" title="token in quotation of another text"></a>
+                        <a href="QuotedText$.html" title="token in quotation of another text">QuotedText</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="Reading$.html" title="Companion object for formatting Vectors of Readings as Strings."></a>
+                        <a class="class" href="Reading.html" title="A typed reading of a passage."></a>
+                        <a href="Reading.html" title="A typed reading of a passage.">Reading</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="package$$ReadingConfig.html" title=""></a>
+                        <a href="package$$ReadingConfig.html" title="">ReadingConfig</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Restoration$.html" title="restored by modern editor"></a>
+                        <a href="Restoration$.html" title="restored by modern editor">Restoration</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Restored$.html" title="Reading supplied by modern editor."></a>
+                        <a href="Restored$.html" title="Reading supplied by modern editor.">Restored</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="TeiReader$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances."></a>
+                        <a href="TeiReader$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances.">TeiReader</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="TextDeformation$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtOrcaToken instances."></a>
+                        <a class="class" href="TextDeformation.html" title=""></a>
+                        <a href="TextDeformation.html" title="">TextDeformation</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="TokenAnalysis.html" title=""></a>
+                        <a href="TokenAnalysis.html" title="">TokenAnalysis</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Unclear$.html" title="Paleographically ambiguous reading."></a>
+                        <a href="Unclear$.html" title="Paleographically ambiguous reading.">Unclear</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="Unintelligible$.html" title="token not parseable due to error in HMT edition"></a>
+                        <a href="Unintelligible$.html" title="token not parseable due to error in HMT edition">Unintelligible</a>
+                      </li>
+              </ul>
+            </div>
+          </div>
+          <div id="content">
+            <body class="class type">
+      <div id="definition">
+        <a href="HmtToken$.html" title="See companion object"><div class="big-circle class-companion-object">c</div></a>
+        <p id="owner"><a href="../../index.html" class="extype" name="org">org</a>.<a href="../index.html" class="extype" name="org.homermultitext">homermultitext</a>.<a href="index.html" class="extype" name="org.homermultitext.edmodel">edmodel</a></p>
+        <h1><a href="HmtToken$.html" title="See companion object">HmtToken</a><span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span></h1>
+        <h3><span class="morelinks"><div>
+            Companion <a href="HmtToken$.html" title="See companion object">object HmtToken</a>
+          </div></span></h3>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">HmtToken</span><span class="params">(<span name="analysis">analysis: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span></span>, <span name="sourceUrn">sourceUrn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="editionUrn">editionUrn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;grc&quot;</span></span>, <span name="readings">readings: <span class="extype" name="scala.Vector">Vector</span>[<a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>]</span>, <span name="lexicalCategory">lexicalCategory: <a href="LexicalCategory.html" class="extype" name="org.homermultitext.edmodel.LexicalCategory">LexicalCategory</a></span>, <span name="lexicalDisambiguation">lexicalDisambiguation: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span> = <span class="defval" name="Cite2Urn(&quot;urn:cite2:hmt:disambig.v1:lexical&quot;)">...</span></span>, <span name="alternateReading">alternateReading: <span class="extype" name="scala.Option">Option</span>[<a href="AlternateReading.html" class="extype" name="org.homermultitext.edmodel.AlternateReading">AlternateReading</a>] = <span class="symbol">None</span></span>, <span name="discourse">discourse: <a href="DiscourseCategory.html" class="extype" name="org.homermultitext.edmodel.DiscourseCategory">DiscourseCategory</a> = <span class="symbol"><span class="name"><a href="DirectVoice$.html">DirectVoice</a></span></span></span>, <span name="externalSource">externalSource: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>] = <span class="symbol">None</span></span>, <span name="errors">errors: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">ArrayBuffer.empty[String]</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A fully documented, semantically distinct token.
+</p></div><dl class="paramcmts block"><dt class="param">analysis</dt><dd class="cmt"><p>CITE URN for this token analysis.</p></dd><dt class="param">sourceUrn</dt><dd class="cmt"><p>URN for this token in the analyzed text</p></dd><dt class="param">editionUrn</dt><dd class="cmt"><p>URN for this token in an analytical exemplar when promoted to an edition</p></dd><dt class="param">lang</dt><dd class="cmt"><p>3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language</p></dd><dt class="param">readings</dt><dd class="cmt"><p>All <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a>s belonging to this token</p></dd><dt class="param">lexicalCategory</dt><dd class="cmt"><p>lexical category of this token</p></dd><dt class="param">lexicalDisambiguation</dt><dd class="cmt"><p>URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values</p></dd><dt class="param">alternateReading</dt><dd class="cmt"><p>optional <a href="AlternateReading.html" class="extype" name="org.homermultitext.edmodel.AlternateReading">org.homermultitext.edmodel.AlternateReading</a>s belonging to this token</p></dd><dt class="param">discourse</dt><dd class="cmt"><p>category of discourse of this token</p></dd><dt class="param">externalSource</dt><dd class="cmt"><p>URN of source this token is quoted from</p></dd><dt class="param">errors</dt><dd class="cmt"><p>list of error messages (hopefully empty)</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">
+            Linear Supertypes
+          </span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              <li class="inherit out"><span>By Inheritance</span></li>
+            </ol>
+          </div>
+          <div class="ancestors">
+                  <span class="filtertype">Inherited<br />
+                  </span>
+                  <ol id="linearization">
+                    <li class="in" name="org.homermultitext.edmodel.HmtToken"><span>HmtToken</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  </ol>
+                </div><div class="ancestors">
+              <span class="filtertype"></span>
+              <ol>
+                <li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show All</span></li>
+              </ol>
+            </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="org.homermultitext.edmodel.HmtToken#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(analysis:edu.holycross.shot.cite.Cite2Urn,sourceUrn:edu.holycross.shot.cite.CtsUrn,editionUrn:edu.holycross.shot.cite.CtsUrn,lang:String,readings:Vector[org.homermultitext.edmodel.Reading],lexicalCategory:org.homermultitext.edmodel.LexicalCategory,lexicalDisambiguation:edu.holycross.shot.cite.Cite2Urn,alternateReading:Option[org.homermultitext.edmodel.AlternateReading],discourse:org.homermultitext.edmodel.DiscourseCategory,externalSource:Option[edu.holycross.shot.cite.CtsUrn],errors:scala.collection.mutable.ArrayBuffer[String]):org.homermultitext.edmodel.HmtToken"></a><a id="&lt;init&gt;:HmtToken"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#&lt;init&gt;(analysis:edu.holycross.shot.cite.Cite2Urn,sourceUrn:edu.holycross.shot.cite.CtsUrn,editionUrn:edu.holycross.shot.cite.CtsUrn,lang:String,readings:Vector[org.homermultitext.edmodel.Reading],lexicalCategory:org.homermultitext.edmodel.LexicalCategory,lexicalDisambiguation:edu.holycross.shot.cite.Cite2Urn,alternateReading:Option[org.homermultitext.edmodel.AlternateReading],discourse:org.homermultitext.edmodel.DiscourseCategory,externalSource:Option[edu.holycross.shot.cite.CtsUrn],errors:scala.collection.mutable.ArrayBuffer[String]):org.homermultitext.edmodel.HmtToken" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">HmtToken</span><span class="params">(<span name="analysis">analysis: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span></span>, <span name="sourceUrn">sourceUrn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="editionUrn">editionUrn: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="lang">lang: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;grc&quot;</span></span>, <span name="readings">readings: <span class="extype" name="scala.Vector">Vector</span>[<a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>]</span>, <span name="lexicalCategory">lexicalCategory: <a href="LexicalCategory.html" class="extype" name="org.homermultitext.edmodel.LexicalCategory">LexicalCategory</a></span>, <span name="lexicalDisambiguation">lexicalDisambiguation: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span> = <span class="defval" name="Cite2Urn(&quot;urn:cite2:hmt:disambig.v1:lexical&quot;)">...</span></span>, <span name="alternateReading">alternateReading: <span class="extype" name="scala.Option">Option</span>[<a href="AlternateReading.html" class="extype" name="org.homermultitext.edmodel.AlternateReading">AlternateReading</a>] = <span class="symbol">None</span></span>, <span name="discourse">discourse: <a href="DiscourseCategory.html" class="extype" name="org.homermultitext.edmodel.DiscourseCategory">DiscourseCategory</a> = <span class="symbol"><span class="name"><a href="DirectVoice$.html">DirectVoice</a></span></span></span>, <span name="externalSource">externalSource: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>] = <span class="symbol">None</span></span>, <span name="errors">errors: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<span class="extype" name="scala.Predef.String">String</span>] = <span class="symbol">ArrayBuffer.empty[String]</span></span>)</span>
+      </span>
+      
+      <p class="shortcomment cmt">create a token</p><div class="fullcomment"><div class="comment cmt"><p>create a token</p></div><dl class="paramcmts block"><dt class="param">analysis</dt><dd class="cmt"><p>CITE URN for this token analysis.</p></dd><dt class="param">sourceUrn</dt><dd class="cmt"><p>URN for this token in the analyzed text</p></dd><dt class="param">editionUrn</dt><dd class="cmt"><p>URN for this token in an analytical exemplar when promoted to an edition</p></dd><dt class="param">lang</dt><dd class="cmt"><p>3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language</p></dd><dt class="param">readings</dt><dd class="cmt"><p>All <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a>s belonging to this token</p></dd><dt class="param">lexicalCategory</dt><dd class="cmt"><p>lexical category of this token</p></dd><dt class="param">lexicalDisambiguation</dt><dd class="cmt"><p>URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values</p></dd><dt class="param">alternateReading</dt><dd class="cmt"><p>optional <a href="AlternateReading.html" class="extype" name="org.homermultitext.edmodel.AlternateReading">org.homermultitext.edmodel.AlternateReading</a>s belonging to this token</p></dd><dt class="param">discourse</dt><dd class="cmt"><p>category of discourse of this token</p></dd><dt class="param">externalSource</dt><dd class="cmt"><p>URN of source this token is quoted from</p></dd><dt class="param">errors</dt><dd class="cmt"><p>list of error messages (hopefully empty)</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="scala.AnyRef#!=" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a><a id="!=(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#!=(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html###():Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a><a id="==(Any):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#==(x$1:Any):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#altString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="altString:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#altString:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">altString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#alternateMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="alternateMatch(s:String,accent:Boolean):Boolean"></a><a id="alternateMatch(String,Boolean):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#alternateMatch(s:String,accent:Boolean):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">alternateMatch</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="accent">accent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#alternateReading" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="alternateReading:Option[org.homermultitext.edmodel.AlternateReading]"></a><a id="alternateReading:Option[AlternateReading]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#alternateReading:Option[org.homermultitext.edmodel.AlternateReading]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">alternateReading</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="AlternateReading.html" class="extype" name="org.homermultitext.edmodel.AlternateReading">AlternateReading</a>]</span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#analysis" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="analysis:edu.holycross.shot.cite.Cite2Urn"></a><a id="analysis:Cite2Urn"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#analysis:edu.holycross.shot.cite.Cite2Urn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">analysis</span><span class="result">: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span></span>
+      </span>
+      
+      
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#asInstanceOf[T0]:T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a><a id="clone():AnyRef"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#clone():Object" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#columnString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="columnString:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#columnString:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">columnString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Format a string representation as one value per line,
+including labels.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#columnString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="columnString(withLabels:Boolean):String"></a><a id="columnString(Boolean):String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#columnString(withLabels:Boolean):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">columnString</span><span class="params">(<span name="withLabels">withLabels: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Format a string representation as one value per line,
+either with or without labels.</p><div class="fullcomment"><div class="comment cmt"><p>Format a string representation as one value per line,
+either with or without labels.
+</p></div><dl class="paramcmts block"><dt class="param">withLabels</dt><dd class="cmt"><p>include labels if true</p></dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#debug" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="debug:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#debug:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">debug</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#diplomaticMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="diplomaticMatch(s:String,accent:Boolean):Boolean"></a><a id="diplomaticMatch(String,Boolean):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#diplomaticMatch(s:String,accent:Boolean):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">diplomaticMatch</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="accent">accent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">True if diplomatic reading matches a String.</p><div class="fullcomment"><div class="comment cmt"><p>True if diplomatic reading matches a String.
+Comparison is based on Unicode NFC forms of the strings.
+</p></div></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#discourse" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="discourse:org.homermultitext.edmodel.DiscourseCategory"></a><a id="discourse:DiscourseCategory"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#discourse:org.homermultitext.edmodel.DiscourseCategory" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">discourse</span><span class="result">: <a href="DiscourseCategory.html" class="extype" name="org.homermultitext.edmodel.DiscourseCategory">DiscourseCategory</a></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#editionUrn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="editionUrn:edu.holycross.shot.cite.CtsUrn"></a><a id="editionUrn:CtsUrn"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#editionUrn:edu.holycross.shot.cite.CtsUrn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">editionUrn</span><span class="result">: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#eq(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#errorReport" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="errorReport(separator:String):String"></a><a id="errorReport(String):String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#errorReport(separator:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">errorReport</span><span class="params">(<span name="separator">separator: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;\t&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"> Format human-readable report of errors encountered reading this token.</p><div class="fullcomment"><div class="comment cmt"><p> Format human-readable report of errors encountered reading this token.
+</p></div><dl class="paramcmts block"><dt class="param">separator</dt><dd class="cmt"><p>String to use as structural delimiter in report.</p></dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#errors" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="errors:scala.collection.mutable.ArrayBuffer[String]"></a><a id="errors:ArrayBuffer[String]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#errors:scala.collection.mutable.ArrayBuffer[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">errors</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#externalSource" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="externalSource:Option[edu.holycross.shot.cite.CtsUrn]"></a><a id="externalSource:Option[CtsUrn]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#externalSource:Option[edu.holycross.shot.cite.CtsUrn]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">externalSource</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span>]</span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#finalize():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java/lang/index.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#getClass():Class[_]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#hasAlternate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="hasAlternate:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#hasAlternate:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasAlternate</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">True if token has an alternate reading of any kind.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#hasScribalCorrection" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="hasScribalCorrection:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#hasScribalCorrection:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasScribalCorrection</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">True if scribe offers a correction fo this token.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#hasScribalMultiform" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="hasScribalMultiform:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#hasScribalMultiform:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hasScribalMultiform</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">True if scribe offers a variant reading (multiform) for
+this token.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#isAbbreviation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isAbbreviation:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#isAbbreviation:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isAbbreviation</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">True is token is abbreviated in diplomatic reading.</p>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#isInstanceOf[T0]:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#lang" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lang:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#lang:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lang</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#leidenDiplomatic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="leidenDiplomatic:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#leidenDiplomatic:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">leidenDiplomatic</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#leidenFull" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="leidenFull:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#leidenFull:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">leidenFull</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#lexMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lexMatch(urn:edu.holycross.shot.cite.Cite2Urn):Boolean"></a><a id="lexMatch(Cite2Urn):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#lexMatch(urn:edu.holycross.shot.cite.Cite2Urn):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexMatch</span><span class="params">(<span name="urn">urn: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"> True if value for lexical disambiguation of this token matches
+a give URN.</p><div class="fullcomment"><div class="comment cmt"><p> True if value for lexical disambiguation of this token matches
+a give URN.
+</p></div><dl class="paramcmts block"><dt class="param">urn</dt><dd class="cmt"><p>The URN to compare.</p></dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#lexicalCategory" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexicalCategory:org.homermultitext.edmodel.LexicalCategory"></a><a id="lexicalCategory:LexicalCategory"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#lexicalCategory:org.homermultitext.edmodel.LexicalCategory" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexicalCategory</span><span class="result">: <a href="LexicalCategory.html" class="extype" name="org.homermultitext.edmodel.LexicalCategory">LexicalCategory</a></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#lexicalDisambiguation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="lexicalDisambiguation:edu.holycross.shot.cite.Cite2Urn"></a><a id="lexicalDisambiguation:Cite2Urn"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#lexicalDisambiguation:edu.holycross.shot.cite.Cite2Urn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lexicalDisambiguation</span><span class="result">: <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#listSeparator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="listSeparator:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#listSeparator:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listSeparator</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">String value separating multiple items within a single property
+in string representation of the object as a single row
+</p>
+    </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#ne(x$1:AnyRef):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#notify():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#notifyAll():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#orcaColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="orcaColumn:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#orcaColumn:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">orcaColumn</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#propertySeparator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="propertySeparator:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#propertySeparator:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">propertySeparator</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">String value separating properties in string representation
+of the object as a single row
+</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#readWithAlternate" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="readWithAlternate:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#readWithAlternate:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readWithAlternate</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Collect alternate reading for this token.</p><div class="fullcomment"><div class="comment cmt"><p>Collect alternate reading for this token.
+ Strings are normalized to Unicode form NFC.
+</p></div></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#readWithDiplomatic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readWithDiplomatic:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#readWithDiplomatic:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readWithDiplomatic</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Collect clear diplomatic readings for this token.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#readWithScribal" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readWithScribal:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#readWithScribal:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readWithScribal</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Collect scribal text, adding corrections to diplomatic readings.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#readings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="readings:Vector[org.homermultitext.edmodel.Reading]"></a><a id="readings:Vector[Reading]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#readings:Vector[org.homermultitext.edmodel.Reading]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readings</span><span class="result">: <span class="extype" name="scala.Vector">Vector</span>[<a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>]</span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#rowString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rowString:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#rowString:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rowString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Format a string representation as a single line of delimited text
+usng <code>propertySeparator</code> value as the delimiter, and <code>listSeparator</code>
+as a secondary delimiter for lists within a single property.</p>
+    </li><li name="org.homermultitext.edmodel.HmtToken#scribalMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scribalMatch(s:String,accent:Boolean):Boolean"></a><a id="scribalMatch(String,Boolean):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#scribalMatch(s:String,accent:Boolean):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scribalMatch</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="accent">accent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#sourceUrn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="sourceUrn:edu.holycross.shot.cite.CtsUrn"></a><a id="sourceUrn:CtsUrn"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#sourceUrn:edu.holycross.shot.cite.CtsUrn" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">var</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sourceUrn</span><span class="result">: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>
+      </span>
+      
+      
+    </li><li name="org.homermultitext.edmodel.HmtToken#stringMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stringMatch(s:String,readingType:String):Boolean"></a><a id="stringMatch(String,String):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#stringMatch(s:String,readingType:String):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stringMatch</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="readingType">readingType: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;diplomatic&quot;</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#synchronized[T0](x$1:=&gt;T0):T0" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#wait():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a><a id="wait(Long,Int):Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#wait(x$1:Long,x$2:Int):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a><a id="wait(Long):Unit"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#wait(x$1:Long):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@native</span><span class="args">()</span>
+              
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li>
+              </ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+    </body>
+          </div>
+        </div>
+      </div>
+    </body>
+      </html>
