@@ -41,15 +41,20 @@ package org.homermultitext
      "tlg0012.tlg001.hmt01.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
 
 
-     "tlg0012.tlg001.bankes.tokens"-> Cite2Urn("urn:cite2:hmt:bankes_tokens:"),
+     "tlg0012.tlg001.bankes_xml.tokens"-> Cite2Urn("urn:cite2:hmt:bankes_tokens:"),
 
 
-     "tlg5026.msA.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schA_tokens:"),
-     "tlg5026.msAim.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAim_tokens:"),
-     "tlg5026.msAint.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAint_tokens:"),
-     "tlg5026.msAext.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAext_tokens:"),
-     "tlg5026.msAil.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAil_tokens:"),
-     "tlg5026.msAimlater.hmt.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tokens:")
+     "tlg5026.msA.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schA_tokens:"),
+
+     "tlg5026.msAim.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAim_tokens:"),
+
+     "tlg5026.msAint.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAint_tokens:"),
+
+     "tlg5026.msAext.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAext_tokens:"),
+
+     "tlg5026.msAil.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAil_tokens:"),
+
+     "tlg5026.msAimlater.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tokens:")
 
    )
 
