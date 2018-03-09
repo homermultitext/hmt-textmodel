@@ -19,7 +19,7 @@ author:
 
 links:
   - title: Github repo for HMT text model
-    url: http://homermultitext.github.io/hmt-textmodel/
+    url: https://github.com/homermultitext/hmt-textmodel
     external: true
   - title: API docs
     url: http://homermultitext.github.io/hmt-textmodel/api/org/homermultitext/edmodel/index.html
