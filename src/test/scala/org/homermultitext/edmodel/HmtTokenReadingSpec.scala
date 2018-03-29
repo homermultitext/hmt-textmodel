@@ -8,7 +8,7 @@ class HmtTokenReadingSpec extends FlatSpec {
 
 
   val xml = """<div type="scholion" n="hc_5" xmlns="http://www.tei-c.org/ns/1.0"><div type="lemma"> <p/></div><div type="comment"> <p> <choice> <abbr> ουτ</abbr> <expan> οὕτως</expan></choice> δια τοῦ <rs type="waw"> ο</rs> <q> ζεύγνυον</q> ⁑</p></div></div>"""
-  val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt:19.hc_5")
+  val urn = CtsUrn("urn:cts:greekLit:tlg5026.msAint.hmt_xml:19.hc_5")
   val analysisV = TeiReader.teiToTokens(urn, xml)
 
 
