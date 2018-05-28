@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**2.2.3**:  Bug fixes in updated library dependency.
+
 **2.2.2**:  Handle tokenizing of unregistered source XML.
 
 **2.2.1**:  Update  dependencies on multiple underlying libraries.
