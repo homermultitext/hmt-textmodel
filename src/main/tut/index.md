@@ -19,6 +19,15 @@ The `hmt-textmodel` library allows you to do this with the digital editions of t
 
 
 
+## Working with the HMT text model
+
+Project guidelines explain how to encode our model in TEI XML.  We have also implemented our model in a code library, written in Scala, that can parse TEI XML documents following these guidelines.  The library is available from JCenter, or may be directly downloaded from bintray, or built from source available from github.
+
+-   [Quick start](quick)
+-   [API documentation](api/org/homermultitext/edmodel)
+-   [Github repository](https://homermultitext.github.io/hmt-textmodel/)
+-   [Binaries](https://bintray.com/neelsmith/maven/hmt-textmodel) (from bintray)
+
 ## See also
 
 -   [editorial principles](https://homermultitext.github.io/hmt-editing-principles) modeled by this library
