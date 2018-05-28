@@ -510,13 +510,22 @@ object TeiReader {
     // get analysis Cite2Urn from analyticalCollections map keyed to that value
 
     val root  = XML.loadString(xmlStr)
+    val analysisUrn = if (analyticalCollections.keySet.contains(urnKey)) {
+      analyticalCollections(urnKey)
+    } else {
+
+      Cite2Urn(s"urn:cite2:hmt:${u.work}_tokens:")
+    }
+
+
     val currToken = HmtToken(
       editionUrn = CtsUrn("urn:cts:greekLit:" + urnKey + ":" + u.passageComponent),
       sourceUrn = u,
-      analysis = analyticalCollections(urnKey),
+      analysis = analysisUrn,
       lexicalCategory = LexicalToken,
       readings = Vector.empty
     )
+
     tokenBuffer.clear
     nodeText.clear
     collectTokens(currToken, root)

@@ -35,16 +35,14 @@ package org.homermultitext
 
 
 
-   val analyticalCollections = Map(
+   val analyticalCollections = Map[String, Cite2Urn](
 
      // "tlg5026.msAint.hmt.tokens"
      "tlg0012.tlg001.va_xml.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
 
      //"tlg0012.tlg001.hmt01.tokens"-> Cite2Urn("urn:cite2:hmt:va_il_tokens:"),
 
-
      "tlg0012.tlg001.bankes_xml.tokens"-> Cite2Urn("urn:cite2:hmt:bankes_tokens:"),
-
 
      "tlg5026.msA.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schA_tokens:"),
 
@@ -56,7 +54,9 @@ package org.homermultitext
 
      "tlg5026.msAil.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAil_tokens:"),
 
-     "tlg5026.msAimlater.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tokens:")
+     "tlg5026.msAimlater.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAimlater_tokens:"),
+
+    "tlg5026.msAextra.hmt_xml.tokens" -> Cite2Urn("urn:cite2:hmt:va_schAextra_tokens:")
 
    )
 
