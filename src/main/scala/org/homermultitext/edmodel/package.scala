@@ -6,13 +6,15 @@ package org.homermultitext
 /** Provides classes modelling HMT editions of texts.
  *
  *  ==Overview==
- *  The starting point is the factory object [[org.homermultitext.edmodel.TeiReader]], that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a [[org.homermultitext.edmodel.HmtToken]].  Example:
+ *  The starting point is the factory object [[TeiReader]], that can read data in the OHCO2
+ * model from a two-column file or a Corpus object to produce a Vector of [[TokenAnalysis]] objects.  The [[TokenAnalysis]] pairs a CtsUrn
+ * for the citable text node with a fully analyzed [[HmtToken]].  Example:
  *  {{{
- *  val tokenPairs = TeiReader.fromTwoColumns("SOURCEFILENAME.tsv")
+ *  val tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)
  *  }}}
  *
- * The crucial structure is the [[org.homermultitext.edmodel.HmtToken]], which
- * captures everything known about a token from an HMT edition.
+ * The  [[HmtToken]] captures everything known about a token
+ *  from an HMT edition. See its documentation for more details.
  */
  package object edmodel {
 
@@ -74,7 +76,7 @@ package org.homermultitext
     "div", "l","p", "choice","list","item",  "figure","figDesc","floatingText",
     "foreign",
     "num",
-    "unclear","add","orig","reg","sic","corr",
+    "unclear","add","orig","reg","sic","corr","del",
     "abbr","expan",
     "cite","q","ref", "title",
     "persName","placeName",

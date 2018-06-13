@@ -2,15 +2,24 @@ package org.homermultitext.edmodel
 import org.scalatest.FlatSpec
 
 class AlternateReadingSpec extends FlatSpec {
+
   "An alternate reading" should "have a vector of 1 or more readings" in {
     val rdg = Reading("οὕτως",Restored)
     val alt = AlternateReading(Restoration, Vector(rdg))
     assert (alt.reading.size == 1)
   }
+
   it should "have a category" in {
     val rdg = Reading("οὕτως",Restored)
     val alt = AlternateReading(Restoration, Vector(rdg))
     assert (alt.alternateCategory == Restoration)
+  }
+
+  it should "require that the allternate string value of deleted readings is empty" in {
+    val rdg = Reading("οὕτως",Clear)
+    val alt = AlternateReading(Deletion, Vector(rdg))
+    assert(alt.alternateCategory == Deletion)
+    assert(alt.simpleString.isEmpty)
   }
 
   it should "throw an exception if no readings are given" in  pending

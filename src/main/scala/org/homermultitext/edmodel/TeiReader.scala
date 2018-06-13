@@ -11,21 +11,41 @@ import edu.holycross.shot.cite._
 
 
 /**  Factory for Vectors of  [[HmtToken]] instances.
+
+*  ==Example==
+*  The [[TeiReader]] reads data in the OHCO2
+*  model from sources such as delimited-texts files or
+*  the Corpus object from the edu.holycross.ohco2 library.
+*  It produces a Vector of [[TokenAnalysis]] objects.
+*
+* Example:
+*  {{{
+*  val tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)
+*  }}}
+*
+*  ==How it works==
+*  The [[TeiReader]] object maintains three mutable buffers,
+*  `nodeText` (a StringBuilder), `wrappedWordBuffer` and `tokenBuffer`
+* (both mutable ArrayBuffers).
+*
+*
 */
 object TeiReader {
 
-  /**  Builder for recursively accumulated String value of a node.
+  /**  Builder for recursively accumulated String value of a
+  * single token.
   */
   var nodeText = StringBuilder.newBuilder
 
+  /** Buffer of recursively accumulated [[Reading]]s
+  * for a single token. */
+  var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
 
   /** Buffer of recursively accumulated [[HmtToken]]s.
   */
   var tokenBuffer = scala.collection.mutable.ArrayBuffer.empty[HmtToken]
 
-  /** Buffer of recursively accumulated [[Reading]]s
-  * for a single token. */
-  var wrappedWordBuffer = scala.collection.mutable.ArrayBuffer.empty[Reading]
+
 
   /** Terrifying regular expression to split a string on
   * HMT Greek punctuation characters while keeping the
@@ -67,7 +87,7 @@ object TeiReader {
   }
 
 
-  /** collect tokens from a TEI `abbr-expan` pair
+  /** Collect tokens from a TEI `abbr-expan` pair.
   *
   * Results are added to the TeiReader's `tokenBuffer`.
   *
@@ -110,8 +130,24 @@ object TeiReader {
 
 
   def deletedText(hmtToken: HmtToken, el: xml.Elem) = {
-    /// make a null string alternate!
+    // Scribal aternative is *nothing*
 
+
+//    val newToken = hmtToken.copy(alternateReading = Some(alt))
+
+
+    //collectTokens(TOKEN, el)
+    /*
+    wrappedWordBuffer.clear
+    val alt = AlternateReading(Deletion,wrappedWordBuffer.toVector)
+
+      collectWrappedWordReadings(Clear,corr)
+      val alt = AlternateReading(Correction,wrappedWordBuffer.toVector)
+      wrappedWordBuffer.clear
+
+      val newToken = hmtToken.copy(alternateReading = Some(alt))
+      collectTokens(newToken,sic)
+      */
   }
 
 
@@ -357,6 +393,9 @@ object TeiReader {
       if (punctuation.contains(tk)) {
         newToken.lexicalCategory = Punctuation
       }
+      // Only add token to the buffer when we reach text
+      // content.
+      println("ADD TOKEN AT TEXT CONTENT:  " + newToken.leidenFull)
       tokenBuffer += newToken
     }
   }
@@ -375,6 +414,35 @@ object TeiReader {
       case "figDesc" => {} // metadata, don't process
       case "ref" => {} // metadata, don't process
 
+
+
+      case "add" => {
+        //  multiform?  Or correction?
+        wrappedWordBuffer.clear
+        collectWrappedWordReadings(Clear,el)
+        val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
+        println("ADD TOKEN FOR SCRBAL ADDITION " + alt)
+        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = Vector.empty[Reading])
+        tokenBuffer += newToken
+
+      }
+
+      case "del" => {
+        //    val newToken = hmtToken.copy(alternateReading = Some(alt))
+        //collectTokens(newToken,abbr)
+        wrappedWordBuffer.clear
+        collectWrappedWordReadings(Clear,el)
+        println("COLLECTED READINGS : " + wrappedWordBuffer)
+        val alt = AlternateReading(Deletion,Vector.empty[Reading])
+        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
+        tokenBuffer += newToken
+
+
+
+
+      }
       case "persName" => {
         disambiguateNamedEntity(tokenSettings,el)
       }
@@ -395,14 +463,6 @@ object TeiReader {
         }
       }
 
-      case "add" => {
-        //  multiform
-        //
-        wrappedWordBuffer.clear
-        collectWrappedWordReadings(Clear,el)
-        val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
-        wrappedWordBuffer.clear
-      }
 
       case "q" => {
         tokenSettings.discourse match {
@@ -445,6 +505,7 @@ object TeiReader {
         val subrefIndex = indexSubstring(nodeText.toString,deformation)
         val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
         var newToken = tokenSettings.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
+        println("ADD TOKEN FROM w ELEMENT " + newToken.leidenFull)
         tokenBuffer += newToken
       }
       case "foreign" => {
@@ -500,20 +561,18 @@ object TeiReader {
   /** Read an XML fragment following HMT conventions to represent a single
   * citable node, and construct a Vector of (CtsUrn,[[HmtToken]]) tuples from it.
   *
-  * @param u URN for the citable node
-  * @param xmlStr XML text for the citable node
-  * @param tokenCount
+  * @param u URN for the citable node.
+  * @param xmlStr XML text for the citable node.
+  * @param tokenCount Index of this token within the containing
+  * canonically citable passage of text.
   */
   def teiToTokens(u: CtsUrn, xmlStr: String, tokenCount: Int = 0) : Vector[TokenAnalysis]  = {
+    // Extend passage hierarchy to exemplar level
     val urnKey = u.workComponent + ".tokens"
-    //  generate editionUrn CtsUrn base like  "tlg5026.msA.hmt_tkns"
-    // get analysis Cite2Urn from analyticalCollections map keyed to that value
-
     val root  = XML.loadString(xmlStr)
     val analysisUrn = if (analyticalCollections.keySet.contains(urnKey)) {
       analyticalCollections(urnKey)
     } else {
-
       Cite2Urn(s"urn:cite2:hmt:${u.work}_tokens:")
     }
 
@@ -528,6 +587,7 @@ object TeiReader {
 
     tokenBuffer.clear
     nodeText.clear
+    // This is where all the action happens:
     collectTokens(currToken, root)
 
 

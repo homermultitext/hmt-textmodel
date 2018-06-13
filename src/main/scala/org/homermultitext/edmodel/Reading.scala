@@ -18,7 +18,7 @@ case object Clear extends EditorialStatus {val name = "clear"}
 case object Unclear extends EditorialStatus {val name = "unclear"}
 /**  Lacuna.
 */
-case object Missing extends EditorialStatus {val name = "mis  sing"}
+case object Missing extends EditorialStatus {val name = "missing"}
 /** Reading supplied by modern editor.
 *
 * Applies only to editorial expansion of abbreviations.

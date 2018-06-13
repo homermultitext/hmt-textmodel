@@ -3,6 +3,23 @@ package org.homermultitext.edmodel
 import edu.holycross.shot.cite._
 import edu.holycross.shot.ohco2._
 
+
+/** An analysis of a single token.
+*
+* @param textNode CtsUrn of the citable node where this token occurs.
+* Note that this will always be equivalent to the version-level URN for containing node for the "edition URN" of the[[HmtToken]], since the
+* edition URN extends the passage hierarchy with a "tokens" exemplar,
+* and extends the passage hierarchy with a further level.
+*
+* Expressed in code, we can say that for any [[TokenAnalysis]] ta,
+* the following relation is true:
+*  {{{
+*   ta.analysis.editionUrn.collapsePassageBy(1) == ta.textNode.addExemplar("tokens")
+*
+*  }}}
+* @param analysis The analysis of this token as a full [[HmtToken]]
+* object.
+*/
 case class  TokenAnalysis(textNode: CtsUrn, analysis: HmtToken) {
 
 

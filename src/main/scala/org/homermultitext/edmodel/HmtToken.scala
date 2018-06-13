@@ -7,6 +7,14 @@ import scala.collection.mutable.ArrayBuffer
 import java.text.Normalizer
 
 /** A fully documented, semantically distinct token.
+* The model of this token supports the ORCA model of
+* aligned text analysis.  The `analysis` member is a CITE2
+* URN representing this token as an ORCA analysis. The `sourceUrn`
+* member is a CTS URN with subreference index identifying
+* the specific string of text analyzed.  The`editionUrn`
+* member is a CTS URN for this token in an analytical exemplar.
+* The other members of the [[HmtToken]] provide the analytical
+* data for this token.
 *
 * @constructor create a token
 * @param analysis CITE URN for this token analysis.
@@ -93,7 +101,7 @@ case class HmtToken (
   }
 
 
-  /** True if scribe offers a correction fo this token.
+  /** True if scribe offers a correction for this token.
   */
   def hasScribalCorrection: Boolean = {
     alternateReading match {

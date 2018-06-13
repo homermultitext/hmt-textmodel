@@ -16,6 +16,8 @@ case object Multiform extends AlternateCategory {val name
  = "scribally recorded multiform"}
  /** scribal correction of text */
 case object Correction extends AlternateCategory {val name = "scribal correction"}
+ /** scribal deletion of text */
+case object Deletion extends AlternateCategory {val name = "scribal deletion"}
 
 /** an alternate reading for a token
 *
@@ -24,14 +26,17 @@ case object Correction extends AlternateCategory {val name = "scribal correction
 * @param alternateCategory category of alternate reading
 * @param reading all [[org.homermultitext.edmodel.Reading]]s for this alternate reading
 */
-case class AlternateReading (
-  var alternateCategory: AlternateCategory,
-  var reading: Vector[Reading] ) {
+case class AlternateReading (alternateCategory: AlternateCategory, reading: Vector[Reading] ) {
+
   def leidenize: String = {
     Reading.leidenize(reading) + " (" + alternateCategory + ")"
   }
   def simpleString: String = {
-    reading.map(_.reading).mkString
+    alternateCategory match {
+      case Deletion => ""
+      case _ => reading.map(_.reading).mkString
+    }
+
   }
 }
 

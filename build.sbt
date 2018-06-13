@@ -2,7 +2,7 @@
 organization := "org.homermultitext"
 name := "hmt-textmodel"
 
-version := "2.2.3"
+version := "2.3.0"
 
 crossScalaVersions  := Seq("2.11.8", "2.12.4")
 scalaVersion := (crossScalaVersions ).value.last
@@ -20,7 +20,7 @@ tutTargetDirectory := file("docs")
 
 
 libraryDependencies ++= Seq(
-  "edu.holycross.shot.cite" %% "xcite" % "3.3.0",
+  "edu.holycross.shot.cite" %% "xcite" % "3.5.0",
   "edu.holycross.shot" %% "ohco2" % "10.8.1",
   "edu.holycross.shot" %% "orca" % "4.1.0",
   "edu.holycross.shot" %% "greek" % "1.4.0",
