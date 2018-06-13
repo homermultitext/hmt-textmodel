@@ -116,8 +116,10 @@
         <a title="Provides classes modelling HMT editions of texts." href="index.html"><span class="name">edmodel</span></a>
       </span>
       
-      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="" class="extype" name="org.homermultitext.edmodel.TeiReader">org.homermultitext.edmodel.TeiReader</a>, that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromTwoColumns(<span class="lit">"SOURCEFILENAME.tsv"</span>)</pre><p>The crucial structure is the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>, which
-captures everything known about a token from an HMT edition.
+      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a>, that can read data in the OHCO2
+model from a two-column file or a Corpus object to produce a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.  The <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> pairs a CtsUrn
+for the citable text node with a fully analyzed <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre><p>The  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> captures everything known about a token
+ from an HMT edition. See its documentation for more details.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="org.homermultitext">homermultitext</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
@@ -225,16 +227,16 @@ captures everything known about a token from an HMT edition.
                         <a href="Restored$.html" title="Reading supplied by modern editor.">Restored</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="object" href="" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances."></a>
-                        <a href="" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances.">TeiReader</a>
+                        <a class="object" href="" title="Factory for Vectors of  HmtToken instances."></a>
+                        <a href="" title="Factory for Vectors of  HmtToken instances.">TeiReader</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="TextDeformation$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtOrcaToken instances."></a>
                         <a class="class" href="TextDeformation.html" title=""></a>
                         <a href="TextDeformation.html" title="">TextDeformation</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="TokenAnalysis.html" title=""></a>
-                        <a href="TokenAnalysis.html" title="">TokenAnalysis</a>
+                        <a class="class" href="TokenAnalysis.html" title="An analysis of a single token."></a>
+                        <a href="TokenAnalysis.html" title="An analysis of a single token.">TokenAnalysis</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="Unclear$.html" title="Paleographically ambiguous reading."></a>
@@ -271,7 +273,10 @@ captures everything known about a token from an HMT edition.
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> Factory for Vectors of  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a> instances.</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p> Factory for Vectors of  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> instances.</p><h4>Example</h4><p> The <a href="" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a> reads data in the OHCO2
+ model from sources such as delimited-texts files or
+ the Corpus object from the edu.holycross.ohco2 library.
+ It produces a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.</p><p>Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -535,11 +540,11 @@ Results are collected in <code>tokenBuffer</code>.</p></div><dl class="paramcmts
         <span class="name">collectWrappedWordReadings</span><span class="params">(<span name="editorialStatus">editorialStatus: <a href="EditorialStatus.html" class="extype" name="org.homermultitext.edmodel.EditorialStatus">EditorialStatus</a></span>, <span name="n">n: <span class="extype" name="scala.xml.Node">Node</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       
-      <p class="shortcomment cmt">recursively collect all <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a> objects descended
-from a given node, and add a Vector of <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a>s
+      <p class="shortcomment cmt">recursively collect all <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a> objects descended
+from a given node, and add a Vector of <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>s
 to the TeiReader's <code>wrappedWordBuffer</code>
-</p><div class="fullcomment"><div class="comment cmt"><p>recursively collect all <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a> objects descended
-from a given node, and add a Vector of <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a>s
+</p><div class="fullcomment"><div class="comment cmt"><p>recursively collect all <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a> objects descended
+from a given node, and add a Vector of <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>s
 to the TeiReader's <code>wrappedWordBuffer</code>
 </p></div><dl class="paramcmts block"><dt class="param">editorialStatus</dt><dd class="cmt"><p>editorial status of surrounding context</p></dd><dt class="param">n</dt><dd class="cmt"><p>node to descend from</p></dd></dl></div>
     </li><li name="org.homermultitext.edmodel.TeiReader#ctsSafe" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
@@ -947,8 +952,8 @@ punctuation characters as individual tokens.</p>
       </span>
       
       <p class="shortcomment cmt">Read an XML fragment following HMT conventions to represent a single
-citable node, and construct a Vector of (CtsUrn,<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>) tuples from it.</p><div class="fullcomment"><div class="comment cmt"><p>Read an XML fragment following HMT conventions to represent a single
-citable node, and construct a Vector of (CtsUrn,<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>) tuples from it.
+citable node, and construct a Vector of (CtsUrn,<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>) tuples from it.</p><div class="fullcomment"><div class="comment cmt"><p>Read an XML fragment following HMT conventions to represent a single
+citable node, and construct a Vector of (CtsUrn,<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>) tuples from it.
 </p></div><dl class="paramcmts block"><dt class="param">u</dt><dd class="cmt"><p>URN for the citable node</p></dd><dt class="param">xmlStr</dt><dd class="cmt"><p>XML text for the citable node</p></dd></dl></div>
     </li><li name="scala.AnyRef#toString" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
@@ -981,7 +986,7 @@ citable node, and construct a Vector of (CtsUrn,<a href="HmtToken.html" class="e
         <span class="name">tokenBuffer</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Buffer of recursively accumulated <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>s.</p>
+      <p class="shortcomment cmt">Buffer of recursively accumulated <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>s.</p>
     </li><li name="org.homermultitext.edmodel.TeiReader#tokensFromNodeVector" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="tokensFromNodeVector(nodes:Vector[edu.holycross.shot.ohco2.CitableNode],tokens:Vector[org.homermultitext.edmodel.TokenAnalysis]):Vector[org.homermultitext.edmodel.TokenAnalysis]"></a><a id="tokensFromNodeVector(Vector[CitableNode],Vector[TokenAnalysis]):Vector[TokenAnalysis]"></a>
       <span class="permalink">
@@ -1087,7 +1092,7 @@ must be XML conforming to HMT project conventions.</p></dd><dt class="param">tok
         <span class="name">wrappedWordBuffer</span><span class="result">: <span class="extype" name="scala.collection.mutable.ArrayBuffer">ArrayBuffer</span>[<a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>]</span>
       </span>
       
-      <p class="shortcomment cmt">Buffer of recursively accumulated <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">org.homermultitext.edmodel.Reading</a>s
+      <p class="shortcomment cmt">Buffer of recursively accumulated <a href="Reading.html" class="extype" name="org.homermultitext.edmodel.Reading">Reading</a>s
 for a single token.</p>
     </li>
               </ol>

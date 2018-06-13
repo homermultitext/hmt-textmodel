@@ -116,8 +116,10 @@
         <span class="name">edmodel</span>
       </span>
       
-      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">org.homermultitext.edmodel.TeiReader</a>, that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromTwoColumns(<span class="lit">"SOURCEFILENAME.tsv"</span>)</pre><p>The crucial structure is the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>, which
-captures everything known about a token from an HMT edition.
+      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a>, that can read data in the OHCO2
+model from a two-column file or a Corpus object to produce a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.  The <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> pairs a CtsUrn
+for the citable text node with a fully analyzed <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre><p>The  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> captures everything known about a token
+ from an HMT edition. See its documentation for more details.
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="org.homermultitext">homermultitext</a></dd></dl></div>
     </li><li class="current-entities indented3">
                         <span class="separator"></span>
@@ -225,16 +227,16 @@ captures everything known about a token from an HMT edition.
                         <a href="Restored$.html" title="Reading supplied by modern editor.">Restored</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="object" href="TeiReader$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances."></a>
-                        <a href="TeiReader$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances.">TeiReader</a>
+                        <a class="object" href="TeiReader$.html" title="Factory for Vectors of  HmtToken instances."></a>
+                        <a href="TeiReader$.html" title="Factory for Vectors of  HmtToken instances.">TeiReader</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="TextDeformation$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtOrcaToken instances."></a>
                         <a class="class" href="TextDeformation.html" title=""></a>
                         <a href="TextDeformation.html" title="">TextDeformation</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
-                        <a class="class" href="TokenAnalysis.html" title=""></a>
-                        <a href="TokenAnalysis.html" title="">TokenAnalysis</a>
+                        <a class="class" href="TokenAnalysis.html" title="An analysis of a single token."></a>
+                        <a href="TokenAnalysis.html" title="An analysis of a single token.">TokenAnalysis</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="object" href="Unclear$.html" title="Paleographically ambiguous reading."></a>
@@ -271,8 +273,10 @@ captures everything known about a token from an HMT edition.
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">org.homermultitext.edmodel.TeiReader</a>, that can read a two-column OHCO2 file to produce a Vector of tuples, pairing a CtsUrn for the citable text node with a <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromTwoColumns(<span class="lit">"SOURCEFILENAME.tsv"</span>)</pre><p>The crucial structure is the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a>, which
-captures everything known about a token from an HMT edition.
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a>, that can read data in the OHCO2
+model from a two-column file or a Corpus object to produce a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.  The <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> pairs a CtsUrn
+for the citable text node with a fully analyzed <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre><p>The  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> captures everything known about a token
+ from an HMT edition. See its documentation for more details.
 </p></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
@@ -519,7 +523,7 @@ are enumerated by case objects extending this trait</p><p>The <code>name</code> 
       </span>
       
       
-    </li><li name="org.homermultitext.edmodel.TokenAnalysis" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.homermultitext.edmodel.TokenAnalysis" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TokenAnalysisextendsProductwithSerializable"></a><a id="TokenAnalysis:TokenAnalysis"></a>
       <span class="permalink">
       <a href="../../../org/homermultitext/edmodel/index.html#TokenAnalysisextendsProductwithSerializable" title="Permalink">
@@ -531,10 +535,17 @@ are enumerated by case objects extending this trait</p><p>The <code>name</code> 
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="TokenAnalysis.html"><span class="name">TokenAnalysis</span></a><span class="params">(<span name="textNode">textNode: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="analysis">analysis: <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="An analysis of a single token." href="TokenAnalysis.html"><span class="name">TokenAnalysis</span></a><span class="params">(<span name="textNode">textNode: <span class="extype" name="edu.holycross.shot.cite.CtsUrn">CtsUrn</span></span>, <span name="analysis">analysis: <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">An analysis of a single token.</p><div class="fullcomment"><div class="comment cmt"><p>An analysis of a single token.
+</p></div><dl class="paramcmts block"><dt class="param">textNode</dt><dd class="cmt"><p>CtsUrn of the citable node where this token occurs.
+Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
+edition URN extends the passage hierarchy with a &quot;tokens&quot; exemplar,
+and extends the passage hierarchy with a further level.
+Expressed in code, we can say that for any <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> ta,
+the following relation is true:</p><pre>ta.analysis.editionUrn.collapsePassageBy(<span class="num">1</span>) == ta.textNode.addExemplar(<span class="lit">"tokens"</span>)</pre></dd><dt class="param">analysis</dt><dd class="cmt"><p>The analysis of this token as a full <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>
+object.</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -555,7 +566,7 @@ are enumerated by case objects extending this trait</p><p>The <code>name</code> 
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">analyticalCollections</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="java.lang.String">String</span>, <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span>]</span>
+        <span class="name">analyticalCollections</span><span class="result">: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="edu.holycross.shot.cite.Cite2Urn">Cite2Urn</span>]</span>
       </span>
       
       
@@ -1045,7 +1056,7 @@ of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.
       
       <p class="shortcomment cmt">Reading supplied by modern editor.</p><div class="fullcomment"><div class="comment cmt"><p>Reading supplied by modern editor.</p><p>Applies only to editorial expansion of abbreviations.
 </p></div></div>
-    </li><li name="org.homermultitext.edmodel.TeiReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="org.homermultitext.edmodel.TeiReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TeiReader"></a><a id="TeiReader:TeiReader"></a>
       <span class="permalink">
       <a href="../../../org/homermultitext/edmodel/index.html#TeiReader" title="Permalink">
@@ -1057,10 +1068,13 @@ of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.
         <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <a title="Factory for Vectors of  org.homermultitext.edmodel.HmtToken instances." href="TeiReader$.html"><span class="name">TeiReader</span></a>
+        <a title="Factory for Vectors of  HmtToken instances." href="TeiReader$.html"><span class="name">TeiReader</span></a>
       </span>
       
-      <p class="shortcomment cmt"> Factory for Vectors of  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">org.homermultitext.edmodel.HmtToken</a> instances.</p>
+      <p class="shortcomment cmt"> Factory for Vectors of  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> instances.</p><div class="fullcomment"><div class="comment cmt"><p> Factory for Vectors of  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> instances.</p><h4>Example</h4><p> The <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a> reads data in the OHCO2
+ model from sources such as delimited-texts files or
+ the Corpus object from the edu.holycross.ohco2 library.
+ It produces a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.</p><p>Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre></div></div>
     </li><li name="org.homermultitext.edmodel.TextDeformation" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TextDeformation"></a><a id="TextDeformation:TextDeformation"></a>
       <span class="permalink">

@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**2.3.0**:  Adds support for `add` and `del` elements in HMT XML.
+
 **2.2.3**:  Bug fixes in updated library dependency.
 
 **2.2.2**:  Handle tokenizing of unregistered source XML.
