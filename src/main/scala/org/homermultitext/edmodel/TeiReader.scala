@@ -395,7 +395,7 @@ object TeiReader {
       }
       // Only add token to the buffer when we reach text
       // content.
-      println("ADD TOKEN AT TEXT CONTENT:  " + newToken.leidenFull)
+      //println("ADD TOKEN AT TEXT CONTENT:  " + newToken.leidenFull)
       tokenBuffer += newToken
     }
   }
@@ -422,24 +422,19 @@ object TeiReader {
         collectWrappedWordReadings(Clear,el)
         val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
         wrappedWordBuffer.clear
-        println("ADD TOKEN FOR SCRBAL ADDITION " + alt)
-        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = Vector.empty[Reading])
+        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
         tokenBuffer += newToken
 
       }
 
       case "del" => {
-        //    val newToken = hmtToken.copy(alternateReading = Some(alt))
-        //collectTokens(newToken,abbr)
         wrappedWordBuffer.clear
         collectWrappedWordReadings(Clear,el)
-        println("COLLECTED READINGS : " + wrappedWordBuffer)
         val alt = AlternateReading(Deletion,Vector.empty[Reading])
         val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
         wrappedWordBuffer.clear
         tokenBuffer += newToken
-
-
 
 
       }
@@ -505,7 +500,7 @@ object TeiReader {
         val subrefIndex = indexSubstring(nodeText.toString,deformation)
         val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
         var newToken = tokenSettings.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
-        println("ADD TOKEN FROM w ELEMENT " + newToken.leidenFull)
+        //println("ADD TOKEN FROM w ELEMENT " + newToken.leidenFull)
         tokenBuffer += newToken
       }
       case "foreign" => {
