@@ -6,13 +6,11 @@ This library supports working with the text contents of citable nodes as a seque
 
 The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines, and generating a variety of analytical exemplars from the resulting analyses.
 
-## Current version: 2.3.0
+## Current version: 2.4.0
 
- The library is in early but active development.
+The library is in active development.
 
- See [release notes](releases.md) beginning with version 1.3.
-
-
+See [release notes](releases.md) beginning with version 1.3.
 
 
 ## Building
