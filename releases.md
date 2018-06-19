@@ -1,5 +1,10 @@
 # `hmt-textmodel`: release notes
 
+
+**2.3.2**:  Update  dependencies on multiple underlying libraries
+
+**2.3.1**:  Makes model of `add` element work with `CitableNode`.
+
 **2.3.0**:  Adds support for `add` and `del` elements in HMT XML.
 
 **2.2.3**:  Bug fixes in updated library dependency.

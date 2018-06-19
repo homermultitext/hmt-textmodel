@@ -16,5 +16,17 @@ class DeletionSpec extends FlatSpec {
 
   }
 
-  it should "have an empty string as thge atlernate" in pending
+  it should "have an empty string as the atlernate" in pending
+
+  it should "create a valid CitableNode for an alternate reading" in {
+      val xml = "urn:cts:greekLit:tlg0012.tlg001.demo:10.534#<l n=\"534\">ψεύσομαι. ἢ έτυμόν <del>τοι</del> ἐρέω, κέλεται δέ με θυμός·</l>"
+      val tokenized = TeiReader.fromString(xml)
+      val analyses = tokenized.map(_.analysis)
+      for (tkn <- analyses) {
+        println(s"${tkn.editionUrn}==${tkn.readWithAlternate}")
+      }
+      for (tkn <- tokenized) {
+        println(s"${tkn.analysis.editionUrn}==${tkn.analysis.readWithAlternate}")
+      }
+  }
 }
