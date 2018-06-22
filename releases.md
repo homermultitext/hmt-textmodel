@@ -1,5 +1,6 @@
 # `hmt-textmodel`: release notes
 
+**2.4.0**:  Add support for TEI `rs` element of type `astro`.
 
 **2.3.2**:  Update  dependencies on multiple underlying libraries
 

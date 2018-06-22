@@ -277,6 +277,9 @@ object TeiReader {
        case "ethnic" => {
          disambiguateNamedEntity(currToken,rsElem)
        }
+       case "astro" => {
+         disambiguateNamedEntity(currToken,rsElem)
+       }
 
        case s: String => {
          var errorList = currToken.errors :+ "unrecognized value for @type attribute on rs element " + s

@@ -20,12 +20,12 @@ class DeletionSpec extends FlatSpec {
 
   it should "create a valid CitableNode for an alternate reading" in {
       val xml = "urn:cts:greekLit:tlg0012.tlg001.demo:10.534#<l n=\"534\">ψεύσομαι. ἢ έτυμόν <del>τοι</del> ἐρέω, κέλεται δέ με θυμός·</l>"
-      val tokenized = TeiReader.fromString(xml)
-      val analyses = tokenized.map(_.analysis)
+      val tokens = TeiReader.fromString(xml)
+      val analyses = tokens.map(_.analysis)
       for (tkn <- analyses) {
         println(s"${tkn.editionUrn}==${tkn.readWithAlternate}")
       }
-      for (tkn <- tokenized) {
+      for (tkn <- tokens) {
         println(s"${tkn.analysis.editionUrn}==${tkn.analysis.readWithAlternate}")
       }
   }
