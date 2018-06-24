@@ -13,7 +13,8 @@ class HmtTokenReadingSpec extends FlatSpec {
 
 
   "A token analysis"  should "have a URN identifying the text node" in  {
-    val analysisV = TeiReader.teiToTokens(urn, xml)
+    val reader = TeiReader("")
+    val analysisV = reader.teiToTokens(urn, xml)
     for (a <- analysisV) {
       a.textNode match {
         case u: CtsUrn => assert(true)
@@ -21,8 +22,9 @@ class HmtTokenReadingSpec extends FlatSpec {
       }
     }
   }
-  it should "have an analysis object" in {
-    val analysisV = TeiReader.teiToTokens(urn, xml)
+  it should "have an analysis object" in  {
+    val reader = TeiReader("")
+    val analysisV = reader.teiToTokens(urn, xml)
     for (a <- analysisV) {
       a.analysis match {
         case t: HmtToken => assert(true)
@@ -32,7 +34,8 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match diplomatic text of tokens" in {
-    val analysisV = TeiReader.teiToTokens(urn, xml)
+    val reader = TeiReader("")
+    val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(2)
     val formC =  Normalizer.normalize("τοῦ", Normalizer.Form.NFC)
     val formD =  Normalizer.normalize("τοῦ", Normalizer.Form.NFD)
@@ -42,7 +45,8 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match alternate text of tokens" in {
-    val analysisV = TeiReader.teiToTokens(urn, xml)
+    val reader = TeiReader("")
+    val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(0)
     val formC =  Normalizer.normalize("οὕτως", Normalizer.Form.NFC)
     val formD =  Normalizer.normalize("οὕτως", Normalizer.Form.NFD)
@@ -52,7 +56,8 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match diplomatic texts accent-free" in {
-    val analysisV = TeiReader.teiToTokens(urn, xml)
+    val reader = TeiReader("")
+    val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(2)
     val formC =  Normalizer.normalize("του", Normalizer.Form.NFC)
     val formD =  Normalizer.normalize("του", Normalizer.Form.NFD)
@@ -62,7 +67,8 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
 
-  it should "match alternate text of tokens accent-free" in pending /*{
+  it should "match alternate text of tokens accent-free" in pending/* {
+
     val testToken = analysisV(0)
     val formC =  Normalizer.normalize("ουτως", Normalizer.Form.NFC)
     val formD =  Normalizer.normalize("ουτως", Normalizer.Form.NFD)

@@ -4,29 +4,41 @@ import org.scalatest.FlatSpec
 
 class DeletionSpec extends FlatSpec {
 
-  val example = """urn:cts:greekLit:tlg0012.tlg001.demo:24.212#<l  n="212" >ανδρι <add>παρα</add> κρατὲρῳ τοῦ εγω <del>δε</del> <w part="N">μ<unclear instant="false">ε</unclear><gap extent="2" unit="letters"/>ον</w> ἧπαρ εχοιμι</l>"""
 
   "A deletion" should "keep the deleted text as a reading" in {
+    val example = """urn:cts:greekLit:tlg0012.tlg001.demo:24.212#<l  n="212" >ανδρι <add>παρα</add> κρατὲρῳ τοῦ εγω <del>δε</del> <w part="N">μ<unclear instant="false">ε</unclear><gap extent="2" unit="letters"/>ον</w> ἧπαρ εχοιμι</l>"""
+
+    val delReader = TeiReader(example)
+    val delTokens = delReader.tokens
+    /*
     val analyses = TeiReader.fromString(example).map(_.analysis)
-    println("Tokenized into " + analyses.size + " analyses.")
+    println("DeletionSpec: tokenized into " + analyses.size + " analyses.")
     for (a <- analyses) {
       val rdgs =  a.readings.mkString("++")
-      println(rdgs + " ALT " + a.alternateReading)
+      //println(rdgs + " ALT " + a.alternateReading)
     }
+
+*/
+    println("PARSED deletion example and got " + delTokens.size + " tokens")
+    for ((t,i) <- delTokens.zipWithIndex) {
+      println("\t" + i + " = " + t.analysis.readWithDiplomatic)
+    }
+
 
   }
 
   it should "have an empty string as the atlernate" in pending
 
-  it should "create a valid CitableNode for an alternate reading" in {
+  it should "create a valid CitableNode for an alternate reading" in pending /*{
       val xml = "urn:cts:greekLit:tlg0012.tlg001.demo:10.534#<l n=\"534\">ψεύσομαι. ἢ έτυμόν <del>τοι</del> ἐρέω, κέλεται δέ με θυμός·</l>"
+      TeiReader.clear
       val tokens = TeiReader.fromString(xml)
       val analyses = tokens.map(_.analysis)
       for (tkn <- analyses) {
-        println(s"${tkn.editionUrn}==${tkn.readWithAlternate}")
+        //println(s"${tkn.editionUrn}==${tkn.readWithAlternate}")
       }
       for (tkn <- tokens) {
-        println(s"${tkn.analysis.editionUrn}==${tkn.analysis.readWithAlternate}")
+        //println(s"${tkn.analysis.editionUrn}==${tkn.analysis.readWithAlternate}")
       }
-  }
+  }*/
 }

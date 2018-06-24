@@ -121,7 +121,6 @@ case class HmtToken (
   */
   def diplomaticMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-      println("Looking at form C...")
       def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
       readWithDiplomatic.contains(cf)
     } else {
