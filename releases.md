@@ -1,5 +1,12 @@
 # `hmt-textmodel`: release notes
 
+
+**3.2.0**:   Add `normalizeCPs` function in `HmtChars`.
+
+**3.1.0**:   Adds `HmtChars` object.
+
+**3.0.0**:  **API breaking change**.  `TeiReader` object largely replaced by case class.
+
 **2.4.0**:  Add support for TEI `rs` element of type `astro`.
 
 **2.3.2**:  Update  dependencies on multiple underlying libraries
