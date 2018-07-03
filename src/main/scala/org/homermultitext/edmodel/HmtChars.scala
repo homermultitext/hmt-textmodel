@@ -140,4 +140,34 @@ object HmtChars {
       }
     })
   }
+
+
+
+	/** Recursively compute list of codepoints for a string.
+  *
+  * @param s String to analyze.
+  * @param cpVector Vector previously computed code points.
+  * @param idx Index of pointer into s.
+   */
+	def stringToCps(s: String, cpVector: Vector[Int] = Vector.empty[Int], idx : Int = 0) : Vector[Int] = {
+		if (idx >= s.length) {
+			cpVector
+		} else {
+			val cp = s.codePointAt(idx)
+			stringToCps(s, cpVector :+ cp, idx + java.lang.Character.charCount(cp))
+		}
+	}
+
+  /** Compose a String from an array of codepoints.
+  *
+  * @param cps Vector of codepoints.
+  */
+  def cpsToString(cps: Vector[Int]): String = {
+    val cpArray = cps.toArray
+    new String(cpArray,0,cpArray.length)
+  }
+
+  def normalizeCPs(s: String) = {
+
+  }
 }

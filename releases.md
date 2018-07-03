@@ -1,5 +1,6 @@
 # `hmt-textmodel`: release notes
 
+**3.3.0**:
 
 **3.2.0**:   Add `normalizeCPs` function in `HmtChars`.
 
