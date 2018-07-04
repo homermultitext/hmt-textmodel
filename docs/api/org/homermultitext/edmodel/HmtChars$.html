@@ -434,6 +434,23 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
       </span>
       
       
+    </li><li name="org.homermultitext.edmodel.HmtChars#badCPs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="badCPs(s:String):Vector[Int]"></a><a id="badCPs(String):Vector[Int]"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtChars$.html#badCPs(s:String):Vector[Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">badCPs</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Vector">Vector</span>[<span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Identify invalid HMTcodepoints in a String.</p><div class="fullcomment"><div class="comment cmt"><p>Identify invalid HMTcodepoints in a String.
+</p></div><dl class="paramcmts block"><dt class="param">s</dt><dd class="cmt"><p>String to check.</p></dd></dl></div>
     </li><li name="org.homermultitext.edmodel.HmtChars#basicAlphabetCPs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="basicAlphabetCPs:Vector[Char]"></a>
       <span class="permalink">
@@ -680,6 +697,23 @@ vowel + acute, plus elision mark to plain single quote.</p>
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtChars#hmtNormalize" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="hmtNormalize(s:String):String"></a><a id="hmtNormalize(String):String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtChars$.html#hmtNormalize(s:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hmtNormalize</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Normalize a tring allowed in HMT input
+to specified output form.</p>
     </li><li name="org.homermultitext.edmodel.HmtChars#isFloating" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isFloating(cp:Int):Boolean"></a><a id="isFloating(Int):Boolean"></a>
       <span class="permalink">
@@ -831,6 +865,25 @@ vowel + acute, plus elision mark to plain single quote.</p>
       
       <p class="shortcomment cmt">True if codepoint is allowed in HMT editions.</p><div class="fullcomment"><div class="comment cmt"><p>True if codepoint is allowed in HMT editions.
 </p></div><dl class="paramcmts block"><dt class="param">cp</dt><dd class="cmt"><p>Codepoint to check.</p></dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtChars#legalChars" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="legalChars(s:String):Boolean"></a><a id="legalChars(String):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtChars$.html#legalChars(s:String):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">legalChars</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Determine if a string is composed entirely
+of allowed codepoints.</p><div class="fullcomment"><div class="comment cmt"><p>Determine if a string is composed entirely
+of allowed codepoints.
+</p></div><dl class="paramcmts block"><dt class="param">s</dt><dd class="cmt"><p>String to check.</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -847,22 +900,6 @@ vowel + acute, plus elision mark to plain single quote.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="org.homermultitext.edmodel.HmtChars#normalizeCPs" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="normalizeCPs(s:String):Unit"></a><a id="normalizeCPs(String):Unit"></a>
-      <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/HmtChars$.html#normalizeCPs(s:String):Unit" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">normalizeCPs</span><span class="params">(<span name="s">s: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      
-      
     </li><li name="org.homermultitext.edmodel.HmtChars#normalizeCPs" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="normalizeCPs(cps:Vector[Int]):Vector[Int]"></a><a id="normalizeCPs(Vector[Int]):Vector[Int]"></a>
       <span class="permalink">
