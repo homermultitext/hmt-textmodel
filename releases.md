@@ -4,7 +4,7 @@
 
 **3.4.0**:  Add `hmtNormalize` function, and provide work around for erroneous NFC conversion in standard java library.
 
-**3.3.0**:
+**3.3.0**:  Add `legalChars` and `badCPs` functions to `HmtChars`.
 
 **3.2.0**:   Add `normalizeCPs` function in `HmtChars`.
 
