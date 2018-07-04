@@ -116,7 +116,7 @@
         <a title="Provides classes modelling HMT editions of texts." href="index.html"><span class="name">edmodel</span></a>
       </span>
       
-      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader$.html" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a>, that can read data in the OHCO2
+      <p class="shortcomment cmt">Provides classes modelling HMT editions of texts.</p><div class="fullcomment"><div class="comment cmt"><p>Provides classes modelling HMT editions of texts.</p><h4>Overview</h4><p> The starting point is the factory object <a href="TeiReader.html" class="extype" name="org.homermultitext.edmodel.TeiReader">TeiReader</a>, that can read data in the OHCO2
 model from a two-column file or a Corpus object to produce a Vector of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> objects.  The <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> pairs a CtsUrn
 for the citable text node with a fully analyzed <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>.  Example:</p><pre><span class="kw">val</span> tokenPairs = TeiReader.fromCorpus(CORPUS_OBJECT)</pre><p>The  <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a> captures everything known about a token
  from an HMT edition. See its documentation for more details.
@@ -143,6 +143,10 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
                         <a href="Correction$.html" title="scribal correction of text">Correction</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="object" href="Deletion$.html" title="scribal deletion of text"></a>
+                        <a href="Deletion$.html" title="scribal deletion of text">Deletion</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="object" href="DiplomaticEditionFactory$.html" title="Factory to build a diplomatic edition from a Vector of TokenAnalysiss."></a>
                         <a href="DiplomaticEditionFactory$.html" title="Factory to build a diplomatic edition from a Vector of TokenAnalysiss.">DiplomaticEditionFactory</a>
                       </li><li class="current-entities indented3">
@@ -157,6 +161,10 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
                         <span class="separator"></span>
                         <a class="trait" href="EditorialStatus.html" title="All possible values for the editorial status of a token are enumerated by case objects extending this trait"></a>
                         <a href="EditorialStatus.html" title="All possible values for the editorial status of a token are enumerated by case objects extending this trait">EditorialStatus</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="object" href="HmtChars$.html" title="Definitions of allowed characters in HMT editions."></a>
+                        <a href="HmtChars$.html" title="Definitions of allowed characters in HMT editions.">HmtChars</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="HmtOrcaToken$.html" title=""></a>
                         <a class="class" href="HmtOrcaToken.html" title="token in an ORCA analytical exemplar"></a>
@@ -226,9 +234,9 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
                         <a class="object" href="" title="Reading supplied by modern editor."></a>
                         <a href="" title="Reading supplied by modern editor.">Restored</a>
                       </li><li class="current-entities indented3">
-                        <span class="separator"></span>
-                        <a class="object" href="TeiReader$.html" title="Factory for Vectors of  HmtToken instances."></a>
-                        <a href="TeiReader$.html" title="Factory for Vectors of  HmtToken instances.">TeiReader</a>
+                        <a class="object" href="TeiReader$.html" title=""></a>
+                        <a class="class" href="TeiReader.html" title="Factory for Vectors of  HmtToken instances."></a>
+                        <a href="TeiReader.html" title="Factory for Vectors of  HmtToken instances.">TeiReader</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="TextDeformation$.html" title="Factory for Vectors of  org.homermultitext.edmodel.HmtOrcaToken instances."></a>
                         <a class="class" href="TextDeformation.html" title=""></a>
