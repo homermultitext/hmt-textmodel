@@ -1,6 +1,6 @@
 package org.homermultitext.edmodel
 
-
+import java.text.Normalizer
 
 
 /** Definitions of allowed characters in HMT editions.
@@ -167,7 +167,41 @@ object HmtChars {
     new String(cpArray,0,cpArray.length)
   }
 
-  def normalizeCPs(s: String) = {
 
+  /** Normalize a tring allowed in HMT input
+  * to specified output form.
+  *
+  * @param cps Codepoints to normalize.
+  */
+  def hmtNormalize(s: String) = {
+    val nfc = Normalizer.normalize(s,Normalizer.Form.NFC)
+    val inputCPs = stringToCps(nfc)
+    val outputCPs = normalizeCPs(inputCPs)
+    cpsToString(outputCPs)
+  }
+
+  /** Identify invalid HMTcodepoints in a String.
+  *
+  * @param s String to check.
+  */
+  def badCPs(s: String): Vector[Int] = {
+    val cps = stringToCps(s)
+    val invalidOpts = for (cp <- cps) yield {
+      if (legal(cp)) {
+        None
+      } else {
+        Some(cp)
+      }
+    }
+    invalidOpts.flatten
+  }
+
+  /** Determine if a string is composed entirely
+  * of allowed codepoints.
+  *
+  * @param s String to check.
+  */
+  def legalChars(s:  String) : Boolean = {
+    badCPs(s).isEmpty
   }
 }

@@ -3,7 +3,7 @@ import org.scalatest.FlatSpec
 
 import edu.holycross.shot.cite._
 import edu.holycross.shot.ohco2._
-
+import java.text.Normalizer
 
 class CharsSpec extends FlatSpec {
 
@@ -48,5 +48,29 @@ class CharsSpec extends FlatSpec {
     val alphaTonos = Vector('\u03ac'.toInt)
     val alphaAcute = Vector('\u1f71'.toInt)
     assert (HmtChars.normalizeCPs(alphaTonos) == alphaAcute)
+  }
+  it should "handle bewitched upsilon+tonos" in {
+    val deviltry = Vector('ύ'.toInt)
+
+
+
+  }
+
+  it should "find a vector of code points for a string" in {
+    val cps = HmtChars.stringToCps("Homer")
+    assert(cps.size == 5)
+    assert(cps.isInstanceOf[Vector[Int]])
+  }
+
+  it should "compose a string from an Array of codepoints" in {
+    val cps = HmtChars.stringToCps("Homer")
+    assert (HmtChars.cpsToString(cps) == "Homer")
+  }
+
+  it should "normalize strings to HMT output form" in {
+    val s1 = "ἐλθέ"
+    val cps1 = HmtChars.stringToCps(s1)
+    assert(cps1 ==  Vector(7952, 955, 952, 8051))
+
   }
 }

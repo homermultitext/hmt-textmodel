@@ -69,8 +69,9 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
     n match {
       case t: xml.Text => {
         val readingString = t.text.replaceAll(" ", "")
-        if (! readingString.isEmpty) {
-          wrappedWordBuffer += Reading(readingString  , editorialStatus)
+        if (readingString.nonEmpty) {
+          val sanitized = HmtChars.hmtNormalize(readingString)
+          wrappedWordBuffer += Reading(sanitized  , editorialStatus)
         }
       }
 
@@ -394,6 +395,7 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
       val rdg = Reading(tk, Clear)
       val subref = ctsSafe(tk)
         //println("WORK ON TOKEN "  + tk)
+      //val sanitized = HmtChars.hmtNormalize(tk)
       nodeText.append(tk)
       val subrefIndex = indexSubstring(nodeText.toString,tk)
       val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + subref + "[" + subrefIndex + "]")
@@ -502,7 +504,7 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         wrappedWordBuffer.clear
         collectWrappedWordReadings(Clear,el)
 
-
+        //val sanitized = HmtChars.hmtNormalize()
         nodeText.append(wrappedWordBuffer.toVector)
         val deformation = wrappedWordBuffer.map(_.reading).mkString
         val subrefIndex = indexSubstring(nodeText.toString,deformation)
@@ -551,7 +553,8 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
   def collectTokens(currToken: HmtToken, n: xml.Node): Unit = {
     n match {
       case t: xml.Text => {
-        addTokensFromText(t.text, currToken)
+        val sanitized = HmtChars.hmtNormalize(t.text)
+        addTokensFromText(sanitized, currToken)
       }
       case e: xml.Elem => {
         addTokensFromElement(e, currToken)

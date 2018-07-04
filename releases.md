@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**3.4.0**:  Add `hmtNormalize` function, and provide work around for erroneous NFC conversion in standard java library.
+
 **3.3.0**:
 
 **3.2.0**:   Add `normalizeCPs` function in `HmtChars`.
