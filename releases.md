@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**3.4.1**:  Outrun horrific treatment of Unicode equivalencies of codepoints in the Greek range in the stand java `Normalizer` library while parsing HMT source XML.
+
 **3.4.0**:  Add `hmtNormalize` function, and provide work around for erroneous NFC conversion in standard java library.
 
 **3.3.0**:

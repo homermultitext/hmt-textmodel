@@ -388,7 +388,8 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
   * @param tokenSettings Initial contextual setting for tokens.
   */
   def addTokensFromText(s: String, tokenSettings: HmtToken): Unit = {
-    val hmtText = hmtNormalize(s)
+    val hmtText = HmtChars.hmtNormalize(s)
+    //println("Candidate token(s) in hmtText = cps " + HmtChars.stringToCps(hmtText))
     val depunctuate =  hmtText.split(punctuationSplitter)
     val tokenList = depunctuate.flatMap(_.split("[ ]+")).filterNot(_.isEmpty)
     for (tk <- tokenList) {

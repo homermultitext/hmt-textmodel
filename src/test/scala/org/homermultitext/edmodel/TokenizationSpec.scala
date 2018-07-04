@@ -18,7 +18,7 @@ class  TokenizationSpec extends FlatSpec {
       println(t + " ? " + good)
       if (! good) {
         val cps = HmtChars.badCPs(t)
-        print("\tbad:  " + cps.map(_.toHexString) + " == " + HmtChars.cpsToString(cps))
+        print("\tbad:  " + cps.map(_.toHexString) + " ==  STOP HERE"  )// + HmtChars.cpsToString(cps))
       }
     }
     println("SANITIZED:")

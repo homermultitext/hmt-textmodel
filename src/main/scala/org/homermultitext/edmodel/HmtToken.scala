@@ -4,7 +4,7 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.greek._
 
 import scala.collection.mutable.ArrayBuffer
-import java.text.Normalizer
+//import java.text.Normalizer
 
 /** A fully documented, semantically distinct token.
 * The model of this token supports the ORCA model of
@@ -121,28 +121,28 @@ case class HmtToken (
   */
   def diplomaticMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-      readWithDiplomatic.contains(cf)
+      //def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithDiplomatic.contains(s)
     } else {
-      val strippedQuery =  Normalizer.normalize(LiteraryGreekString(s).stripAccent.ucode, Normalizer.Form.NFC)
-      val strippedSrc = Normalizer.normalize( LiteraryGreekString(readWithDiplomatic).stripAccent.ucode, Normalizer.Form.NFC)
+      val strippedQuery = LiteraryGreekString(s).stripAccent.ucode
+      val strippedSrc = LiteraryGreekString(readWithDiplomatic).stripAccent.ucode
       strippedSrc.contains(strippedQuery)
     }
   }
   def scribalMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-      readWithScribal.contains(cf)
+      //def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithScribal.contains(s)
     } else {
-      val strippedQuery =  Normalizer.normalize(LiteraryGreekString(s).stripAccent.ucode, Normalizer.Form.NFC)
-      val strippedSrc = Normalizer.normalize( LiteraryGreekString(readWithScribal).stripAccent.ucode, Normalizer.Form.NFC)
+      val strippedQuery = LiteraryGreekString(s).stripAccent.ucode
+      val strippedSrc = LiteraryGreekString(readWithScribal).stripAccent.ucode
       strippedSrc.contains(strippedQuery)
     }
   }
   def alternateMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-      def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
-      readWithAlternate.contains(cf)
+//def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
+      readWithAlternate.contains(s)
 
     }  else {
       println(s"Given ${s} ... compare to ${readWithAlternate}")
@@ -260,13 +260,13 @@ case class HmtToken (
   def readWithAlternate: String = {
     alternateReading match {
       case None => {
-        val reading = readings.map(_.reading).mkString
-        Normalizer.normalize(reading, Normalizer.Form.NFC)
+        readings.map(_.reading).mkString
+        //Normalizer.normalize(reading, Normalizer.Form.NFC)
 
       }
       case Some(alt) => {
-        val reading = alt.reading.map(_.reading).mkString
-        Normalizer.normalize(reading, Normalizer.Form.NFC)
+        alt.reading.map(_.reading).mkString
+        //Normalizer.normalize(reading, Normalizer.Form.NFC)
       }
     }
   }
@@ -278,19 +278,19 @@ case class HmtToken (
   def readWithScribal: String = {
     alternateReading match {
       case None => {
-        val reading = readings.map(_.reading).mkString
-        Normalizer.normalize(reading, Normalizer.Form.NFC)
+        readings.map(_.reading).mkString
+        //Normalizer.normalize(reading, Normalizer.Form.NFC)
       }
       case Some(alt) => {
         alt.alternateCategory match {
           case Correction => {
-            val reading = alt.reading.map(_.reading).mkString
-            Normalizer.normalize(reading, Normalizer.Form.NFC)
+            alt.reading.map(_.reading).mkString
+            //Normalizer.normalize(reading, Normalizer.Form.NFC)
           }
           case _ => {
             val readingList = readings.filter(r => (r.status == Clear) || (r.status == Unclear))
-            val reading = readingList.map(_.reading).mkString
-            Normalizer.normalize(reading, Normalizer.Form.NFC)
+            readingList.map(_.reading).mkString
+            //Normalizer.normalize(reading, Normalizer.Form.NFC)
           }
         }
       }
@@ -301,8 +301,8 @@ case class HmtToken (
   */
   def readWithDiplomatic: String = {
     val dipl = readings.filter(_.status == Clear)
-    val reading = dipl.map(_.reading).mkString
-    Normalizer.normalize(reading, Normalizer.Form.NFC)
+    dipl.map(_.reading).mkString
+    //Normalizer.normalize(reading, Normalizer.Form.NFC)
   }
 
   def leidenFull: String = {
