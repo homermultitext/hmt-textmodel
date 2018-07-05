@@ -105,7 +105,8 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
     val abbr = abbrSeq(0)
     val expanSeq = el \ "expan"
     val expan  = expanSeq(0)
-    val expandedReading = Reading(expan.text,Restored)
+    val expandedReading = Reading(
+      HmtChars.hmtNormalize(expan.text),Restored)
     val alt = AlternateReading(Restoration,Vector(expandedReading))
     val newToken = hmtToken.copy(alternateReading = Some(alt))
     collectTokens(newToken,abbr)
@@ -396,7 +397,6 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
       val rdg = Reading(tk, Clear)
       val subref = ctsSafe(tk)
         //println("WORK ON TOKEN "  + tk)
-      //val sanitized = HmtChars.hmtNormalize(tk)
       nodeText.append(tk)
       val subrefIndex = indexSubstring(nodeText.toString,tk)
       val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + subref + "[" + subrefIndex + "]")
@@ -505,9 +505,8 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         wrappedWordBuffer.clear
         collectWrappedWordReadings(Clear,el)
 
-        //val sanitized = HmtChars.hmtNormalize()
         nodeText.append(wrappedWordBuffer.toVector)
-        val deformation = wrappedWordBuffer.map(_.reading).mkString
+        val deformation = HmtChars.hmtNormalize( wrappedWordBuffer.map(_.reading).mkString)
         val subrefIndex = indexSubstring(nodeText.toString,deformation)
         val src = CtsUrn(tokenSettings.sourceUrn.toString + "@" + deformation + "[" + subrefIndex + "]")
         var newToken = tokenSettings.copy(readings = wrappedWordBuffer.toVector,sourceUrn = src)
