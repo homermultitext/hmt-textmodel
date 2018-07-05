@@ -1,5 +1,6 @@
 # `hmt-textmodel`: release notes
 
+**3.4.3**:   Includes character to encode "floating" circumflex.
 
 **3.4.2**:  Correctly apply  HMT text normalization to alternate readings as well as main readings.
 

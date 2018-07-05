@@ -77,6 +77,7 @@ object HmtChars {
     backslash, // grave
     '+',  // diaeresis
     '/',  // acute
+    '=', // circumflex
     '_', // macron
     '^' // breve
   )
