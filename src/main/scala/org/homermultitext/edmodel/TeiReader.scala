@@ -181,6 +181,17 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
   }
 
 
+  def choiceError(hmtToken:  HmtToken, elemNames: Seq[String]) ={
+    // need to put a placeholder token here
+    println("Invalid choice. Element name(s) were: " + elemNames.mkString(", "))
+    wrappedWordBuffer.clear
+    wrappedWordBuffer +=  Reading("[[INVALID CHOICE MARKUP]]", InvalidToken)
+
+    val errorList = hmtToken.errors :+  "Invalid choice markup.  Elements were: " + elemNames.mkString(", ")
+    val newToken = hmtToken.copy(errors = errorList)
+    tokenBuffer += newToken
+  }
+
   /** get alternates as well as tokens from a TEI `choice` element
   *
   * @param hmtToken token reflecting reading values for parent context
@@ -202,6 +213,16 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
 
     } else {
       println("BAD choice : " + cNames)
+      choiceError(hmtToken, cNames)
+//hmtToken,
+
+      /*
+      val alt = AlternateReading(Correction,wrappedWordBuffer.toVector)
+      wrappedWordBuffer.clear
+
+      val newToken = hmtToken.copy(alternateReading = Some(alt))
+      collectTokens(newToken,sic)
+      */
     }
   }
 
@@ -227,7 +248,7 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
       } catch {
         case badarg: java.lang.IllegalArgumentException => {
           println(badarg)
-          var errorList = currToken.errors :+  "Exception: " + badarg
+          val errorList = currToken.errors :+  "Exception: " + badarg
           val newToken = currToken.copy(discourse = QuotedText,
           errors = errorList)
           for (ch <- citElem.child) {
@@ -236,7 +257,7 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         }
         case ex: Exception => {
           println("Unrecognized exception " + ex)
-          var errorList = currToken.errors :+  "Exception: " + ex
+          val errorList = currToken.errors :+  "Exception: " + ex
           val newToken = currToken.copy(discourse = QuotedText,
           errors = errorList)
           for (ch <- citElem.child) {
@@ -421,12 +442,12 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
   def addTokensFromElement(el: xml.Elem, tokenSettings: HmtToken): Unit = {
 
     el.label match {
+      // Level 0:  omit
       case "note" => {} // to be removed from archive
       case "figDesc" => {} // metadata, don't process
       case "ref" => {} // metadata, don't process
 
-
-
+      // Level 1:  editorial status
       case "add" => {
         //  multiform?  Or correction?
         wrappedWordBuffer.clear
@@ -436,9 +457,7 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
         wrappedWordBuffer.clear
         tokenBuffer += newToken
-
       }
-
       case "del" => {
         wrappedWordBuffer.clear
         collectWrappedWordReadings(Clear,el)
@@ -446,16 +465,12 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
         wrappedWordBuffer.clear
         tokenBuffer += newToken
-
-
       }
-      case "persName" => {
-        disambiguateNamedEntity(tokenSettings,el)
-      }
-      case "placeName" => {
-        disambiguateNamedEntity(tokenSettings,el)
+      case "choice" => {
+        getAlternate(tokenSettings,el)
       }
 
+      // Level 2:  tokenization
       case "num" => {
         val newToken = tokenSettings.copy(lexicalCategory = NumericToken, lexicalDisambiguation = Cite2Urn("urn:cite2:hmt:disambig.r1:numeric"))
         for (ch <- el.child) {
@@ -467,39 +482,6 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
         for (ch <- el.child) {
           collectTokens(newToken, ch)
         }
-      }
-
-
-      case "q" => {
-        tokenSettings.discourse match {
-            case QuotedText => {
-              for (ch <- el.child) {
-                collectTokens(tokenSettings, ch)
-              }
-            }
-            case _ => {
-              val newToken = tokenSettings.copy(discourse = QuotedLanguage)
-              for (ch <- el.child) {
-                collectTokens(newToken, ch)
-              }
-            }
-        }
-      }
-
-      case "title" => {
-        val newToken = tokenSettings.copy(discourse = Citation)
-        for (ch <- el.child) {
-          collectTokens(newToken, ch)
-        }
-      }
-
-
-      case "cit" => {
-        collectCited(tokenSettings,el)
-      }
-
-      case "rs" => {
-        collectRefString(tokenSettings,el )
       }
       case "w" => {
         wrappedWordBuffer.clear
@@ -522,19 +504,53 @@ case class TeiReader(twoColumns: String, delimiter: String = "#") {
           collectTokens(newToken, ch)
         }
       }
-
-      case "choice" => {
-        getAlternate(tokenSettings,el)
+      // Level 3:  disambiguation
+      case "persName" => {
+        disambiguateNamedEntity(tokenSettings,el)
       }
 
 
-      case l: String =>  {
-        if (validElements.contains(l)) {
+      case "placeName" => {
+        disambiguateNamedEntity(tokenSettings,el)
+      }
+      case "rs" => {
+        collectRefString(tokenSettings,el )
+      }
+
+      // Level 4:  discourse analysis
+      case "q" => {
+        tokenSettings.discourse match {
+            case QuotedText => {
+              for (ch <- el.child) {
+                collectTokens(tokenSettings, ch)
+              }
+            }
+            case _ => {
+              val newToken = tokenSettings.copy(discourse = QuotedLanguage)
+              for (ch <- el.child) {
+                collectTokens(newToken, ch)
+              }
+            }
+        }
+      }
+      case "title" => {
+        val newToken = tokenSettings.copy(discourse = Citation)
+        for (ch <- el.child) {
+          collectTokens(newToken, ch)
+        }
+      }
+      case "cit" => {
+        collectCited(tokenSettings,el)
+      }
+
+
+      case structuralElem: String =>  {
+        if (validElements.contains(structuralElem)) {
           for (ch <- el.child) {
             collectTokens(tokenSettings, ch)
           }
         } else {
-          var errorList = tokenSettings.errors :+  "Invalid element name: " + l
+          var errorList = tokenSettings.errors :+  "Invalid element name: " + structuralElem
           val newToken = tokenSettings.copy(errors = errorList)
           for (ch <- el.child) {
             collectTokens(newToken, ch)

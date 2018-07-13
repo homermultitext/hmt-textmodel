@@ -22,11 +22,13 @@ case object Missing extends EditorialStatus {val name = "missing"}
 /** Reading supplied by modern editor.
 *
 * Applies only to editorial expansion of abbreviations.
-*
 */
 case object Restored extends EditorialStatus {val name = "restored"}
 
-
+/** Reading cannot  be determined because source XML
+* does not comply with HMT project requirements.
+*/
+case object InvalidToken extends EditorialStatus {val name = "invalid"}
 
 
 /** A typed reading of a passage.
@@ -42,13 +44,14 @@ case class Reading (val reading: String, val status: EditorialStatus ) {
   */
   def leidenize: String = {
     status match {
-      case Restored => "(" + reading +")"
+      case Restored => "[" + reading +"]"
       case Unclear => {
         val codepts = codeptList(reading)
         codepts.map(_.toChar).mkString("?") + "?"
       }
       case Clear => reading
       case Missing => "…"
+      case InvalidToken => reading
     }
   }
 }
