@@ -4,7 +4,7 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.greek._
 
 import scala.collection.mutable.ArrayBuffer
-//import java.text.Normalizer
+
 
 /** A fully documented, semantically distinct token.
 * The model of this token supports the ORCA model of
@@ -57,6 +57,9 @@ case class HmtToken (
 
 
 
+  /** Leiden-style formatting of any
+  * alternate reading.
+  */
   def altString: String = {
     alternateReading match {
       case None => "None"
@@ -73,7 +76,7 @@ case class HmtToken (
     }
   }
 
-  /** True is token is abbreviated in diplomatic reading.
+  /** True if token is abbreviated in diplomatic reading.
   */
   def isAbbreviation: Boolean = {
     alternateReading match {
@@ -129,9 +132,11 @@ case class HmtToken (
       strippedSrc.contains(strippedQuery)
     }
   }
+
+
+
   def scribalMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-      //def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
       readWithScribal.contains(s)
     } else {
       val strippedQuery = LiteraryGreekString(s).stripAccent.ucode
@@ -139,9 +144,9 @@ case class HmtToken (
       strippedSrc.contains(strippedQuery)
     }
   }
+
   def alternateMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
-//def cf =  Normalizer.normalize(s, Normalizer.Form.NFC)
       readWithAlternate.contains(s)
 
     }  else {
@@ -233,25 +238,6 @@ case class HmtToken (
   */
   def columnString: String = columnString(true)
 
-  def orcaColumn: String = {
-    val rows = columnString.split("\n")
-    val urns = rows.slice(0,3).toVector.mkString("\n")
-    val props = rows.slice(3,10).toVector.mkString("\n")
-    "ORCA identifiers:\n" + urns + "\n\n" + "Analysis properties:\n" + props + "\n\n" + "Data quality:\n" + rows(10)
-  }
-
-
-
-  def leidenDiplomatic: String = {
-    readings.map{ rdg =>
-      rdg.status match {
-        case Clear => rdg.leidenize
-        case Unclear => rdg.leidenize
-        case _ => ""
-      }
-    }.mkString
-
-  }
 
 
   /** Collect alternate reading for this token.
@@ -261,12 +247,9 @@ case class HmtToken (
     alternateReading match {
       case None => {
         readings.map(_.reading).mkString
-        //Normalizer.normalize(reading, Normalizer.Form.NFC)
-
       }
       case Some(alt) => {
         alt.reading.map(_.reading).mkString
-        //Normalizer.normalize(reading, Normalizer.Form.NFC)
       }
     }
   }
@@ -279,18 +262,17 @@ case class HmtToken (
     alternateReading match {
       case None => {
         readings.map(_.reading).mkString
-        //Normalizer.normalize(reading, Normalizer.Form.NFC)
+
       }
       case Some(alt) => {
         alt.alternateCategory match {
           case Correction => {
             alt.reading.map(_.reading).mkString
-            //Normalizer.normalize(reading, Normalizer.Form.NFC)
+
           }
           case _ => {
             val readingList = readings.filter(r => (r.status == Clear) || (r.status == Unclear))
             readingList.map(_.reading).mkString
-            //Normalizer.normalize(reading, Normalizer.Form.NFC)
           }
         }
       }
@@ -302,7 +284,17 @@ case class HmtToken (
   def readWithDiplomatic: String = {
     val dipl = readings.filter(_.status == Clear)
     dipl.map(_.reading).mkString
-    //Normalizer.normalize(reading, Normalizer.Form.NFC)
+  }
+
+
+  def leidenDiplomatic: String = {
+    readings.map{ rdg =>
+      rdg.status match {
+        case Clear => rdg.leidenize
+        case Unclear => rdg.leidenize
+        case _ => ""
+      }
+    }.mkString
   }
 
   def leidenFull: String = {
@@ -331,36 +323,15 @@ case class HmtToken (
   }
 
 
-  def debug : String = {
+  /** Compose a string listing properties
+  * in form "k=v".
+  */
+  def kvString : String = {
     "analysis=" + analysis.toString + "\n"    +
     "source URN=" + sourceUrn.toString + "\n" +
     "edition URN=" + editionUrn.toString + "\n" +
     "lang=" +lang  + "\n" +
     "lexical cagtegory=" + lexicalCategory.toString
-
-/*
-    nalysis
-CITE URN for this token analysis.
-sourceUrn
-URN for this token in the analyzed text
-editionUrn
-URN for this token in an analytical exemplar when promoted to an edition
-lang
-3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language
-readings
-All org.homermultitext.edmodel.Readings belonging to this token
-lexicalCategory
-lexical category of this token
-lexicalDisambiguation
-URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values
-alternateReading
-optional org.homermultitext.edmodel.AlternateReadings belonging to this token
-discourse
-category of discourse of this token
-externalSource
-URN of source this token is quoted from
-errors
-list of error messages (hopefully empty)*/
   }
 }
 

@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**4.0.0**:  API-breaking change. `readWithX` functions formerly returning `CitableNode`s now return `Option[CitableNode]`s.
+
 **3.4.3**:   Includes character to encode "floating" circumflex.
 
 **3.4.2**:  Correctly apply  HMT text normalization to alternate readings as well as main readings.

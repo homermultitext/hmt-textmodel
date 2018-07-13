@@ -7,7 +7,7 @@ import edu.holycross.shot.ohco2._
 /** An analysis of a single token.
 *
 * @param textNode CtsUrn of the citable node where this token occurs.
-* Note that this will always be equivalent to the version-level URN for containing node for the "edition URN" of the[[HmtToken]], since the
+* Note that this will always be equivalent to the version-level URN for containing node for the "edition URN" of the [[HmtToken]], since the
 * edition URN extends the passage hierarchy with a "tokens" exemplar,
 * and extends the passage hierarchy with a further level.
 *
@@ -24,17 +24,31 @@ case class  TokenAnalysis(textNode: CtsUrn, analysis: HmtToken) {
 
 
 
-  def longString = {
-    "Context = "+ textNode.toString + "\n" + analysis.orcaColumn + "\n\n\n"
-  }
+  /** Create CitableNode for this token
+  * based on reading with alternate reading,
+  * if one exists.
+  */
   def readWithAlternate: CitableNode = {
     CitableNode(analysis.editionUrn, analysis.readWithAlternate)
   }
-  def readWithDiplomatic: CitableNode = {
-    CitableNode(analysis.editionUrn, analysis.readWithDiplomatic)
+
+
+  // These need help
+  def readWithDiplomatic: Option[CitableNode] = {
+    val txt = analysis.readWithDiplomatic
+    if (txt.nonEmpty){
+      Some(CitableNode(analysis.editionUrn, txt))
+    } else {
+      None
+    }
   }
-  def readWithScribal: CitableNode = {
-    CitableNode(analysis.editionUrn, analysis.readWithScribal)
+  def readWithScribal: Option[CitableNode] = {
+    val txt = analysis.readWithScribal
+    if (txt.nonEmpty){
+      Some(CitableNode(analysis.editionUrn, analysis.readWithScribal))
+    } else {
+      None
+    }
   }
 
 

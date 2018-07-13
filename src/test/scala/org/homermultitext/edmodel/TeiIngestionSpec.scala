@@ -77,7 +77,7 @@ urn:cts:greekLit:tlg0012.tlg001.va_xml:1.5#<l n="5">οἰωνοῖσί τε π�
 
     val tokens = TeiReader(cex).tokens
     val expected = "Μῆνιν ἄιδε θεὰ Πηληϊάδεω Ἀχιλῆος"
-    val actual = tokens.map(_.readWithDiplomatic.text).mkString(" ")
+    val actual = tokens.map(_.readWithDiplomatic.get.text).mkString(" ")
     assert( actual  == expected)
   }
 
@@ -87,7 +87,7 @@ urn:cts:greekLit:tlg0012.tlg001.va_xml:1.5#<l n="5">οἰωνοῖσί τε π�
 
     val tokens = TeiReader(cex).tokens
     val expected = "Μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος"
-    val actual = tokens.map(_.readWithScribal.text).mkString(" ")
+    val actual = tokens.map(_.readWithScribal.get.text).mkString(" ")
     println("\n\nACTuAL " + actual)
     assert(  actual  == expected)
   }

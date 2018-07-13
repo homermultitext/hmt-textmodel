@@ -16,11 +16,17 @@ object DiplomaticEditionFactory {
   def corpusFromTokens(tokens: Vector[TokenAnalysis]): Corpus = {
     val scribal = tokens.map(_.readWithScribal)
     val diplomaticNodes = scribal.map( n => {
-      val baseVersion = n.urn.version
-      val u = n.urn.dropVersion.addVersion(baseVersion + "_diplomatic")
-      CitableNode(u, n.text) }
-    )
-    Corpus(diplomaticNodes)
+      n match {
+        case None => None
+        case  _ => {
+          val node = n.get
+          val baseVersion = node.urn.version
+          val u = node.urn.dropVersion.addVersion(baseVersion + "_diplomatic")
+          Some(CitableNode(u, node.text))
+        }
+      }
+    })
+    Corpus(diplomaticNodes.flatten)
   }
 
 }
