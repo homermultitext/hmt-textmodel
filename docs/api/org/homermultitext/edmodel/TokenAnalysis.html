@@ -179,6 +179,10 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
                         <a href="HmtToken.html" title="A fully documented, semantically distinct token.">HmtToken</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="object" href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements."></a>
+                        <a href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements.">InvalidToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait"></a>
                         <a href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait">LexicalCategory</a>
                       </li><li class="current-entities indented3">
@@ -283,7 +287,7 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>An analysis of a single token.
 </p></div><dl class="paramcmts block"><dt class="param">textNode</dt><dd class="cmt"><p>CtsUrn of the citable node where this token occurs.
-Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
+Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
 edition URN extends the passage hierarchy with a &quot;tokens&quot; exemplar,
 and extends the passage hierarchy with a further level.
 Expressed in code, we can say that for any <a href="" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> ta,
@@ -354,7 +358,7 @@ object.</p></dd></dl><div class="toggleContainer block">
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">textNode</dt><dd class="cmt"><p>CtsUrn of the citable node where this token occurs.
-Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
+Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
 edition URN extends the passage hierarchy with a &quot;tokens&quot; exemplar,
 and extends the passage hierarchy with a further level.
 Expressed in code, we can say that for any <a href="" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> ta,
@@ -723,22 +727,6 @@ object.</p></dd></dl></div>
       </span>
       
       
-    </li><li name="org.homermultitext.edmodel.TokenAnalysis#longString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="longString:String"></a>
-      <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/TokenAnalysis.html#longString:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">longString</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -824,11 +812,13 @@ object.</p></dd></dl></div>
         <span class="name">readWithAlternate</span><span class="result">: <span class="extype" name="edu.holycross.shot.ohco2.CitableNode">CitableNode</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Create CitableNode for this token
+based on reading with alternate reading,
+if one exists.</p>
     </li><li name="org.homermultitext.edmodel.TokenAnalysis#readWithDiplomatic" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readWithDiplomatic:edu.holycross.shot.ohco2.CitableNode"></a><a id="readWithDiplomatic:CitableNode"></a>
+      <a id="readWithDiplomatic:Option[edu.holycross.shot.ohco2.CitableNode]"></a><a id="readWithDiplomatic:Option[CitableNode]"></a>
       <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/TokenAnalysis.html#readWithDiplomatic:edu.holycross.shot.ohco2.CitableNode" title="Permalink">
+      <a href="../../../org/homermultitext/edmodel/TokenAnalysis.html#readWithDiplomatic:Option[edu.holycross.shot.ohco2.CitableNode]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -837,14 +827,14 @@ object.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readWithDiplomatic</span><span class="result">: <span class="extype" name="edu.holycross.shot.ohco2.CitableNode">CitableNode</span></span>
+        <span class="name">readWithDiplomatic</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="edu.holycross.shot.ohco2.CitableNode">CitableNode</span>]</span>
       </span>
       
       
     </li><li name="org.homermultitext.edmodel.TokenAnalysis#readWithScribal" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="readWithScribal:edu.holycross.shot.ohco2.CitableNode"></a><a id="readWithScribal:CitableNode"></a>
+      <a id="readWithScribal:Option[edu.holycross.shot.ohco2.CitableNode]"></a><a id="readWithScribal:Option[CitableNode]"></a>
       <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/TokenAnalysis.html#readWithScribal:edu.holycross.shot.ohco2.CitableNode" title="Permalink">
+      <a href="../../../org/homermultitext/edmodel/TokenAnalysis.html#readWithScribal:Option[edu.holycross.shot.ohco2.CitableNode]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -853,7 +843,7 @@ object.</p></dd></dl></div>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">readWithScribal</span><span class="result">: <span class="extype" name="edu.holycross.shot.ohco2.CitableNode">CitableNode</span></span>
+        <span class="name">readWithScribal</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="edu.holycross.shot.ohco2.CitableNode">CitableNode</span>]</span>
       </span>
       
       

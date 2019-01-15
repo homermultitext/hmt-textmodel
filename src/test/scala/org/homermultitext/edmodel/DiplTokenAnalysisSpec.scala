@@ -3,6 +3,7 @@ import edu.holycross.shot.cite._
 import org.scalatest.FlatSpec
 
 
+
 /** Test how TeiReader handles diplomatic
 * readings in various situations.*/
 class DiplTokenAnalysisSpec extends FlatSpec {

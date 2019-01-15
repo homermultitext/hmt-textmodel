@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 class AbbrExpanSpec extends FlatSpec {
 
 
-  "An abbr-expan pair" should "santizie both readings" in {
+  "An abbr-expan pair" should "sanitize both readings" in {
     val theon = "θεόν"
     val srcCps = Vector(952, 949, 972, 957)
     assert(HmtChars.stringToCps(theon) == srcCps)
@@ -20,7 +20,6 @@ class AbbrExpanSpec extends FlatSpec {
     assert (altCps != srcCps)
 
     val expected = Vector(952, 949, 8057, 957)
-
 
     assert(altCps == expected)
   }

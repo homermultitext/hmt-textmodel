@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**4.1.0**:  New functionality in underlying CITE libraries.
+
 **4.0.0**:  API-breaking change. `readWithX` functions formerly returning `CitableNode`s now return `Option[CitableNode]`s.
 
 **3.4.3**:   Includes character to encode "floating" circumflex.

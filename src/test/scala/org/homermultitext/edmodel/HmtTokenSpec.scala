@@ -137,7 +137,7 @@ class HmtTokenSpec extends FlatSpec {
 
       alternateReading = Some(AlternateReading(Restoration,Vector(Reading( "γίνεσθαι",Restored))))
     )
-    assert(tkn.leidenFull == "γίνεσθ(γίνεσθαι)")
+    assert(tkn.leidenFull == "γίνεσθ[γίνεσθαι]")
   }
 
 

@@ -179,6 +179,10 @@ for the citable text node with a fully analyzed <a href="HmtToken.html" class="e
                         <a href="HmtToken.html" title="A fully documented, semantically distinct token.">HmtToken</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="object" href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements."></a>
+                        <a href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements.">InvalidToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait"></a>
                         <a href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait">LexicalCategory</a>
                       </li><li class="current-entities indented3">
@@ -577,7 +581,7 @@ are enumerated by case objects extending this trait</p><p>The <code>name</code> 
       
       <p class="shortcomment cmt">An analysis of a single token.</p><div class="fullcomment"><div class="comment cmt"><p>An analysis of a single token.
 </p></div><dl class="paramcmts block"><dt class="param">textNode</dt><dd class="cmt"><p>CtsUrn of the citable node where this token occurs.
-Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the<a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
+Note that this will always be equivalent to the version-level URN for containing node for the &quot;edition URN&quot; of the <a href="HmtToken.html" class="extype" name="org.homermultitext.edmodel.HmtToken">HmtToken</a>, since the
 edition URN extends the passage hierarchy with a &quot;tokens&quot; exemplar,
 and extends the passage hierarchy with a further level.
 Expressed in code, we can say that for any <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.TokenAnalysis">TokenAnalysis</a> ta,
@@ -931,6 +935,23 @@ of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.
       </span>
       
       <p class="shortcomment cmt">Factory for labelling information about tokens.</p>
+    </li><li name="org.homermultitext.edmodel.InvalidToken" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="InvalidToken"></a><a id="InvalidToken:InvalidToken"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/index.html#InvalidToken" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Reading cannot  be determined because source XML does not comply with HMT project requirements." href="InvalidToken$.html"><span class="name">InvalidToken</span></a><span class="result"> extends <a href="EditorialStatus.html" class="extype" name="org.homermultitext.edmodel.EditorialStatus">EditorialStatus</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Reading cannot  be determined because source XML
+does not comply with HMT project requirements.</p>
     </li><li name="org.homermultitext.edmodel.LexicalToken" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="LexicalToken"></a><a id="LexicalToken:LexicalToken"></a>
       <span class="permalink">
@@ -1123,8 +1144,7 @@ of <a href="TokenAnalysis.html" class="extype" name="org.homermultitext.edmodel.
         <a title="Reading supplied by modern editor." href="Restored$.html"><span class="name">Restored</span></a><span class="result"> extends <a href="EditorialStatus.html" class="extype" name="org.homermultitext.edmodel.EditorialStatus">EditorialStatus</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
-      <p class="shortcomment cmt">Reading supplied by modern editor.</p><div class="fullcomment"><div class="comment cmt"><p>Reading supplied by modern editor.</p><p>Applies only to editorial expansion of abbreviations.
-</p></div></div>
+      <p class="shortcomment cmt">Reading supplied by modern editor.</p><div class="fullcomment"><div class="comment cmt"><p>Reading supplied by modern editor.</p><p>Applies only to editorial expansion of abbreviations.</p></div></div>
     </li><li name="org.homermultitext.edmodel.TeiReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TeiReader"></a><a id="TeiReader:TeiReader"></a>
       <span class="permalink">

@@ -179,6 +179,10 @@ for the citable text node with a fully analyzed <a href="" class="extype" name="
                         <a href="" title="A fully documented, semantically distinct token.">HmtToken</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="object" href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements."></a>
+                        <a href="InvalidToken$.html" title="Reading cannot  be determined because source XML does not comply with HMT project requirements.">InvalidToken</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait"></a>
                         <a href="LexicalCategory.html" title="All possible lexical categories for a token are enumerated by case objects extending this trait">LexicalCategory</a>
                       </li><li class="current-entities indented3">
@@ -431,7 +435,8 @@ data for this token.
         <span class="name">altString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Leiden-style formatting of any
+alternate reading.</p>
     </li><li name="org.homermultitext.edmodel.HmtToken#alternateMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="alternateMatch(s:String,accent:Boolean):Boolean"></a><a id="alternateMatch(String,Boolean):Boolean"></a>
       <span class="permalink">
@@ -556,22 +561,6 @@ including labels.</p>
 either with or without labels.</p><div class="fullcomment"><div class="comment cmt"><p>Format a string representation as one value per line,
 either with or without labels.
 </p></div><dl class="paramcmts block"><dt class="param">withLabels</dt><dd class="cmt"><p>include labels if true</p></dd></dl></div>
-    </li><li name="org.homermultitext.edmodel.HmtToken#debug" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="debug:String"></a>
-      <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/HmtToken.html#debug:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">debug</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      
     </li><li name="org.homermultitext.edmodel.HmtToken#diplomaticMatch" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="diplomaticMatch(s:String,accent:Boolean):Boolean"></a><a id="diplomaticMatch(String,Boolean):Boolean"></a>
       <span class="permalink">
@@ -792,7 +781,7 @@ this token.</p>
         <span class="name">isAbbreviation</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">True is token is abbreviated in diplomatic reading.</p>
+      <p class="shortcomment cmt">True if token is abbreviated in diplomatic reading.</p>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -809,6 +798,23 @@ this token.</p>
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="org.homermultitext.edmodel.HmtToken#kvString" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="kvString:String"></a>
+      <span class="permalink">
+      <a href="../../../org/homermultitext/edmodel/HmtToken.html#kvString:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kvString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Compose a string listing properties
+in form &quot;k=v&quot;.</p>
     </li><li name="org.homermultitext.edmodel.HmtToken#lang" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="lang:String"></a>
       <span class="permalink">
@@ -980,22 +986,6 @@ in string representation of the object as a single row
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
-    </li><li name="org.homermultitext.edmodel.HmtToken#orcaColumn" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="orcaColumn:String"></a>
-      <span class="permalink">
-      <a href="../../../org/homermultitext/edmodel/HmtToken.html#orcaColumn:String" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">orcaColumn</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
-      </span>
-      
-      
     </li><li name="org.homermultitext.edmodel.HmtToken#propertySeparator" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="propertySeparator:String"></a>
       <span class="permalink">

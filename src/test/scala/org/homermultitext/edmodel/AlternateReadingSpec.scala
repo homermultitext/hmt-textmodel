@@ -31,7 +31,7 @@ class AlternateReadingSpec extends FlatSpec {
   it should "have a function to generate a formatted string" in {
     val rdg = Reading("οὕτως",Restored)
     val alt = AlternateReading(Restoration, Vector(rdg))
-    assert (alt.leidenize == "(οὕτως) (Restoration)")
+    assert (alt.leidenize == "[οὕτως] (Restoration)")
   }
 
 
