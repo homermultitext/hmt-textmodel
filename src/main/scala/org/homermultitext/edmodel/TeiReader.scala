@@ -1,5 +1,6 @@
 package org.homermultitext.edmodel
 
+import edu.holycross.shot.mid.validator._
 
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.Map
@@ -30,7 +31,16 @@ import edu.holycross.shot.cite._
 *
 *
 */
-case class TeiReader(twoColumns: String, delimiter: String = "#") {
+case class TeiReader(twoColumns: String, delimiter: String = "#") extends MidMarkupReader {
+
+  def editionType: MidEditionType = MidDiplomaticEdition
+
+
+  def editionTypes: Vector[MidEditionType] =  Vector.empty[MidEditionType]
+
+  def editedNode(archival: String,srcUrn: edu.holycross.shot.cite.CtsUrn): String = {
+    ""
+  }
 
   /**  Builder for recursively accumulated String value of a
   * single token.

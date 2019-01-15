@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "edu.holycross.shot" %% "orca" % "4.3.0",
   "edu.holycross.shot" %% "greek" % "1.4.0",
   "edu.holycross.shot" %% "gsphone" % "1.1.0",
+  "edu.holycross.shot" %% "midvalidator" % "3.1.0",
 
   "org.scalatest" %% "scalatest" % "3.0.1" %  "test",
   "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
