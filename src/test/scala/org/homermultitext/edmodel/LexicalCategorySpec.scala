@@ -1,6 +1,6 @@
 package org.homermultitext.edmodel
 import org.scalatest._
-import org.scalatest.prop.TableDrivenPropertyChecks
+//import org.scalatest.prop.TableDrivenPropertyChecks
  /*
 
 class LexicalCategorySpec extends UnitSpec with TableDrivenPropertyChecks  {
