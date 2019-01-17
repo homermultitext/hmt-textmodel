@@ -8,10 +8,10 @@ class DeletionSpec extends FlatSpec {
   "A deletion" should "keep the deleted text as a reading" in {
     val example = """urn:cts:greekLit:tlg0012.tlg001.demo:24.212#<l  n="212" >ανδρι <add>παρα</add> κρατὲρῳ τοῦ εγω <del>δε</del> <w part="N">μ<unclear instant="false">ε</unclear><gap extent="2" unit="letters"/>ον</w> ἧπαρ εχοιμι</l>"""
 
-    val delReader = TeiReader(example)
+    val delReader = TeiReaderOld(example)
     val delTokens = delReader.tokens
     /*
-    val analyses = TeiReader.fromString(example).map(_.analysis)
+    val analyses = TeiReaderOld.fromString(example).map(_.analysis)
     println("DeletionSpec: tokenized into " + analyses.size + " analyses.")
     for (a <- analyses) {
       val rdgs =  a.readings.mkString("++")
@@ -31,8 +31,8 @@ class DeletionSpec extends FlatSpec {
 
   it should "create a valid CitableNode for an alternate reading" in pending /*{
       val xml = "urn:cts:greekLit:tlg0012.tlg001.demo:10.534#<l n=\"534\">ψεύσομαι. ἢ έτυμόν <del>τοι</del> ἐρέω, κέλεται δέ με θυμός·</l>"
-      TeiReader.clear
-      val tokens = TeiReader.fromString(xml)
+      TeiReaderOld.clear
+      val tokens = TeiReaderOld.fromString(xml)
       val analyses = tokens.map(_.analysis)
       for (tkn <- analyses) {
         //println(s"${tkn.editionUrn}==${tkn.readWithAlternate}")

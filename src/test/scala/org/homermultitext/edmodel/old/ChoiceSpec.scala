@@ -5,7 +5,7 @@ import edu.holycross.shot.cite._
 class ChoiceSpec extends FlatSpec {
 
 
-  val reader = TeiReader("")
+  val reader = TeiReaderOld("")
   val testUrn = CtsUrn("urn:cts:hmt:unittests.v1:1")
 
   "A TEI choice" should "contain a pair of elements" in pending

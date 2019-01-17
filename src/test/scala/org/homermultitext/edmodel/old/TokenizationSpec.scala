@@ -7,9 +7,9 @@ import edu.holycross.shot.ohco2._
 
 class  TokenizationSpec extends FlatSpec {
 
-  "A TeiReader" should "tokenize properly" in {
+  "A TeiReaderOld" should "tokenize properly" in {
     val okInput = "urn:cts:greekLit:tlg002.tlg001.msA:10.2#<l n=\"2\">εὗδον παννύχιοι. μαλακῷ δεδμημένοι ὕπνῳ-</l>"
-    val reader = TeiReader(okInput)
+    val reader = TeiReaderOld(okInput)
     val dipls = reader.tokens.map(_.analysis.readWithDiplomatic)
 
     println("ORIG:")
@@ -23,7 +23,7 @@ class  TokenizationSpec extends FlatSpec {
     }
     println("SANITIZED:")
     val sanitized = HmtChars.hmtNormalize(okInput)
-    val reader2 = TeiReader(sanitized)
+    val reader2 = TeiReaderOld(sanitized)
     val dipls2 = reader2.tokens.map(_.analysis.readWithDiplomatic)
     for (t <-  dipls2) {
       val good = HmtChars.legalChars(t)

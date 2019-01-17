@@ -13,7 +13,7 @@ class HmtTokenReadingSpec extends FlatSpec {
 
 
   "A token analysis"  should "have a URN identifying the text node" in  {
-    val reader = TeiReader("")
+    val reader = TeiReaderOld("")
     val analysisV = reader.teiToTokens(urn, xml)
     for (a <- analysisV) {
       a.textNode match {
@@ -23,7 +23,7 @@ class HmtTokenReadingSpec extends FlatSpec {
     }
   }
   it should "have an analysis object" in  {
-    val reader = TeiReader("")
+    val reader = TeiReaderOld("")
     val analysisV = reader.teiToTokens(urn, xml)
     for (a <- analysisV) {
       a.analysis match {
@@ -34,7 +34,7 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match diplomatic text of tokens" in {
-    val reader = TeiReader("")
+    val reader = TeiReaderOld("")
     val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(2)
     val formC =  Normalizer.normalize("τοῦ", Normalizer.Form.NFC)
@@ -45,7 +45,7 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match alternate text of tokens" in {
-    val reader = TeiReader("")
+    val reader = TeiReaderOld("")
     val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(0)
     val formC =  Normalizer.normalize("οὕτως", Normalizer.Form.NFC)
@@ -56,7 +56,7 @@ class HmtTokenReadingSpec extends FlatSpec {
   }
 
   it should "match diplomatic texts accent-free" in {
-    val reader = TeiReader("")
+    val reader = TeiReaderOld("")
     val analysisV = reader.teiToTokens(urn, xml)
     val testToken = analysisV(2)
     val formC =  Normalizer.normalize("του", Normalizer.Form.NFC)

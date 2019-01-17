@@ -11,7 +11,7 @@ class AbbrExpanSpec extends FlatSpec {
     assert(HmtChars.stringToCps(theon) == srcCps)
     val example = s"urn:cts:greekLit:tlg5026.msA.hmt:10.demo1#<p> <choice><abbr>θν</abbr><expan>${theon}</expan></choice>    ἱλάσκοντο</p>\n"
 
-    val abbrexpan = TeiReader(example)
+    val abbrexpan = TeiReaderOld(example)
     val abbrexpanTokens = abbrexpan.tokens
     val theonAnalysis = abbrexpanTokens(0).analysis
 

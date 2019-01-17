@@ -8,14 +8,14 @@ import edu.holycross.shot.ohco2._
 class AstroSpec extends FlatSpec {
 
 
-  "The TeiReader object"  should "use n attribute of TEI rs element for lexical disambiguation type attribute is astro" in {
+  "The TeiReaderOld object"  should "use n attribute of TEI rs element for lexical disambiguation type attribute is astro" in {
 
     val astroUrn = CtsUrn( "urn:cts:greekLit:tlg5026.msA.hmt_xml:10.2501.comment")
     val astroXml = """<div n="comment"><p> ἄστρον ἐστιν ἀστέρων συμφόρημα ὡς
 <rs type="astro"                                     n="urn:cite2:hmt:astro.v1:astro1">Ὠρίων</rs>
 <rs type="astro" n="urn:cite2:hmt:astro.v1:.astro2">Ὁφιοῦχος</rs>.</p></div>
 """
-    val astroReader = TeiReader(astroXml)
+    val astroReader = TeiReaderOld(astroXml)
     val astroTokens = astroReader.teiToTokens(astroUrn, astroXml)
 
     println("PARSED astroXml and got " + astroTokens.size + " tokens")

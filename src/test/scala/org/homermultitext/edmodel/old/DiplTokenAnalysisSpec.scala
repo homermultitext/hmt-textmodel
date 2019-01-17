@@ -4,12 +4,12 @@ import org.scalatest.FlatSpec
 
 
 
-/** Test how TeiReader handles diplomatic
+/** Test how TeiReaderOld handles diplomatic
 * readings in various situations.*/
 class DiplTokenAnalysisSpec extends FlatSpec {
 
 
-  val reader = TeiReader("")
+  val reader = TeiReaderOld("")
   val testUrn = CtsUrn("urn:cts:hmt:unittests.v1:1")
 
   "A TokenAnalysis" should "skip added content when reading diplomatically" in {
