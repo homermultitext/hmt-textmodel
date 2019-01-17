@@ -8,8 +8,6 @@ import org.scalatest.FlatSpec
 class AltTokenAnalysisSpec extends FlatSpec {
 
 
-  val reader = TeiReader("")
-  val testUrn = CtsUrn("urn:cts:hmt:unittests.v1:1")
 
   "A TokenAnalysis" should "skip include added content when reading alternatively" in pending
 

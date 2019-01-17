@@ -10,4 +10,6 @@ class MidOrthographySpec extends FlatSpec {
      assert (HmtScribalNormalizedEdition.label ==  "scribal edition")
      assert (HmtEditorsNormalizedEdition.label ==  "editorially normalized edition")
    }
+
+   
 }

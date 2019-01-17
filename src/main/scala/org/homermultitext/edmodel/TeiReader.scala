@@ -35,20 +35,20 @@ import edu.holycross.shot.cite._
 
 
 /// refactor this
-case class TeiReader(twoColumns: String, delimiter: String = "#") extends MidMarkupReader {
+case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
-  def editionType: MidEditionType = MidDiplomaticEdition
+  def editionType: MidEditionType = hmtEditionType
 
 
   def editionTypes: Vector[MidEditionType] =  TeiReader.editionTypes
 
 
   def editedNode(archival: String,srcUrn: edu.holycross.shot.cite.CtsUrn): String = {
-    ""
+    hmtEditionType match {
+      case HmtNamedEntityEdition => ""
+      case _ => "Don't yet know how to make an edition of type " + hmtEditionType
+    }
   }
-
-
-
 }
 
 object TeiReader {
