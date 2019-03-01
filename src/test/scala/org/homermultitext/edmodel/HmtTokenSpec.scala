@@ -2,6 +2,7 @@ package org.homermultitext.edmodel
 import org.scalatest.FlatSpec
 import edu.holycross.shot.cite._
 
+
 import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
@@ -62,15 +63,17 @@ class HmtTokenSpec extends FlatSpec {
     }
   }
 
-  "Pretty printing as a table row" should "create a string of 11 delimited items" in {
+  "Pretty printing as a table row" should "create a string of 11 delimited items" in pending /*{
     // no errors: so splitting finds only 10 non-empty columns
     val columns = tkn.rowString.split("\t")
     assert (columns.size == 10)
     val errorToken = tkn.copy(errors = ArrayBuffer("dummy error message"))
     val errorColumns = errorToken.rowString.split("\t")
     assert (errorColumns.size == 11)
-  }
+  }*/
 
+
+/*
   it should "default to using tab as a delimiting string" in {
    val columns = tkn.rowString.split("\t")
    assert (columns.size == 10)
@@ -81,7 +84,7 @@ class HmtTokenSpec extends FlatSpec {
    val columns = tkn.rowString.split("#")
    assert (columns.size == 10)
   }
-
+*/
   "Pretty printing as a column" should  "create a string of 11 rows" in {
     val columns = tkn.columnString.split("\n")
     assert (columns.size == 11)

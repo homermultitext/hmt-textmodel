@@ -3,10 +3,7 @@ package org.homermultitext.edmodel
 import java.text.Normalizer
 
 
-/** Definitions of allowed characters in HMT editions.
-*
-*
-*/
+/** Definitions of allowed characters in HMT editions. */
 object HmtChars {
 
   /** Map of modern Greek vowels + tonos to ancient Greek

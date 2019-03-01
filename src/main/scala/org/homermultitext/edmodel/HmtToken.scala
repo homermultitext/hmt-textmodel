@@ -3,20 +3,10 @@ package org.homermultitext.edmodel
 import edu.holycross.shot.cite._
 import edu.holycross.shot.greek._
 
-import scala.collection.mutable.ArrayBuffer
-
 
 /** A fully documented, semantically distinct token.
-* The model of this token supports the ORCA model of
-* aligned text analysis.  The `analysis` member is a CITE2
-* URN representing this token as an ORCA analysis. The `sourceUrn`
-* member is a CTS URN with subreference index identifying
-* the specific string of text analyzed.  The`editionUrn`
-* member is a CTS URN for this token in an analytical exemplar.
-* The other members of the [[HmtToken]] provide the analytical
-* data for this token.
-*
-* @constructor create a token
+
+
 * @param analysis CITE URN for this token analysis.
 * @param sourceUrn URN for this token in the analyzed text
 * @param editionUrn URN for this token in an analytical exemplar when promoted to an edition
@@ -30,30 +20,30 @@ import scala.collection.mutable.ArrayBuffer
 * @param errors list of error messages (hopefully empty)
 */
 case class HmtToken (
-  var analysis: Cite2Urn,
-  var sourceUrn: CtsUrn,
-  var editionUrn: CtsUrn,
+  analysis: Cite2Urn = Cite2Urn("urn:cite2:hmt:dummy:bogus:"),
+  sourceUrn: CtsUrn,
+  editionUrn: CtsUrn,
 
-  var lang : String = "grc",
-  var readings: Vector[Reading],
-  var lexicalCategory: LexicalCategory,
+  lang : String = "grc",
+  readings: Vector[Reading],
+  lexicalCategory: LexicalCategory,
 
-  var lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
-  var alternateReading: Option[AlternateReading] = None,
-  var discourse: DiscourseCategory = DirectVoice,
-  var externalSource: Option[CtsUrn] = None,
+  lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
+  alternateReading: Option[AlternateReading] = None,
+  discourse: DiscourseCategory = DirectVoice,
+  externalSource: Option[CtsUrn] = None,
 
-  var errors: ArrayBuffer[String] = ArrayBuffer.empty[String]
+  errors: Vector[String] = Vector.empty[String]
 ) {
 
   /** String value separating properties in string representation
   * of the object as a single row
   */
-  var propertySeparator = "\t"
+  val  propertySeparator = "\t"
   /** String value separating multiple items within a single property
   * in string representation of the object as a single row
   */
-  var listSeparator = "#"
+  val listSeparator = "#"
 
 
 
