@@ -57,6 +57,16 @@ class TeiReaderObjectSpec extends FlatSpec {
   }
 
 
+  it should "recognize TEI num element in tokenization" in {
+    val n = XML.loadString("<num value=\"1\">α</num>")
+    val settings = TokenSettings(context, LexicalToken)
+    val numTokens = TeiReader.collectTokens(n, settings)
+    val expectedSize = 1
+    val expectedCategory = NumericToken
+    assert(numTokens.size == expectedSize)
+    assert(numTokens(0).lexicalCategory == expectedCategory)
+  }
+
 
 
 

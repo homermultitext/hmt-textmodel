@@ -1,7 +1,7 @@
 package org.homermultitext.edmodel
 
 import edu.holycross.shot.mid.validator._
-
+import edu.holycross.shot.xmlutils._
 
 import scala.xml._
 import scala.io.Source
@@ -10,14 +10,23 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
+
+/** An implementation of the MidMarkupReader trait for HMT project editions.
+*
+* @param hmtEditionType Type of edition to generate.
+*/
 case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
+
+  // required by MidMarkupReader
   def editionType: MidEditionType = hmtEditionType
 
 
+  // required by MidMarkupReader
   def recognizedTypes: Vector[MidEditionType] =  TeiReader.editionTypes
 
 
+  // required by MidMarkupReader
   def editedNode(cn: CitableNode): CitableNode = {
     hmtEditionType match {
       case HmtNamedEntityEdition => NamedEntityReader.neNode(cn)
@@ -26,8 +35,12 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
   }
 }
 
+/** Object for parsing TEI XML into the HMT project object model of an edition. */
 object TeiReader {
 
+
+  /** Vector of MidEditionTypes that this object can produce.
+  */
   def editionTypes:  Vector[MidEditionType] =  Vector(
     HmtNamedEntityEdition,
     HmtDiplomaticEdition,
@@ -60,24 +73,28 @@ object TeiReader {
 
 
 
-  def tokenForString(tknString: String, idx: Int, accumulated : String, settings: TokenSettings) : HmtToken = {
+  /** Create an [[HmtToken]] for a single String.
+  *
+  * @param tknString The textual reading for this token.
+  * @param psg Passage comopnent for this token in tokenized edition.
+  * @param textContext Textual context within which we need to index occurrences
+  * of tknString.
+  * @param settings Contextual values within the document for this token.
+  */
+  def tokenForString(tknString: String, psg: String, textContext : String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
-    val subrefIndex =  tknString.r.findAllMatchIn(accumulated).length
+    val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
     val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref + "[" + subrefIndex + "]")
 
-
-    val psg = settings.contextUrn.passageComponent + "." + idx
     val version = settings.contextUrn.version + "_lextokens"
     val tokenUrn = settings.contextUrn.addVersion(version).addPassage(psg)
 
     val lexicalCat = if (punctuation.contains(tknString)) {
       Punctuation
     } else {
-      LexicalToken
+      settings.lexicalCategory
     }
     val rdgs = Vector(Reading(tknString, settings.status))
-
-
 
     val hmtToken = HmtToken(
       sourceUrn = subrefUrn,
@@ -110,11 +127,31 @@ object TeiReader {
     val accumulated = StringBuilder.newBuilder
     val hmtTokens = for ((tknString,idx) <- tokenStrings.zipWithIndex) yield {
       accumulated.append(tknString)
-      tokenForString(tknString, idx, accumulated.toString, settings)
+      val psg = settings.contextUrn.passageComponent + "." + idx
+      tokenForString(tknString, psg, accumulated.toString, settings)
     }
     hmtTokens.toVector
   }
 
+
+/*
+  def collectWrappedWordReadings(editorialStatus: EditorialStatus, el: scala.xml.Elem)  = {
+    val txt = TextReader.collectText(el)
+    el.label match {
+
+      case "unclear" => {
+
+        println("STATUS UNCLEAR FOR " + txt)
+        //for (ch <- e.child) {
+        //  collectWrappedWordReadings(Unclear,ch)
+        //}
+      }
+      case _ => {
+        println("KEEP STATUS FOR " + txt)
+      }
+    }
+  }
+  */
 
   /** Extract tokens from a TEI element.
   *
@@ -127,6 +164,40 @@ object TeiReader {
       case "note" =>   Vector.empty[HmtToken] // to be removed from archive
       case "figDesc" =>   Vector.empty[HmtToken] // metadata, don't process
       case "ref" =>   Vector.empty[HmtToken] // metadata, don't process
+
+
+      // Level 1:  editorial status
+      case "add" => {
+
+        val readingString = el.text.replaceAll(" ", "")
+        if (readingString.nonEmpty) {
+          val sanitized = HmtChars.hmtNormalize(readingString)
+          //wrappedWordBuffer += Reading(sanitized  , editorialStatus)
+        }
+
+        Vector.empty[HmtToken]
+        /*
+        //  multiform?  Or correction?
+        wrappedWordBuffer.clear
+        collectWrappedWordReadings(Clear,el)
+        val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
+        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
+        wrappedWordBuffer.clear
+        tokenBuffer += newToken
+        */
+      }
+
+
+      // Level 2:  tokenization
+      case "num" => {
+        val newSettings = settings.addCategory(NumericToken)
+        val allTokens = for (ch <- el.child) yield {
+          collectTokens(ch, newSettings)
+        }
+        allTokens.toVector.flatten
+      }
+
       case _ => throw new Exception("TeiReader.tokensFromElement: do not recognize element " + el.label)
     }
 

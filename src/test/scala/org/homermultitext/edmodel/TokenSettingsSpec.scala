@@ -23,6 +23,13 @@ class TokenSettingsSpec extends FlatSpec {
     assert(settings.lexicalCategory == NumericToken)
   }
 
+  it should "create a new settings for a specified token category" in {
+    val lexSetting = TokenSettings(context, LexicalToken)
+    val numSetting = lexSetting.addCategory(NumericToken)
+
+    assert(numSetting.lexicalCategory == NumericToken)
+  }
+
 
 
 }

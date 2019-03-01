@@ -9,5 +9,16 @@ case class TokenSettings (
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
 
-  lang : String = "grc"
-)
+  lang : String = "grc") {
+
+    def addCategory(newCat: LexicalCategory) : TokenSettings = {
+      TokenSettings(
+        contextUrn,
+        newCat,
+        status,
+        discourse,
+        externalSource,
+        lang
+      )
+    }
+}
