@@ -10,7 +10,7 @@ class ReadingSpec extends FlatSpec {
   }
 
   it should "make text reading available" in {
-    assert(rdg.reading == "Now is the time")
+    assert(rdg.text == "Now is the time")
   }
 
   it should "use square bracket for restorations in leiden convention stringification" in {

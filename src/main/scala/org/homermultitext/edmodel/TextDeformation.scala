@@ -10,7 +10,7 @@ object TextDeformation {
     var buff = StringBuilder.newBuilder
     for (r <- tkn.readings) {
       r.status match {
-        case Clear => buff.append(r.reading)
+        case Clear => buff.append(r.text)
         case _ => // do nothing
       }
     }
@@ -23,11 +23,11 @@ object TextDeformation {
     var buff = StringBuilder.newBuilder
     for (r <- tkn.readings) {
       r.status match {
-        case Restored => buff.append("[" + r.reading + "]")
+        case Restored => buff.append("[" + r.text + "]")
         case Unclear => {
-          buff.append(r.reading.split(".").mkString("?") + "?")
+          buff.append(r.text.split(".").mkString("?") + "?")
         }
-        case _ => buff.append(r.reading)
+        case _ => buff.append(r.text)
       }
     }
     TextDeformation(buff.toString)

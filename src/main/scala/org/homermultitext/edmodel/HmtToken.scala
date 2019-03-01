@@ -235,10 +235,10 @@ case class HmtToken (
   def readWithAlternate: String = {
     alternateReading match {
       case None => {
-        readings.map(_.reading).mkString
+        readings.map(_.text).mkString
       }
       case Some(alt) => {
-        alt.reading.map(_.reading).mkString
+        alt.reading.map(_.text).mkString
       }
     }
   }
@@ -250,18 +250,18 @@ case class HmtToken (
   def readWithScribal: String = {
     alternateReading match {
       case None => {
-        readings.map(_.reading).mkString
+        readings.map(_.text).mkString
 
       }
       case Some(alt) => {
         alt.alternateCategory match {
           case Correction => {
-            alt.reading.map(_.reading).mkString
+            alt.reading.map(_.text).mkString
 
           }
           case _ => {
             val readingList = readings.filter(r => (r.status == Clear) || (r.status == Unclear))
-            readingList.map(_.reading).mkString
+            readingList.map(_.text).mkString
           }
         }
       }
@@ -272,7 +272,7 @@ case class HmtToken (
   */
   def readWithDiplomatic: String = {
     val dipl = readings.filter(_.status == Clear)
-    dipl.map(_.reading).mkString
+    dipl.map(_.text).mkString
   }
 
 

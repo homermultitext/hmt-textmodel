@@ -27,7 +27,7 @@ class HmtTokenSpec extends FlatSpec {
   it should "have a vector of readings" in {
     assert (tkn.readings.size == 1)
     assert (tkn.readings(0).status == Clear)
-    assert (tkn.readings(0).reading == "μῆνιν")
+    assert (tkn.readings(0).text == "μῆνιν")
   }
   it should "have a lexical type" in {
     assert (tkn.lexicalCategory == LexicalToken)

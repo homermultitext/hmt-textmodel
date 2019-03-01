@@ -166,13 +166,13 @@ object TeiReader {
       case "ref" =>   Vector.empty[HmtToken] // metadata, don't process
 
 
-      // Level 1:  editorial status is innermost markup, so we
-      // can directly collect text from here.
+      // Level 1:  reading status the is innermost markup, so if it
+      // occurs alone, we can directly collect text from here.
+      case "unclear" => {
+        tokensFromText(el.text, settings)
+      }
 
-
-
-
-
+      // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
       case "add" => {
         /*
         val readingString = el.text.replaceAll(" ", "")

@@ -37,21 +37,21 @@ case object InvalidToken extends EditorialStatus {val name = "invalid"}
 * @param reading string read with given status
 * @param status status of the given string
 */
-case class Reading (val reading: String, val status: EditorialStatus ) {
-  def typedText = reading + " (" + status.name + ")"
+case class Reading (val text: String, val status: EditorialStatus ) {
+  def typedText = text + " (" + status.name + ")"
 
   /**  Format text value of readings in Leiden-like string.
   */
   def leidenize: String = {
     status match {
-      case Restored => "[" + reading +"]"
+      case Restored => "[" + text +"]"
       case Unclear => {
-        val codepts = codeptList(reading)
+        val codepts = codeptList(text)
         codepts.map(_.toChar).mkString("?") + "?"
       }
-      case Clear => reading
+      case Clear => text
       case Missing => "…"
-      case InvalidToken => reading
+      case InvalidToken => text
     }
   }
 }

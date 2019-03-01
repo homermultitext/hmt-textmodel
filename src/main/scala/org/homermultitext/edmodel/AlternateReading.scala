@@ -34,7 +34,7 @@ case class AlternateReading (alternateCategory: AlternateCategory, reading: Vect
   def simpleString: String = {
     alternateCategory match {
       case Deletion => ""
-      case _ => reading.map(_.reading).mkString
+      case _ => reading.map(_.text).mkString
     }
 
   }

@@ -65,7 +65,13 @@ class TeiReaderObjectSpec extends FlatSpec {
     val expectedCategory = NumericToken
     assert(numTokens.size == expectedSize)
     assert(numTokens(0).lexicalCategory == expectedCategory)
+    val expectedReadings = 1
+    val expectedText = "α"
+    assert(numTokens(0).readings.size == expectedReadings)
+    assert(numTokens(0).readings(0).text == expectedText)
   }
+
+  it should "recognize unclear readings" in pending
 
 
 
