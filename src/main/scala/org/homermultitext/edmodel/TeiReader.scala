@@ -118,40 +118,86 @@ object TeiReader {
   * @param str String to tokenize.
   * @param settings State of text at this point.
   */
-  def tokensFromText(str: String, settings: TokenSettings) : Vector[HmtToken] = {
+  def tokensFromText(str: String, settings: TokenSettings, offsetIndex: Int = 0) : Vector[HmtToken] = {
     val hmtText = HmtChars.hmtNormalize(str)
     val depunctuate =  hmtText.split(punctuationSplitter)
     val tokenStrings = depunctuate.flatMap(_.split("[ ]+")).filter(_.nonEmpty).toVector
 
-
     val accumulated = StringBuilder.newBuilder
     val hmtTokens = for ((tknString,idx) <- tokenStrings.zipWithIndex) yield {
+      val count = offsetIndex + idx
       accumulated.append(tknString)
-      val psg = settings.contextUrn.passageComponent + "." + idx
+      val psg = settings.contextUrn.passageComponent + "." + offsetIndex
       tokenForString(tknString, psg, accumulated.toString, settings)
     }
     hmtTokens.toVector
   }
 
 
-/*
-  def collectWrappedWordReadings(editorialStatus: EditorialStatus, el: scala.xml.Elem)  = {
-    val txt = TextReader.collectText(el)
-    el.label match {
 
-      case "unclear" => {
+  def collectWrappedTokenReadings(n: xml.Node, status: EditorialStatus):  Vector[Reading]  = {
+    println("wRAP THIS UP: " + n)
+    val rdgs = n match {
 
-        println("STATUS UNCLEAR FOR " + txt)
-        //for (ch <- e.child) {
-        //  collectWrappedWordReadings(Unclear,ch)
-        //}
+      case t: xml.Text => {
+        println("It's TEXT")
+        val readingString = t.text.replaceAll(" ", "")
+        if (readingString.nonEmpty) {
+          val sanitized = HmtChars.hmtNormalize(readingString)
+          Vector(Reading(sanitized, status))
+        } else {
+          Vector.empty[Reading]
+        }
       }
-      case _ => {
-        println("KEEP STATUS FOR " + txt)
+
+      case e: xml.Elem => {
+        e.label match {
+          case "unclear" => {
+              println("WRAPPED UNCLEAR")
+            Vector(Reading(TextReader.collectText(e), Unclear))
+          }
+          case _ => {
+            // RECORD ERROR
+            println("DON'T KNOW ABOUT " + n)
+            Vector.empty[Reading]
+          }
+        }
+      }
+
+      case _ =>
+      Vector.empty[Reading]
+    }
+    rdgs.toVector
+  }
+/*
+def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
+    n match {
+      case t: xml.Text => {
+        val readingString = t.text.replaceAll(" ", "")
+        if (readingString.nonEmpty) {
+          val sanitized = HmtChars.hmtNormalize(readingString)
+          wrappedWordBuffer += Reading(sanitized  , editorialStatus)
+        }
+      }
+
+      case e: xml.Elem => {
+        e.label match {
+          case "unclear" => {
+            for (ch <- e.child) {
+              collectWrappedWordReadings(Unclear,ch)
+            }
+          }
+          case _ => {
+            for (ch <- e.child) {
+              collectWrappedWordReadings(editorialStatus,ch)
+            }
+          }
+        }
       }
     }
   }
   */
+
 
   /** Extract tokens from a TEI element.
   *
@@ -200,11 +246,25 @@ object TeiReader {
 
       // Level 2:  tokenization
       case "num" => {
-        val newSettings = settings.addCategory(NumericToken)
-        val allTokens = for (ch <- el.child) yield {
-          collectTokens(ch, newSettings)
+        val allReadings = for (ch <- el.child) yield {
+          val rdgs = collectWrappedTokenReadings(ch, settings.status)
+          rdgs
         }
-        allTokens.toVector.flatten
+        val txt = TextReader.collectText(el)
+        println("READINGS: " + allReadings.toVector.flatten)
+        Vector(
+          HmtToken(
+            sourceUrn = CtsUrn("urn:cts:bogus:fake.no.way:1"),
+            editionUrn = CtsUrn("urn:cts:bogus:fake.no.way:1.1"),
+            lexicalCategory = NumericToken ,
+            readings = allReadings.toVector.flatten
+          )
+        )
+
+/*&
+sourceUrn, editionUrn, lexicalCategory
+        */
+
       }
 
       // Hope these are just structural elements:

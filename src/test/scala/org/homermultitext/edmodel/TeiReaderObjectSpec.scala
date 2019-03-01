@@ -71,9 +71,49 @@ class TeiReaderObjectSpec extends FlatSpec {
     assert(numTokens(0).readings(0).text == expectedText)
   }
 
-  it should "recognize unclear readings" in pending
+  it should "recognize unclear readings" in {
+    val n = XML.loadString("<unclear>α</unclear>")
+    val settings = TokenSettings(context, LexicalToken)
+
+    val unclearTokens = TeiReader.collectTokens(n, settings)
+    val expectedSize = 1
+    val expectedCategory = LexicalToken
+    assert(unclearTokens.size == expectedSize)
+    assert(unclearTokens(0).lexicalCategory == expectedCategory)
+    val expectedReadings = 1
+    val expectedText = "α"
+    assert(unclearTokens(0).readings.size == expectedReadings)
+    assert(unclearTokens(0).readings(0).text == expectedText)
+  }
 
 
 
+  it should "gather readings from tokenizing num element" in pending /* {
+    val n = XML.loadString("<num value=\"11\">ι<unclear>α</unclear></num>")
+    val getEm = TeiReader.collectWrappedTokenReadings(n, Unclear)
+    println("Got: \n\n" + getEm.mkString("\n\n"))
+  }*/
+
+  it should "nest unclear inside tokenizing num element" in {
+    val n = XML.loadString("<num value=\"11\">ι<unclear>α</unclear></num>")
+    val settings = TokenSettings(context, LexicalToken)
+
+    val wrappedUnclearTokens = TeiReader.collectTokens(n, settings)
+    println(wrappedUnclearTokens)
+
+    val expectedSize = 1
+    val expectedCategory = NumericToken
+    assert(wrappedUnclearTokens.size == expectedSize)
+    assert(wrappedUnclearTokens(0).lexicalCategory == expectedCategory)
+
+
+    val expectedReadings = 2
+    val expectedText0 = "ι"
+    val expectedText1 = "α"
+    assert(wrappedUnclearTokens(0).readings.size == expectedReadings)
+    assert(wrappedUnclearTokens(0).readings(0).text == expectedText0)
+    assert(wrappedUnclearTokens(0).readings(1).text == expectedText1)
+
+  }
 
 }
