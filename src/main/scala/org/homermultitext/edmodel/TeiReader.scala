@@ -166,16 +166,25 @@ object TeiReader {
       case "ref" =>   Vector.empty[HmtToken] // metadata, don't process
 
 
-      // Level 1:  editorial status
-      case "add" => {
+      // Level 1:  editorial status is innermost markup, so we
+      // can directly collect text from here.
 
+
+
+
+
+      case "add" => {
+        /*
         val readingString = el.text.replaceAll(" ", "")
         if (readingString.nonEmpty) {
-          val sanitized = HmtChars.hmtNormalize(readingString)
-          //wrappedWordBuffer += Reading(sanitized  , editorialStatus)
-        }
 
+            val rdgOption = Some(Reading(HmtChars.hmtNormalize(readingString), Multiform))
+
+        } else {
+          Vector.empty[HmtToken]
+        }*/
         Vector.empty[HmtToken]
+
         /*
         //  multiform?  Or correction?
         wrappedWordBuffer.clear
@@ -198,7 +207,24 @@ object TeiReader {
         allTokens.toVector.flatten
       }
 
-      case _ => throw new Exception("TeiReader.tokensFromElement: do not recognize element " + el.label)
+      // Hope these are just structural elements:
+      case structuralElem: String =>  {
+        if (validElements.contains(structuralElem)) {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings)
+          }
+          tkns.toVector.flatten
+        } else {
+          //var errorList = tokenSettings.errors :+  "Invalid element name: " + structuralElem
+          val newToken = settings //tokenSettings.copy(errors = errorList)
+
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, newToken)
+          }
+          tkns.toVector.flatten
+        }
+
+      }
     }
 
   }

@@ -30,6 +30,15 @@ class TokenSettingsSpec extends FlatSpec {
     assert(numSetting.lexicalCategory == NumericToken)
   }
 
+  it should "create a new settings by adding an error message" in {
+      val simpleSetting = TokenSettings(context, LexicalToken)
+      val message = "Catastrophic error!"
+      val withMessage = simpleSetting.addError(message)
+      val expectedErrors = 1
+      assert(withMessage.errors.size == expectedErrors)
+      assert (withMessage.errors(0) == message)
+  }
+
 
 
 }

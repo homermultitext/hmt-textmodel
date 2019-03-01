@@ -20,7 +20,6 @@ import edu.holycross.shot.greek._
 * @param errors list of error messages (hopefully empty)
 */
 case class HmtToken (
-  analysis: Cite2Urn = Cite2Urn("urn:cite2:hmt:dummy:bogus:"),
   sourceUrn: CtsUrn,
   editionUrn: CtsUrn,
 
@@ -183,7 +182,7 @@ case class HmtToken (
   * as a secondary delimiter for lists within a single property.
   */
   def rowString: String = {
-    analysis + propertySeparator +
+    //analysis + propertySeparator +
     sourceUrn + propertySeparator +
     editionUrn + propertySeparator +
     lang + propertySeparator +
@@ -208,11 +207,11 @@ case class HmtToken (
 
     withLabels match {
       case false => {
-        Vector(analysis,sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
+        Vector(sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString).mkString("\n")
       }
 
       case true => {
-        val stringVals = Vector(analysis,sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
+        val stringVals = Vector(sourceUrn,editionUrn,lang,readings.toString,lexicalCategory.toString,lexicalDisambiguation.toString,alternateReading.toString,discourse.toString,externalSource,errorString)
 
         val labelled = stringVals.zip(HmtToken.paddedLabels)
         labelled.map {
@@ -317,7 +316,6 @@ case class HmtToken (
   * in form "k=v".
   */
   def kvString : String = {
-    "analysis=" + analysis.toString + "\n"    +
     "source URN=" + sourceUrn.toString + "\n" +
     "edition URN=" + editionUrn.toString + "\n" +
     "lang=" +lang  + "\n" +
