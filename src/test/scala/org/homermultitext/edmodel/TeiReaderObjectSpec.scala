@@ -112,11 +112,15 @@ class TeiReaderObjectSpec extends FlatSpec {
   }
 
   it should "index tokens correctly from root elements" in {
-    val n = XML.loadString("<TEI><text><body><div><l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l></div></body></text></TEI>")
+    val n = XML.loadString("<l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l>")
     val settings = TokenSettings(context, LexicalToken)
 
     val rootTokens = TeiReader.collectCitableTokens(n, settings)
-    println("\n\n" + rootTokens.mkString("\n\n") + "\n\n")
+  
+     val expectedCount = 6
+     assert(rootTokens.size == expectedCount)
+     val expectedLast = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_lextokens:1.1.5@,[2]")
+     assert(rootTokens.last.editionUrn == expectedLast)
   }
 
 
@@ -124,7 +128,11 @@ class TeiReaderObjectSpec extends FlatSpec {
      val txt = "<l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l>"
      val cn = CitableNode(context, txt)
      val nodeTokens = TeiReader.analyzeCitableNode(cn)
-     println("\n\n" + nodeTokens.mkString("\n\n") + "\n\n")
+
+     val expectedCount = 6
+     assert(nodeTokens.size == expectedCount)
+     val expectedLast = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_lextokens:1.1.5@,[2]")
+     assert(nodeTokens.last.editionUrn == expectedLast)
   }
 
     it should "analyze a citable corpus" in {
@@ -132,6 +140,9 @@ class TeiReaderObjectSpec extends FlatSpec {
        val nodes = Vector(CitableNode(context, txt))
        val c = Corpus(nodes)
        val corpusTokens = TeiReader.analyzeCorpus(c)
-       println("\n\n" + corpusTokens.mkString("\n\n") + "\n\n")
+        val expectedCount = 6
+        assert(corpusTokens.size == expectedCount)
+        val expectedLast = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_lextokens:1.1.5@,[2]")
+        assert(corpusTokens.last.editionUrn == expectedLast)
     }
 }
