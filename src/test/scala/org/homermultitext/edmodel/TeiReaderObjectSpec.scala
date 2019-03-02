@@ -9,7 +9,6 @@ import org.scalatest.FlatSpec
 class TeiReaderObjectSpec extends FlatSpec {
 
 
-
   val context = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
 
 
@@ -28,6 +27,7 @@ class TeiReaderObjectSpec extends FlatSpec {
     val expectedThirdCat = Punctuation
     assert(third.lexicalCategory == expectedThirdCat)
   }
+
 
   it should "encode colons in strings" in {
     val src = "voila:"
@@ -87,19 +87,11 @@ class TeiReaderObjectSpec extends FlatSpec {
   }
 
 
-
-  it should "gather readings from tokenizing num element" in pending /* {
-    val n = XML.loadString("<num value=\"11\">ι<unclear>α</unclear></num>")
-    val getEm = TeiReader.collectWrappedTokenReadings(n, Unclear)
-    println("Got: \n\n" + getEm.mkString("\n\n"))
-  }*/
-
   it should "nest unclear inside tokenizing num element" in {
     val n = XML.loadString("<num value=\"11\">ι<unclear>α</unclear></num>")
     val settings = TokenSettings(context, LexicalToken)
 
     val wrappedUnclearTokens = TeiReader.collectTokens(n, settings)
-    println(wrappedUnclearTokens)
 
     val expectedSize = 1
     val expectedCategory = NumericToken
@@ -113,7 +105,33 @@ class TeiReaderObjectSpec extends FlatSpec {
     assert(wrappedUnclearTokens(0).readings.size == expectedReadings)
     assert(wrappedUnclearTokens(0).readings(0).text == expectedText0)
     assert(wrappedUnclearTokens(0).readings(1).text == expectedText1)
+  }
+
+  it should "record an error of unclear contains another element" in {
 
   }
 
+  it should "index tokens correctly from root elements" in {
+    val n = XML.loadString("<TEI><text><body><div><l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l></div></body></text></TEI>")
+    val settings = TokenSettings(context, LexicalToken)
+
+    val rootTokens = TeiReader.collectCitableTokens(n, settings)
+    println("\n\n" + rootTokens.mkString("\n\n") + "\n\n")
+  }
+
+
+  it should "analyze a citable node" in {
+     val txt = "<l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l>"
+     val cn = CitableNode(context, txt)
+     val nodeTokens = TeiReader.analyzeCitableNode(cn)
+     println("\n\n" + nodeTokens.mkString("\n\n") + "\n\n")
+  }
+
+    it should "analyze a citable corpus" in {
+       val txt = "<l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l>"
+       val nodes = Vector(CitableNode(context, txt))
+       val c = Corpus(nodes)
+       val corpusTokens = TeiReader.analyzeCorpus(c)
+       println("\n\n" + corpusTokens.mkString("\n\n") + "\n\n")
+    }
 }

@@ -4,7 +4,7 @@ import edu.holycross.shot.cite._
 
 case class TokenSettings (
   contextUrn: CtsUrn,
-  lexicalCategory: LexicalCategory,
+  lexicalCategory: LexicalCategory = LexicalToken,
   status: EditorialStatus = Clear,
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
@@ -37,5 +37,5 @@ case class TokenSettings (
     }
 
 
-    
+
 }

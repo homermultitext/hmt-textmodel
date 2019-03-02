@@ -81,10 +81,14 @@ object TeiReader {
   * of tknString.
   * @param settings Contextual values within the document for this token.
   */
-  def tokenForString(tknString: String, psg: String, textContext : String, settings: TokenSettings) : HmtToken = {
+  //def tokenForString(tknString: String, psg: String, textContext : String, settings: TokenSettings) : HmtToken = {
+
+  def tokenForString(tknString: String, psg: String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
-    val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
-    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref + "[" + subrefIndex + "]")
+
+    //val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
+
+    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref)
 
     val version = settings.contextUrn.version + "_lextokens"
     val tokenUrn = settings.contextUrn.addVersion(version).addPassage(psg)
@@ -118,17 +122,16 @@ object TeiReader {
   * @param str String to tokenize.
   * @param settings State of text at this point.
   */
-  def tokensFromText(str: String, settings: TokenSettings, offsetIndex: Int = 0) : Vector[HmtToken] = {
+  def tokensFromText(str: String, settings: TokenSettings) : Vector[HmtToken] = {
     val hmtText = HmtChars.hmtNormalize(str)
     val depunctuate =  hmtText.split(punctuationSplitter)
     val tokenStrings = depunctuate.flatMap(_.split("[ ]+")).filter(_.nonEmpty).toVector
 
-    val accumulated = StringBuilder.newBuilder
-    val hmtTokens = for ((tknString,idx) <- tokenStrings.zipWithIndex) yield {
-      val count = offsetIndex + idx
-      accumulated.append(tknString)
-      val psg = settings.contextUrn.passageComponent + "." + offsetIndex
-      tokenForString(tknString, psg, accumulated.toString, settings)
+    //val accumulated = StringBuilder.newBuilder
+    val hmtTokens = for (tknString <- tokenStrings) yield {
+      //accumulated.append(tknString)
+      val psg = settings.contextUrn.passageComponent
+      tokenForString(tknString, psg, settings)
     }
     hmtTokens.toVector
   }
@@ -136,11 +139,9 @@ object TeiReader {
 
 
   def collectWrappedTokenReadings(n: xml.Node, status: EditorialStatus):  Vector[Reading]  = {
-    println("wRAP THIS UP: " + n)
     val rdgs = n match {
 
       case t: xml.Text => {
-        println("It's TEXT")
         val readingString = t.text.replaceAll(" ", "")
         if (readingString.nonEmpty) {
           val sanitized = HmtChars.hmtNormalize(readingString)
@@ -153,7 +154,6 @@ object TeiReader {
       case e: xml.Elem => {
         e.label match {
           case "unclear" => {
-              println("WRAPPED UNCLEAR")
             Vector(Reading(TextReader.collectText(e), Unclear))
           }
           case _ => {
@@ -169,34 +169,6 @@ object TeiReader {
     }
     rdgs.toVector
   }
-/*
-def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): Unit = {
-    n match {
-      case t: xml.Text => {
-        val readingString = t.text.replaceAll(" ", "")
-        if (readingString.nonEmpty) {
-          val sanitized = HmtChars.hmtNormalize(readingString)
-          wrappedWordBuffer += Reading(sanitized  , editorialStatus)
-        }
-      }
-
-      case e: xml.Elem => {
-        e.label match {
-          case "unclear" => {
-            for (ch <- e.child) {
-              collectWrappedWordReadings(Unclear,ch)
-            }
-          }
-          case _ => {
-            for (ch <- e.child) {
-              collectWrappedWordReadings(editorialStatus,ch)
-            }
-          }
-        }
-      }
-    }
-  }
-  */
 
 
   /** Extract tokens from a TEI element.
@@ -204,7 +176,7 @@ def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): U
   * @param el Element to tokenize.
   * @param settings State of text at this point.
   */
-  def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+  def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings, offsetIdx: Int = 0) : Vector[HmtToken] = {
       el.label match {
       // Level 0:  omit
       case "note" =>   Vector.empty[HmtToken] // to be removed from archive
@@ -220,15 +192,6 @@ def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): U
 
       // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
       case "add" => {
-        /*
-        val readingString = el.text.replaceAll(" ", "")
-        if (readingString.nonEmpty) {
-
-            val rdgOption = Some(Reading(HmtChars.hmtNormalize(readingString), Multiform))
-
-        } else {
-          Vector.empty[HmtToken]
-        }*/
         Vector.empty[HmtToken]
 
         /*
@@ -244,14 +207,23 @@ def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): U
       }
 
 
-      // Level 2:  tokenization
+      // Level 2:  tokenizing elements.  Build a single token directly from these.
       case "num" => {
-        val allReadings = for (ch <- el.child) yield {
-          val rdgs = collectWrappedTokenReadings(ch, settings.status)
-          rdgs
-        }
+        // Text for token, and associated vector of readings:
         val txt = TextReader.collectText(el)
-        println("READINGS: " + allReadings.toVector.flatten)
+        val allReadings = for (ch <- el.child) yield {
+          collectWrappedTokenReadings(ch, settings.status)
+        }
+
+/*
+    val subref = ctsSafe(txt)
+    val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
+    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref + "[" + subrefIndex + "]")
+
+    val version = settings.contextUrn.version + "_lextokens"
+    val tokenUrn = settings.contextUrn.addVersion(version).addPassage(psg)
+        */
+
         Vector(
           HmtToken(
             sourceUrn = CtsUrn("urn:cts:bogus:fake.no.way:1"),
@@ -260,11 +232,6 @@ def collectWrappedWordReadings(editorialStatus: EditorialStatus, n: xml.Node): U
             readings = allReadings.toVector.flatten
           )
         )
-
-/*&
-sourceUrn, editionUrn, lexicalCategory
-        */
-
       }
 
       // Hope these are just structural elements:
@@ -290,13 +257,6 @@ sourceUrn, editionUrn, lexicalCategory
   }
 
 
-
-  /** Extract tokens from an XML node, which can be either an Element
-  * or a Text node.
-  *
-  * @param n Node to tokenize.
-  * @param settings State of text at this point.
-  */
   def collectTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
     n match {
       case t: xml.Text => {
@@ -307,6 +267,52 @@ sourceUrn, editionUrn, lexicalCategory
         tokensFromElement(e, settings)
       }
     }
+  }
+
+  /** Extract tokens from the root of citale node represented as an XML node,
+  * which can be either an Element or a Text node.
+  *
+  * @param n Node to tokenize.
+  * @param settings State of text at this point.
+  */
+  def collectCitableTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
+    val rawTokens = n match {
+      case t: xml.Text => {
+        val sanitized = HmtChars.hmtNormalize(t.text)
+        tokensFromText(sanitized, settings)
+      }
+      case e: xml.Elem => {
+        tokensFromElement(e, settings)
+      }
+    }
+
+    val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
+    // add index to subref
+    val accumulated = StringBuilder.newBuilder
+    val citableTokens = for ((tkn,count) <- rawTokens.zipWithIndex) yield {
+      accumulated.append(tkn.readWithDiplomatic)
+      val idx = tkn.readWithDiplomatic.r.findAllMatchIn(accumulated.toString).length
+      val subref =  "@" + tkn.readWithDiplomatic + "[" + idx + "]"
+      val tknUrn = CtsUrn(tkn.editionUrn.toString + "." + count + subref)
+
+      tkn.adjustEditionUrn(tknUrn)
+    }
+
+    citableTokens
+  }
+
+  def analyzeCitableNode(cn: CitableNode): Vector[HmtToken] = {
+    val settings =TokenSettings(cn.urn)
+    val xml = XML.loadString(cn.text)
+    collectCitableTokens(xml,settings)
+  }
+
+
+  def analyzeCorpus(c: Corpus): Vector[HmtToken] = {
+    val tokens = for (cn <- c.nodes) yield {
+      analyzeCitableNode(cn)
+    }
+    tokens.flatten
   }
 
 }

@@ -22,18 +22,42 @@ import edu.holycross.shot.greek._
 case class HmtToken (
   sourceUrn: CtsUrn,
   editionUrn: CtsUrn,
-
   lang : String = "grc",
-  readings: Vector[Reading],
-  lexicalCategory: LexicalCategory,
 
+  readings: Vector[Reading],
+
+  lexicalCategory: LexicalCategory,
   lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
+
   alternateReading: Option[AlternateReading] = None,
+
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
 
   errors: Vector[String] = Vector.empty[String]
 ) {
+
+
+  /** Create a copy of this token with a given edition URN.
+  *
+  * @param newUrn CtsUrn for the new token.
+  */
+  def adjustEditionUrn(newUrn: CtsUrn) : HmtToken  = {
+    HmtToken(
+      sourceUrn,
+
+      newUrn,
+
+      lang,
+      readings,
+      lexicalCategory,
+      lexicalDisambiguation,
+      alternateReading,
+      discourse,
+      externalSource,
+      errors
+    )
+  }
 
   /** String value separating properties in string representation
   * of the object as a single row
@@ -121,7 +145,6 @@ case class HmtToken (
       strippedSrc.contains(strippedQuery)
     }
   }
-
 
 
   def scribalMatch(s: String, accent: Boolean = true): Boolean = {
@@ -271,10 +294,14 @@ case class HmtToken (
   /** Collect clear diplomatic readings for this token.
   */
   def readWithDiplomatic: String = {
+    readings.map(_.text).mkString
+  }
+
+
+  def readLegible: String = {
     val dipl = readings.filter(_.status == Clear)
     dipl.map(_.text).mkString
   }
-
 
   def leidenDiplomatic: String = {
     readings.map{ rdg =>
@@ -328,7 +355,7 @@ case class HmtToken (
 object HmtToken {
 
   /** English labels for properties */
-   val labels = Vector("Analysis URN","Source URN", "Edition URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
+   val labels = Vector("Source URN", "Edition URN","Language","Readings","Lexical category", "Disambiguation", "Alternate reading", "Discourse category","External source","Errors")
 
    /** Width in characters to allocate for widest label */
    val labelWidth = labels.map(_.size).max
