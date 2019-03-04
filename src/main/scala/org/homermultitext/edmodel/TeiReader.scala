@@ -81,6 +81,7 @@ object TeiReader {
   */
   def tokenForString(tknString: String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
+    println("TOKEN FOR STRING: " + subref)
     val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref)
 
     val version = settings.contextUrn.version + "_lextokens"
@@ -163,9 +164,14 @@ object TeiReader {
   }
 
 
+  /** Check conformance of an element with HMT markup requirements,
+  * and create a new settings object for parsing by adding any
+  * further error messages to the current settings object.
+  *
+  * @param el Element to analyze.
+  * @param settings Current [[TokenSettings]].
+  */
   def hierarchySettings(el: scala.xml.Elem, settings: TokenSettings): TokenSettings = {
-
-
     HmtTeiElements.tier(el.label) match {
       case None => settings
       case tierOpt: Option[HmtTeiTier] => {
@@ -182,7 +188,6 @@ object TeiReader {
 
           }
         }
-
         val msgs = HmtTeiElements.tierDepth(el.label) match {
           case None => childMsgs.toVector
           case i : Option[Int] => {
@@ -194,11 +199,8 @@ object TeiReader {
             }
           }
         }
-
-        //println("MESSAGE VECTOR " + msgs.toVector)
         settings.addErrors(msgs.filter(_.nonEmpty))
       }
-
     }
   }
 
@@ -295,8 +297,12 @@ object TeiReader {
   def collectTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
     n match {
       case t: xml.Text => {
-        val sanitized = HmtChars.hmtNormalize(t.text)
-        tokensFromText(sanitized, settings)
+        val sanitized = HmtChars.hmtNormalize(t.text).trim
+        if (sanitized.isEmpty) {
+          Vector.empty[HmtToken]
+        } else {
+          tokensFromText(sanitized, settings)
+        }
       }
       case e: xml.Elem => {
         tokensFromElement(e, settings)
