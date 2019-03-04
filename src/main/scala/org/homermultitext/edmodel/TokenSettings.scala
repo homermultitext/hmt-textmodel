@@ -6,6 +6,7 @@ case class TokenSettings (
   contextUrn: CtsUrn,
   lexicalCategory: LexicalCategory = LexicalToken,
   status: EditorialStatus = Clear,
+  alternateCategory:  Option[AlternateCategory] = None,
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
   errors:  Vector[String] = Vector.empty[String],
@@ -13,11 +14,25 @@ case class TokenSettings (
   treeDepth: Int = HmtTeiElements.tiers.size
 ) {
 
+    def addAlternateCategory(alt: Option[AlternateCategory]) = {
+        TokenSettings(
+          contextUrn,
+          lexicalCategory,
+          status,
+          alternateCategory = alt,
+          discourse,
+          externalSource,
+          errors,
+          lang,
+          treeDepth
+        )
+    }
     def addCategory(newCat: LexicalCategory) : TokenSettings = {
       TokenSettings(
         contextUrn,
-        newCat,
+        lexicalCategory = newCat,
         status,
+        alternateCategory,
         discourse,
         externalSource,
         errors,
@@ -32,6 +47,7 @@ case class TokenSettings (
         contextUrn,
         lexicalCategory,
         status,
+        alternateCategory,
         discourse,
         externalSource,
         errors :+ msg,
@@ -41,24 +57,26 @@ case class TokenSettings (
     }
 
 
-      def addErrors(msgs: Vector[String]) : TokenSettings = {
-        TokenSettings(
-          contextUrn,
-          lexicalCategory,
-          status,
-          discourse,
-          externalSource,
-          errors ++ msgs,
-          lang,
-          treeDepth
-        )
-      }
+    def addErrors(msgs: Vector[String]) : TokenSettings = {
+      TokenSettings(
+        contextUrn,
+        lexicalCategory,
+        status,
+        alternateCategory,
+        discourse,
+        externalSource,
+        errors ++ msgs,
+        lang,
+        treeDepth
+      )
+    }
 
     def setDepth(depth: Int) : TokenSettings = {
       TokenSettings(
         contextUrn,
         lexicalCategory,
         status,
+        alternateCategory,
         discourse,
         externalSource,
         errors,
@@ -73,6 +91,7 @@ case class TokenSettings (
         contextUrn,
         lexicalCategory,
         status = newStatus,
+        alternateCategory,
         discourse,
         externalSource,
         errors,

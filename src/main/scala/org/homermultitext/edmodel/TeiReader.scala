@@ -91,15 +91,21 @@ object TeiReader {
     } else {
       settings.lexicalCategory
     }
-    val rdgs = Vector(Reading(tknString, settings.status))
-
+    val rdgs = settings.alternateCategory match {
+      case None => Vector(Reading(tknString, settings.status))
+      case alt: Option[AlternateCategory] => Vector.empty[Reading]
+    }
+    val altRdg : Option[AlternateReading] = settings.alternateCategory match {
+      case None => None
+      case alt: Option[AlternateCategory] => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+    }
     val hmtToken = HmtToken(
       sourceUrn = subrefUrn,
       editionUrn = tokenUrn,
       readings = rdgs,
       lexicalCategory = lexicalCat,
       lexicalDisambiguation =  Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
-      alternateReading = None,
+      alternateReading = altRdg,
       discourse = settings.discourse,
       externalSource = settings.externalSource,
       errors = settings.errors
@@ -249,16 +255,20 @@ object TeiReader {
             editionUrn = tokenUrn,
             lexicalCategory = Lacuna ,
             readings = Vector.empty[Reading],
+            //alternateReading = settingsWithAttrs.alternateCategory,
             errors = settingsWithAttrs.errors :+ "Lacuna in text: no tokens legible")
             )
         }
 
         // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
         case "add" => {
-          Vector.empty[HmtToken]
-
+          val tkns = for (ch <- el.child) yield {
+            println("Setting alt category to " + Some(Multiform))
+            collectTokens(ch, settings.addAlternateCategory(Some(Multiform)))
+          }
+          tkns.toVector.flatten
           /*
-          //  multiform?  Or correction?
+          //  multiform?
           wrappedWordBuffer.clear
           collectWrappedWordReadings(Clear,el)
           val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
@@ -286,6 +296,7 @@ object TeiReader {
               sourceUrn = settingsWithAttrs.contextUrn,
               editionUrn = tokenUrn,
               lexicalCategory = NumericToken ,
+              //alternateReading = settingsWithAttrs.alternateCategory,
               readings = allReadings.toVector.flatten,
               errors = settingsWithAttrs.errors
             )
