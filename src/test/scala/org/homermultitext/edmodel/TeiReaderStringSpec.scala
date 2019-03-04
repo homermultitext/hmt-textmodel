@@ -27,11 +27,11 @@ class TeiReaderStringSpec extends FlatSpec {
     val expectedThirdCat = Punctuation
     assert(third.lexicalCategory == expectedThirdCat)
   }
+
   it should "encode colons in strings" in {
     val src = "voila:"
     val expected = "voila%3A"
     assert(TeiReader.ctsSafe(src) == expected)
   }
-
 
 }

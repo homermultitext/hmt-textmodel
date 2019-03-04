@@ -56,10 +56,32 @@ case class HmtToken (
     )
   }
 
+
+  /** Create a new [[HmtToken]] with an additional error
+  * message added to the list.
+  *
+  * @param msg Error message to add.
+  */
+  def addErrorMessage(msg: String) : HmtToken  = {
+    HmtToken(
+      sourceUrn,
+      editionUrn,
+      lang,
+      readings,
+      lexicalCategory,
+      lexicalDisambiguation,
+      alternateReading,
+      discourse,
+      externalSource,
+      errors :+ msg
+    )
+  }
+
   /** String value separating properties in string representation
   * of the object as a single row
   */
   val  propertySeparator = "\t"
+
   /** String value separating multiple items within a single property
   * in string representation of the object as a single row
   */
@@ -144,6 +166,11 @@ case class HmtToken (
   }
 
 
+  /** True if reading with scribal correction matches a string.
+  *
+  * @param s Text to match.
+  * @param accent True if accent should be included in matching.
+  */
   def scribalMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
       readWithScribal.contains(s)
@@ -154,6 +181,11 @@ case class HmtToken (
     }
   }
 
+  /** True if reading with alternate reading matches a string.
+  *
+  * @param s Text to match.
+  * @param accent True if accent should be included in matching.
+  */
   def alternateMatch(s: String, accent: Boolean = true): Boolean = {
     if (accent) {
       readWithAlternate.contains(s)
@@ -177,6 +209,13 @@ case class HmtToken (
     }
   }
 
+
+  /** True if this node's reading matches a string.
+  *
+  * @param s Text to match.
+  * @param readingType Type of reading to use for comparison.  May be
+  * one of diplomatic, scribal or alternate.
+  */
   def stringMatch(s : String, readingType: String = "diplomatic" ): Boolean = {
     readingType match {
       case "diplomatic" => diplomaticMatch(s)

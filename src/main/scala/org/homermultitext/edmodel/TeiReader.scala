@@ -101,11 +101,11 @@ object TeiReader {
       lexicalDisambiguation =  Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
       alternateReading = None,
       discourse = settings.discourse,
-      externalSource = settings.externalSource
+      externalSource = settings.externalSource,
+      errors = settings.errors
     )
     hmtToken
   }
-
 
   /** Intimidating regular expression splitting strings by HMT Greek punctuation. */
   val punctuationSplitter = "((?<=[,;:⁑\\.])|(?=[,;:⁑\\.]))"
@@ -168,25 +168,33 @@ object TeiReader {
   * @param el Element to tokenize.
   * @param settings State of text at this point.
   */
-  def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings, offsetIdx: Int = 0) : Vector[HmtToken] = {
-    // THIS ISWHERE YOU CHECK ON HIERARCHY.
-      if (HmtTeiElements.metadata.contains(el.label)) {
-        Vector.empty[HmtToken]
+  def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+    // THIS ISWHERE YOU CHECK ON HIERARCHY AND ON ATTR USAGE
+    if (HmtTeiElements.metadata.contains(el.label)) {
+      Vector.empty[HmtToken]
 
-      } else if (HmtTeiElements.structural.contains(el.label)) {
-        val tkns = for (ch <- el.child) yield {
-          collectTokens(ch, settings)
-        }
-        tkns.toVector.flatten
+    } else if (HmtTeiElements.structural.contains(el.label)) {
+      val tkns = for (ch <- el.child) yield {
+        collectTokens(ch, settings)
+      }
+      tkns.toVector.flatten
 
 
       } else {
+        val settingsWithAttrs = HmtTeiAttributes.errorMsg(el) match {
+          case None => {
+            settings
+          }
+          case err: Option[String] => {
+            settings.addError(err.get)
+          }
+        }
         el.label match {
 
         // Level 1:  reading status the is innermost markup, so if it
         // occurs alone, we can directly collect text from here.
         case "unclear" => {
-          tokensFromText(el.text, settings)
+          tokensFromText(el.text, settingsWithAttrs)
         }
 
         // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
@@ -211,32 +219,36 @@ object TeiReader {
           // Text for token, and associated vector of readings:
           val txt = TextReader.collectText(el)
           val allReadings = for (ch <- el.child) yield {
-            collectWrappedTokenReadings(ch, settings.status)
+            collectWrappedTokenReadings(ch, settingsWithAttrs.status)
           }
+          val subrefUrn = CtsUrn(settingsWithAttrs.contextUrn.toString + "@" + txt)
+
+          val version = settingsWithAttrs.contextUrn.version + "_lextokens"
+          val tokenUrn = settingsWithAttrs.contextUrn.addVersion(version)
           Vector(
             HmtToken(
-              sourceUrn = CtsUrn("urn:cts:bogus:fake.no.way:1"),
-              editionUrn = CtsUrn("urn:cts:bogus:fake.no.way:1.1"),
+              sourceUrn = settingsWithAttrs.contextUrn,
+              editionUrn = tokenUrn,
               lexicalCategory = NumericToken ,
-              readings = allReadings.toVector.flatten
+              readings = allReadings.toVector.flatten,
+              errors = settingsWithAttrs.errors
             )
           )
         }
 
 
         case bad: String =>  {
-          //var errorList = tokenSettings.errors :+  "Invalid element name: " + structuralElem
-          val newToken = settings //tokenSettings.copy(errors = errorList)
-
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, newToken)
+          var error = "Element " + bad + " not allowed or not yet implemented in textmodel library."
+          val newSettings = settingsWithAttrs.addError(error)
+              val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, newSettings)
           }
-          tkns.toVector.flatten
+          val flattened = tkns.toVector.flatten
+          flattened
         }
 
       }
     }
-
   }
 
 
@@ -255,13 +267,14 @@ object TeiReader {
   /** Extract tokens from the root of citable node represented as an XML node,
   * which can be either an Element or a Text node.
   * First walk the XML tree for basic tokenization.  Then
-  * chycle through the resulting list of
+  * cycle through the resulting list of
   * tokens to add a token level to the URN's passage component.
   *
   * @param n Node to tokenize.
   * @param settings State of text at this point.
   */
   def collectCitableTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
+    //1. Walk XML tree.
     val rawTokens = n match {
       case t: xml.Text => {
         val sanitized = HmtChars.hmtNormalize(t.text)
@@ -272,10 +285,7 @@ object TeiReader {
       }
     }
 
-
-
-
-    // add index to subref
+    // 2. Index to subreference strings.
     val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
     val accumulated = StringBuilder.newBuilder
     val citableTokens = for ((tkn,count) <- rawTokens.zipWithIndex) yield {
@@ -290,6 +300,11 @@ object TeiReader {
     citableTokens
   }
 
+
+  /** Analyze a single citable node into a Vector of [[HmtToken]]s.
+  *
+  *@param n Node to analyze.
+  */
   def analyzeCitableNode(cn: CitableNode): Vector[HmtToken] = {
     val settings =TokenSettings(cn.urn)
     val xml = XML.loadString(cn.text)
@@ -297,6 +312,11 @@ object TeiReader {
   }
 
 
+  /** Analyze an OHCO2 corpus.  Creates a Vector of
+  * [[HmtToken]]s representing every token in the TEI source.
+  *
+  * @param c Corpus to analyze.
+  */
   def analyzeCorpus(c: Corpus): Vector[HmtToken] = {
     val tokens = for (cn <- c.nodes) yield {
       analyzeCitableNode(cn)

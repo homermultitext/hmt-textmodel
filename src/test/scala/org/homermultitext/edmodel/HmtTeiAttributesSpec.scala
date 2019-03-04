@@ -12,7 +12,7 @@ class HmtTeiAttributesSpec extends FlatSpec {
   val context = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
 
 
-  "The TeiReader object" should "require attributes on TEI foreign" in  {
+  "The HmtTeiAttributes object" should "require attributes on TEI foreign" in  {
     val str = "<foreign n=\"eng\">Homer</foreign>"
     val el = XML.loadString(str)
     assert(HmtTeiAttributes.attributeRequired(el))
@@ -137,5 +137,18 @@ class HmtTeiAttributesSpec extends FlatSpec {
     val str = "<title n=\"Not a URN:\">Iliad</title>"
     val el = XML.loadString(str)
     assert(HmtTeiAttributes.ok(el) == false)
+  }
+
+  it should "include an errorMsg function reporting results of error checking" in {
+    val str = "<title n=\"Not a URN:\">Iliad</title>"
+    val el = XML.loadString(str)
+    val  expected = "For TEI 'title', @n attribute is optional but must be a valid CTS if included."
+    assert(HmtTeiAttributes.errorMsg(el).get == expected)
+  }
+
+  it should "report None in errorMsg for valid usage" in {
+    val str = "<title n=\"urn:cts:greekLit:tlg0012.tlg001:\">Iliad</title>"
+    val el = XML.loadString(str)
+    assert(HmtTeiAttributes.errorMsg(el) == None)
   }
 }

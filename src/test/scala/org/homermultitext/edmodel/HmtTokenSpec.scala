@@ -7,7 +7,6 @@ import scala.collection.mutable.ArrayBuffer
 
 class HmtTokenSpec extends FlatSpec {
   val tkn = HmtToken(
-    //analysis = Cite2Urn("urn:cite2:hmt:va_il_tkns.v1:tkn1"),
     editionUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"),
     sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
 
@@ -113,7 +112,6 @@ class HmtTokenSpec extends FlatSpec {
 
   it should "distinguish unclear readings in diplomatic deformation" in {
     val tkn = HmtToken(
-      //analysis = Cite2Urn("urn:cite2:hmt:va_schA_tkns:tkn21"),
       editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:19.hc_19.comment.21"),
       sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:19.hc_19.comment@αὐτῶ[0]"),
 
@@ -139,4 +137,11 @@ class HmtTokenSpec extends FlatSpec {
   }
 
 
+  it should "add an error message to create a new token" in {
+    assert (tkn.errors.isEmpty)
+    val msg = "Illegal TEI element: 'watermark'."
+    val newToken = tkn.addErrorMessage(msg)
+    assert(newToken.errors.size == 1)
+    assert(newToken.errors(0) == msg)
+  }
 }
