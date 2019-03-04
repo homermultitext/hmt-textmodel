@@ -116,28 +116,4 @@ object HmtTeiElements {
       }
     }
   }
-
-  val abbrExpan = Set("abbr","expan")
-  val sicCorr = Set("sic", "corr")
-  val origReg = Set("orig", "reg")
-
-  val choicePairs = Vector(abbrExpan, sicCorr, origReg)
-
-  // check structure of TEI choice
-  def validChoice(choiceElem: scala.xml.Elem): Boolean = {
-    val cNames = choiceElem.child.map(_.label).distinct.filterNot(_ == "#PCDATA").toSet
-
-    if (choicePairs.filter(_ == cNames ).nonEmpty) {
-      true
-    } else {
-      false
-    }
-
-    /*
-
-
-
-              */
-  }
-
 }

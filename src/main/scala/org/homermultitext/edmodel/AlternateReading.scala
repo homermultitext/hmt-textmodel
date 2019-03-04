@@ -29,17 +29,17 @@ case object Deletion extends AlternateCategory {val name = "scribal deletion"}
 * The `name` member must be implemented with an English description of the editorial status
 *
 * @param alternateCategory category of alternate reading
-* @param reading all [[org.homermultitext.edmodel.Reading]]s for this alternate reading
+* @param readings all [[org.homermultitext.edmodel.Reading]]s for this alternate reading
 */
-case class AlternateReading (alternateCategory: AlternateCategory, reading: Vector[Reading] ) {
+case class AlternateReading (alternateCategory: AlternateCategory, readings: Vector[Reading] ) {
 
   def leidenize: String = {
-    Reading.leidenize(reading) + " (" + alternateCategory + ")"
+    Reading.leidenize(readings) + " (" + alternateCategory + ")"
   }
   def simpleString: String = {
     alternateCategory match {
       case Deletion => ""
-      case _ => reading.map(_.text).mkString
+      case _ => readings.map(_.text).mkString
     }
 
   }
@@ -51,6 +51,6 @@ object AlternateReading {
 
   /** format all [[org.homermultitext.edmodel.Reading]]s in a single string*/
   def alternative (alt: AlternateReading): String = {
-    alt.reading.map(rdg => rdg.typedText).mkString(" + ")
+    alt.readings.map(rdg => rdg.typedText).mkString(" + ")
   }
 }

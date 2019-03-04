@@ -6,7 +6,7 @@ class AlternateReadingSpec extends FlatSpec {
   "An alternate reading" should "have a vector of 1 or more readings" in {
     val rdg = Reading("οὕτως",Restored)
     val alt = AlternateReading(Restoration, Vector(rdg))
-    assert (alt.reading.size == 1)
+    assert (alt.readings.size == 1)
   }
 
   it should "have a category" in {

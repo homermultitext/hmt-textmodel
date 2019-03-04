@@ -24,14 +24,8 @@ class TeiReaderTeiSpec extends FlatSpec {
 
   }
 
-  // Status of scribe's reading:
-  it should "recognize independent occurrences of TEI add" in pending
-  it should "recognize independent occurrences of TEI del" in pending
 
 
-  it should "recognized paired abbr/expan" in pending
-  it should "recognized paired sic/corr" in pending
-  it should "recognized paired orig/reg" in pending
 
 
 

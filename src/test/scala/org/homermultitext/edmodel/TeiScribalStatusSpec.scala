@@ -23,8 +23,8 @@ class TeiScribalStatusSpec extends FlatSpec {
     val alt = addedToken.alternateReading.get
     val expectedCategory = Multiform
     assert(alt.alternateCategory == expectedCategory)
-    assert(alt.reading.head.text == "out")
-    assert(alt.reading.head.status == Clear)
+    assert(alt.readings.head.text == "out")
+    assert(alt.readings.head.status == Clear)
   }
 
 
@@ -40,17 +40,24 @@ class TeiScribalStatusSpec extends FlatSpec {
     assert(rdg.text == "too")
     val alt = deletedToken.alternateReading.get
     assert(alt.alternateCategory == Deletion)
-    assert(alt.reading.isEmpty)
+    assert(alt.readings.isEmpty)
     }
 
 
   it should "recognized paired abbr/expan" in {
-    val abbrExpan = "<p><choice><abbr>Mr.</abbr><expan>Mister</expan></choice> Big.</p>"
+    val abbrExpan = "<p><choice><abbr>Mr</abbr><expan>Mister</expan></choice> Big.</p>"
     val n = XML.loadString(abbrExpan)
     val settings = TokenSettings(context, LexicalToken)
-    val abbrExpanTokens = TeiReader.collectTokens(n, settings)
+    val paired = TeiReader.collectTokens(n, settings).head
+
+    assert(paired.alternateReading.get.alternateCategory == Restoration)
+    assert(paired.alternateReading.get.readings.head.text == "Mister")
+    println(paired.readings.head.text == "Mr")
+    //println("Expansion == " + abbrExpanTokens.alternateReading)
 
   }
+
+  // <choice><orig></orig><abbr></abbr></choice>
   it should "recognized paired sic/corr" in pending
   it should "recognized paired orig/reg" in pending
 

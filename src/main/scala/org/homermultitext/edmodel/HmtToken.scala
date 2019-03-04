@@ -77,6 +77,38 @@ case class HmtToken (
     )
   }
 
+  def addReading(rdgs: Vector[Reading]) : HmtToken  = {
+    HmtToken(
+      sourceUrn,
+      editionUrn,
+      lang,
+      readings = rdgs,
+      lexicalCategory,
+      lexicalDisambiguation,
+      alternateReading,
+      discourse,
+      externalSource,
+      errors
+    )
+  }
+
+
+  def addAlternateReading(alt: Option[AlternateReading]) : HmtToken  = {
+    HmtToken(
+      sourceUrn,
+      editionUrn,
+      lang,
+      readings,
+      lexicalCategory,
+      lexicalDisambiguation,
+      alternateReading = alt,
+      discourse,
+      externalSource,
+      errors
+    )
+  }
+
+
   /** String value separating properties in string representation
   * of the object as a single row
   */
@@ -297,7 +329,7 @@ case class HmtToken (
         readings.map(_.text).mkString
       }
       case Some(alt) => {
-        alt.reading.map(_.text).mkString
+        alt.readings.map(_.text).mkString
       }
     }
   }
@@ -315,7 +347,7 @@ case class HmtToken (
       case Some(alt) => {
         alt.alternateCategory match {
           case Correction => {
-            alt.reading.map(_.text).mkString
+            alt.readings.map(_.text).mkString
 
           }
           case _ => {
@@ -358,7 +390,7 @@ case class HmtToken (
         alt.alternateCategory match {
           case Restoration =>
           readings.map(_.leidenize).mkString +
-           alt.reading.map(_.leidenize).mkString
+           alt.readings.map(_.leidenize).mkString
           case _ =>  readings.map(_.leidenize).mkString
         }
       }

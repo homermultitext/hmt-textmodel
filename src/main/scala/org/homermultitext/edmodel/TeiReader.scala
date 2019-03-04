@@ -111,7 +111,10 @@ object TeiReader {
         alt.get match {
           case Multiform =>   Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           case Correction => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
-          case Restoration => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+          case Restoration => {
+            //println("WOOHOO!  Expanding abbrs!")
+            Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+          }
 
           case Deletion => Some(AlternateReading(alt.get, Vector.empty[Reading]))
         }
@@ -275,7 +278,6 @@ object TeiReader {
             editionUrn = tokenUrn,
             lexicalCategory = Lacuna ,
             readings = Vector.empty[Reading],
-            //alternateReading = settingsWithAttrs.alternateCategory,
             errors = settingsWithAttrs.errors :+ "Lacuna in text: no tokens legible")
             )
         }
@@ -283,25 +285,44 @@ object TeiReader {
         // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
         case "add" => {
           val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settings.addAlternateCategory(Some(Multiform)))
+            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Multiform)))
           }
           tkns.toVector.flatten
         }
         case "del" => {
           val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settings.addAlternateCategory(Some(Deletion)))
+            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Deletion)))
           }
           tkns.toVector.flatten
         }
         case "choice" => {
-          if (HmtTeiElements.validChoice(el)) {
-            println("Hooray! Valid choice!")
-          } else {
-            println("Sad. Terrible choice.")
-          }
-          Vector.empty[HmtToken]
           // enforce correct pairings
+          if ((el.child.size == 2) && (HmtTeiChoice.validChoice(el))) {
+            val children = el.child.toVector
+            val t1 = collectTokens(children(0), settingsWithAttrs)
+            val t2 = collectTokens(children(1), settingsWithAttrs)
+            HmtTeiChoice.pairedToken(t1,t2,settingsWithAttrs)
 
+          } else {
+            val msg = "Illegal combination of elements within choice: " + HmtTeiChoice.choiceChildren(el).mkString(", ")
+            val tkns = for (ch <- el.child) yield {
+              collectTokens(ch, settingsWithAttrs.addError(msg))
+            }
+            tkns.toVector.flatten
+          }
+        }
+
+        case "abbr" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingsWithAttrs)
+          }
+          tkns.toVector.flatten
+        }
+        case "expan" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Restoration)))
+          }
+          tkns.toVector.flatten
         }
 
 
