@@ -29,7 +29,7 @@ class TeiReaderAttrsSpec extends FlatSpec {
     val n = XML.loadString("<num>α</num>")
     val settings = TokenSettings(context, LexicalToken)
     val numToken = TeiReader.tokensFromElement(n, settings).head
-    assert(numToken.errors.size == 1)
+    assert(numToken.errors.nonEmpty)
     val expected = "For TEI 'num', @value attribute with numeric value of element's contents is mandatory."
     assert(numToken.errors.head == expected)
   }

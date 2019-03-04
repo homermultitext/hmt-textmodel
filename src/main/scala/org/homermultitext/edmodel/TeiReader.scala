@@ -165,16 +165,14 @@ object TeiReader {
 
   def hierarchySettings(el: scala.xml.Elem, settings: TokenSettings): TokenSettings = {
 
-    val depth = HmtTeiElements.tierDepth(el.label)
-    //println("==>With " + el.label + ", inherited " + settings.treeDepth+ " now at " + depth)
-    // look at children?
+
     HmtTeiElements.tier(el.label) match {
       case None => settings
       case tierOpt: Option[HmtTeiTier] => {
         val tier = tierOpt.get
         //println("AT " + el.label + " with allowed children " + tier.allowedChildren)
 
-        val msgs = for (ch <- el.child) yield {
+        val childMsgs = for (ch <- el.child) yield {
           if (
             (ch.label == "#PCDATA") || (tier.allowedChildren.contains(ch.label))
           ) {
@@ -185,25 +183,23 @@ object TeiReader {
           }
         }
 
+        val msgs = HmtTeiElements.tierDepth(el.label) match {
+          case None => childMsgs.toVector
+          case i : Option[Int] => {
+            if (settings.treeDepth >= i.get) {
+              childMsgs.toVector
+            } else {
+              val msg = s"Element ${el.label} out of place in markup hierarchy."
+              childMsgs.toVector :+ msg
+            }
+          }
+        }
+
         //println("MESSAGE VECTOR " + msgs.toVector)
-        settings.addErrors(msgs.toVector)
+        settings.addErrors(msgs.filter(_.nonEmpty))
       }
 
     }
-/*
-    // settings.treeDepth must be >= new depth
-    depth match {
-      case None => settings
-      case i : Option[Int] => {
-        if (settings.treeDepth >= i.get) {
-          settings.setDepth(i.get)
-        } else {
-          val msg = s"Element ${el.label} out of place in markup hierarchy."
-          settings.setDepth(i.get).addError(msg)
-        }
-      }
-    }
-    */
   }
 
   /** Extract tokens from a TEI element.
