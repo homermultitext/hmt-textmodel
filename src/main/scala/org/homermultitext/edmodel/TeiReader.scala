@@ -115,7 +115,6 @@ object TeiReader {
             //println("WOOHOO!  Expanding abbrs!")
             Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           }
-
           case Deletion => Some(AlternateReading(alt.get, Vector.empty[Reading]))
         }
       }
@@ -321,6 +320,27 @@ object TeiReader {
         case "expan" => {
           val tkns = for (ch <- el.child) yield {
             collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Restoration)))
+          }
+          tkns.toVector.flatten
+        }
+
+        /// SET APPROPRIATE SETTINGS
+        case "corr" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Correction)))
+          }
+          tkns.toVector.flatten
+        }
+
+        case "orig" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingsWithAttrs)
+          }
+          tkns.toVector.flatten
+        }
+        case "reg" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Multiform)))
           }
           tkns.toVector.flatten
         }

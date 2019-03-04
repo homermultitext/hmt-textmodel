@@ -52,14 +52,43 @@ class TeiScribalStatusSpec extends FlatSpec {
 
     assert(paired.alternateReading.get.alternateCategory == Restoration)
     assert(paired.alternateReading.get.readings.head.text == "Mister")
-    println(paired.readings.head.text == "Mr")
-    //println("Expansion == " + abbrExpanTokens.alternateReading)
-
+    assert(paired.readings.head.text == "Mr")
   }
 
-  // <choice><orig></orig><abbr></abbr></choice>
-  it should "recognized paired sic/corr" in pending
-  it should "recognized paired orig/reg" in pending
+  it should "note errors in choice pairings" in {
+    // this is valid TEI:
+    val badCombo = "<p><choice><orig>Mister</orig><abbr>Mr</abbr></choice></p>"
+    val n = XML.loadString(badCombo)
+    val settings = TokenSettings(context, LexicalToken)
+    val badPairing = TeiReader.collectTokens(n, settings)
+    // this will prodcue two tokens, since we don't know how to join them:
+    assert(badPairing.size == 2)
+    val expected = "Illegal combination of elements within choice: orig, abbr"
+    assert(badPairing(0).errors.head == expected)
+    assert(badPairing(1).errors.head == expected)
+  }
+
+
+  it should "recognized paired sic/corr" in {
+    val sicCorr = "<p><choice><sic>oops</sic><corr>better</corr></choice> answer.</p>"
+    val n = XML.loadString(sicCorr)
+    val settings = TokenSettings(context, LexicalToken)
+    val paired = TeiReader.collectTokens(n, settings).head
+
+    assert(paired.alternateReading.get.alternateCategory == Correction)
+    assert(paired.alternateReading.get.readings.head.text == "better")
+    assert(paired.readings.head.text == "oops")
+  }
+  it should "recognized paired orig/reg" in {
+    val origReg = "<p><choice><orig>Achilles</orig><reg>Akhilleus</reg></choice> answer.</p>"
+    val n = XML.loadString(origReg)
+    val settings = TokenSettings(context, LexicalToken)
+    val paired = TeiReader.collectTokens(n, settings).head
+
+    assert(paired.alternateReading.get.alternateCategory == Multiform)
+    assert(paired.alternateReading.get.readings.head.text == "Akhilleus")
+    assert(paired.readings.head.text == "Achilles")
+  }
 
 
 
