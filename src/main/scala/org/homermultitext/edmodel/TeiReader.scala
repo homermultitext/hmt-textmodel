@@ -72,7 +72,9 @@ object TeiReader {
 
 
 
-  /** Create an [[HmtToken]] for a single String.
+  /** Create an [[HmtToken]] for a single String in a context
+  * described by a TokenSettings object when you reach the leaf of
+  * of your XML tree.
   *
   * @param tknString The textual reading for this token.
   * @param textContext Textual context within which we need to index occurrences
@@ -93,11 +95,27 @@ object TeiReader {
     }
     val rdgs = settings.alternateCategory match {
       case None => Vector(Reading(tknString, settings.status))
-      case alt: Option[AlternateCategory] => Vector.empty[Reading]
+      case alt: Option[AlternateCategory] => {
+        alt.get match {
+          case Multiform =>  Vector.empty[Reading]
+          case Correction =>  Vector.empty[Reading]
+          case Restoration =>  Vector.empty[Reading]
+
+          case Deletion => Vector(Reading(tknString, settings.status))
+        }
+      }
     }
     val altRdg : Option[AlternateReading] = settings.alternateCategory match {
       case None => None
-      case alt: Option[AlternateCategory] => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+      case alt: Option[AlternateCategory] => {
+        alt.get match {
+          case Multiform =>   Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+          case Correction => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+          case Restoration => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
+
+          case Deletion => Some(AlternateReading(alt.get, Vector.empty[Reading]))
+        }
+      }
     }
     val hmtToken = HmtToken(
       sourceUrn = subrefUrn,
@@ -112,6 +130,8 @@ object TeiReader {
     )
     hmtToken
   }
+
+
 
   /** Intimidating regular expression splitting strings by HMT Greek punctuation. */
   val punctuationSplitter = "((?<=[,;:⁑\\.])|(?=[,;:⁑\\.]))"
@@ -151,9 +171,9 @@ object TeiReader {
 
       case e: xml.Elem => {
         e.label match {
-          case "w" => {
-            Vector(Reading(TextReader.collectText(e), Unclear))
-          }
+          /*case "w" => {
+            Vector(Reading(TextReader.collectText(e), status))
+          }*/
           case _ => {
             // RECORD ERROR
             println("DON'T KNOW ABOUT " + n)
@@ -263,20 +283,25 @@ object TeiReader {
         // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
         case "add" => {
           val tkns = for (ch <- el.child) yield {
-            println("Setting alt category to " + Some(Multiform))
             collectTokens(ch, settings.addAlternateCategory(Some(Multiform)))
           }
           tkns.toVector.flatten
-          /*
-          //  multiform?
-          wrappedWordBuffer.clear
-          collectWrappedWordReadings(Clear,el)
-          val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
-          wrappedWordBuffer.clear
-          val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
-          wrappedWordBuffer.clear
-          tokenBuffer += newToken
-          */
+        }
+        case "del" => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings.addAlternateCategory(Some(Deletion)))
+          }
+          tkns.toVector.flatten
+        }
+        case "choice" => {
+          if (HmtTeiElements.validChoice(el)) {
+            println("Hooray! Valid choice!")
+          } else {
+            println("Sad. Terrible choice.")
+          }
+          Vector.empty[HmtToken]
+          // enforce correct pairings
+
         }
 
 
@@ -295,8 +320,7 @@ object TeiReader {
             HmtToken(
               sourceUrn = settingsWithAttrs.contextUrn,
               editionUrn = tokenUrn,
-              lexicalCategory = NumericToken ,
-              //alternateReading = settingsWithAttrs.alternateCategory,
+              lexicalCategory = NumericToken,
               readings = allReadings.toVector.flatten,
               errors = settingsWithAttrs.errors
             )

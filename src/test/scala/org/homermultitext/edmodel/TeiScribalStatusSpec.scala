@@ -25,12 +25,32 @@ class TeiScribalStatusSpec extends FlatSpec {
     assert(alt.alternateCategory == expectedCategory)
     assert(alt.reading.head.text == "out")
     assert(alt.reading.head.status == Clear)
+  }
+
+
+
+  it should "recognize independent occurrences of TEI del" in {
+    val delElem = "<p>Added too <del>too</del> many words.</p>"
+    val n = XML.loadString(delElem)
+    val settings = TokenSettings(context, LexicalToken)
+    val delTokens = TeiReader.collectTokens(n, settings)
+
+    val deletedToken = delTokens(2)
+    val rdg = deletedToken.readings.head
+    assert(rdg.text == "too")
+    val alt = deletedToken.alternateReading.get
+    assert(alt.alternateCategory == Deletion)
+    assert(alt.reading.isEmpty)
+    }
+
+
+  it should "recognized paired abbr/expan" in {
+    val abbrExpan = "<p><choice><abbr>Mr.</abbr><expan>Mister</expan></choice> Big.</p>"
+    val n = XML.loadString(abbrExpan)
+    val settings = TokenSettings(context, LexicalToken)
+    val abbrExpanTokens = TeiReader.collectTokens(n, settings)
 
   }
-  it should "recognize independent occurrences of TEI del" in pending
-
-
-  it should "recognized paired abbr/expan" in pending
   it should "recognized paired sic/corr" in pending
   it should "recognized paired orig/reg" in pending
 

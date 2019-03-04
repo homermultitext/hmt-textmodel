@@ -6,18 +6,23 @@ package org.homermultitext.edmodel
 * Used by [[org.homermultitext.edmodel.AlternateReading]] and therefore also by [[org.homermultitext.edmodel.HmtToken]] and [[org.homermultitext.edmodel.TeiReader]]
 */
 sealed trait AlternateCategory {def name : String}
-/** restored by modern editor
-*
-* This should only apply to editorial expansions of abbreviations.
- */
+
+/** Restored by modern editor, indicated in HMT XML with expan/abbr pair.*/
 case object Restoration extends AlternateCategory {val name = "editorial restoration or completion"}
-/** alternate reading offered by scribe */
+
+ /** Scribal correction of text indicated in HMT XML with sic/corr pair.*/
+case object Correction extends AlternateCategory {val name = "scribal correction"}
+
+
+/** Alternate reading offered by scribe  indicated in HMT XML with add. */
 case object Multiform extends AlternateCategory {val name
  = "scribally recorded multiform"}
- /** scribal correction of text */
-case object Correction extends AlternateCategory {val name = "scribal correction"}
- /** scribal deletion of text */
+
+ /** Scribal deletion of text indicated by HMT del.*/
 case object Deletion extends AlternateCategory {val name = "scribal deletion"}
+
+
+
 
 /** an alternate reading for a token
 *
