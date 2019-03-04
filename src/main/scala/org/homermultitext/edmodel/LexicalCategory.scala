@@ -18,3 +18,5 @@ case object Punctuation extends LexicalCategory {val name = "punctuation"}
 case object LiteralToken extends LexicalCategory {val name = "string literal"}
 /** token not parseable due to error in HMT edition */
 case object Unintelligible extends LexicalCategory {val name = "unparseable lexical token"}
+/** Token no longer extant.*/
+case object Lacuna extends LexicalCategory {val name = "lacuna in text"}

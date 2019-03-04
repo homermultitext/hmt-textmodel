@@ -31,6 +31,9 @@ case object Restored extends EditorialStatus {val name = "restored"}
 case object InvalidToken extends EditorialStatus {val name = "invalid"}
 
 
+case object Sic extends EditorialStatus {val name = "unintelligible"}
+
+
 /** A typed reading of a passage.
 *
 * @constructor create a new reading with a string of text and an editorial status.
@@ -52,6 +55,7 @@ case class Reading (val text: String, val status: EditorialStatus ) {
       case Clear => text
       case Missing => "…"
       case InvalidToken => text
+      case Sic => text
     }
   }
 }

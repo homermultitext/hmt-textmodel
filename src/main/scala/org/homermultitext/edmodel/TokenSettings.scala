@@ -68,4 +68,18 @@ case class TokenSettings (
     }
 
 
+    def setStatus(newStatus: EditorialStatus) : TokenSettings = {
+      TokenSettings(
+        contextUrn,
+        lexicalCategory,
+        status = newStatus,
+        discourse,
+        externalSource,
+        errors,
+        lang,
+        treeDepth
+      )
+    }
+
+
 }

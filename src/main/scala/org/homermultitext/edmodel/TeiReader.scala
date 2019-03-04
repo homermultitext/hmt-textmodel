@@ -81,7 +81,6 @@ object TeiReader {
   */
   def tokenForString(tknString: String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
-    println("TOKEN FOR STRING: " + subref)
     val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref)
 
     val version = settings.contextUrn.version + "_lextokens"
@@ -146,7 +145,7 @@ object TeiReader {
 
       case e: xml.Elem => {
         e.label match {
-          case "unclear" => {
+          case "w" => {
             Vector(Reading(TextReader.collectText(e), Unclear))
           }
           case _ => {
@@ -236,7 +235,22 @@ object TeiReader {
         // Level 1:  reading status the is innermost markup, so if it
         // occurs alone, we can directly collect text from here.
         case "unclear" => {
-          tokensFromText(el.text, settingsWithAttrs)
+          tokensFromText(el.text, settingsWithAttrs.setStatus(Unclear))
+        }
+        case "sic" => {
+          tokensFromText(el.text, settingsWithAttrs.setStatus(Sic))
+        }
+
+        case "gap" => {
+          val version = settingsWithAttrs.contextUrn.version + "_lextokens"
+          val tokenUrn = settingsWithAttrs.contextUrn.addVersion(version)
+          Vector(HmtToken(
+            sourceUrn = settingsWithAttrs.contextUrn,
+            editionUrn = tokenUrn,
+            lexicalCategory = Lacuna ,
+            readings = Vector.empty[Reading],
+            errors = settingsWithAttrs.errors :+ "Lacuna in text: no tokens legible")
+            )
         }
 
         // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
@@ -335,14 +349,17 @@ object TeiReader {
     val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
     val accumulated = StringBuilder.newBuilder
     val citableTokens = for ((tkn,count) <- rawTokens.zipWithIndex) yield {
-      accumulated.append(tkn.readWithDiplomatic)
-      val idx = tkn.readWithDiplomatic.r.findAllMatchIn(accumulated.toString).length
-      val subref =  "@" + tkn.readWithDiplomatic + "[" + idx + "]"
-      val tknUrn = CtsUrn(tkn.editionUrn.toString + "." + count + subref)
+      if (tkn.lexicalCategory == Lacuna)  {
+        tkn
+      } else {
+        accumulated.append(tkn.readWithDiplomatic)
+        val idx = tkn.readWithDiplomatic.r.findAllMatchIn(accumulated.toString).length
+        val subref =  "@" + tkn.readWithDiplomatic + "[" + idx + "]"
+        val tknUrn = CtsUrn(tkn.editionUrn.toString + "." + count + subref)
 
-      tkn.adjustEditionUrn(tknUrn)
+        tkn.adjustEditionUrn(tknUrn)
+      }
     }
-
     citableTokens
   }
 
