@@ -7,6 +7,8 @@ case class TokenSettings (
   lexicalCategory: LexicalCategory = LexicalToken,
   status: EditorialStatus = Clear,
   alternateCategory:  Option[AlternateCategory] = None,
+  lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
+
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
   errors:  Vector[String] = Vector.empty[String],
@@ -14,12 +16,30 @@ case class TokenSettings (
   treeDepth: Int = HmtTeiElements.tiers.size
 ) {
 
+
+
+    def addDisambiguation(urn: Cite2Urn) = {
+        TokenSettings(
+          contextUrn,
+          lexicalCategory,
+          status,
+          alternateCategory,
+          lexicalDisambiguation = urn,
+          discourse,
+          externalSource,
+          errors,
+          lang,
+          treeDepth
+        )
+    }
+
     def addAlternateCategory(alt: Option[AlternateCategory]) = {
         TokenSettings(
           contextUrn,
           lexicalCategory,
           status,
           alternateCategory = alt,
+          lexicalDisambiguation,
           discourse,
           externalSource,
           errors,
@@ -33,6 +53,7 @@ case class TokenSettings (
         lexicalCategory = newCat,
         status,
         alternateCategory,
+        lexicalDisambiguation,
         discourse,
         externalSource,
         errors,
@@ -48,6 +69,7 @@ case class TokenSettings (
         lexicalCategory,
         status,
         alternateCategory,
+        lexicalDisambiguation,
         discourse,
         externalSource,
         errors :+ msg,
@@ -63,6 +85,7 @@ case class TokenSettings (
         lexicalCategory,
         status,
         alternateCategory,
+        lexicalDisambiguation,
         discourse,
         externalSource,
         errors ++ msgs,
@@ -77,6 +100,7 @@ case class TokenSettings (
         lexicalCategory,
         status,
         alternateCategory,
+        lexicalDisambiguation,
         discourse,
         externalSource,
         errors,
@@ -92,6 +116,7 @@ case class TokenSettings (
         lexicalCategory,
         status = newStatus,
         alternateCategory,
+        lexicalDisambiguation,
         discourse,
         externalSource,
         errors,

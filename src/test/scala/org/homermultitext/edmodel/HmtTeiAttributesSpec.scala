@@ -129,7 +129,7 @@ class HmtTeiAttributesSpec extends FlatSpec {
     assert(HmtTeiAttributes.ok(el))
   }
   it should "check URN value on optional n attribute if present on TEI title" in {
-    val str = "<title n=\"urn:cts:greekLit:tlg0012.tlg001:\">Iliad</title>"
+    val str = "<title n=\"urn:cite2:hmt:citedworks.v1:work1\">Odyssey</title>"
     val el = XML.loadString(str)
     assert(HmtTeiAttributes.ok(el))
   }
@@ -142,12 +142,12 @@ class HmtTeiAttributesSpec extends FlatSpec {
   it should "include an errorMsg function reporting results of error checking" in {
     val str = "<title n=\"Not a URN:\">Iliad</title>"
     val el = XML.loadString(str)
-    val  expected = "For TEI 'title', @n attribute is optional but must be a valid CTS if included."
+    val  expected = "For TEI 'title', @n attribute is optional but must be a valid Cite2Urn if included."
     assert(HmtTeiAttributes.errorMsg(el).get == expected)
   }
 
   it should "report None in errorMsg for valid usage" in {
-    val str = "<title n=\"urn:cts:greekLit:tlg0012.tlg001:\">Iliad</title>"
+    val str = "<title n=\"urn:cite2:hmt:citedworks.v1:work1\">Iliad</title>"
     val el = XML.loadString(str)
     assert(HmtTeiAttributes.errorMsg(el) == None)
   }

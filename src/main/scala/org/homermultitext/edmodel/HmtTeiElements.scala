@@ -22,28 +22,9 @@ case object EditorReading extends HmtTeiTier {
   def allowedChildren = Set()
 }
 
-/** Second-lowest  tier: elements that can be used independently
-* to identiy scribal modfications. */
-case object ScribalReading extends HmtTeiTier {
-  def allowedElements = Set("add", "del")
-  def allowedChildren = EditorReading.allowedElements
-}
 
-/** Second-lowest tier:  elements that can be used within a grouping
-* TEI choice element  These include further categories of scribal modifications.
-* plus editorial expansion of abbreviations.*/
-case object PairedScribalReading extends HmtTeiTier {
-  def allowedElements = Set("sic", "corr", "abbr", "expan", "orig","reg")
-  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
-}
 
-/** All elements belonging to the second tier of HMT markup.*/
-case object AllScribalReading extends HmtTeiTier {
-  def allowedElements = ScribalReading.allowedElements ++ PairedScribalReading.allowedElements
-  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
-}
-
-/** Third-lowest tier:  elements grouping contents into tokens
+/** Second-lowest tier:  elements grouping contents into tokens
 * of a particular type.  The default token types are white-space
 * delimited lexical tokens and punctuation tokens identied by
 * individual character value.
@@ -53,6 +34,29 @@ case object TokenizingElements extends HmtTeiTier {
   def allowedElements = Set("foreign", "num", "w")
   def allowedChildren = AllScribalReading.allowedElements ++ AllScribalReading.allowedChildren
 }
+
+/** Third-lowest  tier: elements that can be used independently
+* to identiy scribal modfications. */
+case object ScribalReading extends HmtTeiTier {
+  def allowedElements = Set("add", "del")
+  def allowedChildren = EditorReading.allowedElements
+}
+
+/** Third-lowest tier:  elements that can be used within a grouping
+* TEI choice element  These include further categories of scribal modifications.
+* plus editorial expansion of abbreviations.*/
+case object PairedScribalReading extends HmtTeiTier {
+  def allowedElements = Set("sic", "corr", "abbr", "expan", "orig","reg")
+  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
+}
+
+/** All elements belonging to the third tier of HMT markup.*/
+case object AllScribalReading extends HmtTeiTier {
+  def allowedElements = ScribalReading.allowedElements ++ PairedScribalReading.allowedElements
+  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
+}
+
+
 
 
 /** Fourth-lowest tier: elements disambiguating named entities.
@@ -84,8 +88,8 @@ object HmtTeiElements {
   /** Hierarchical order of tiers of markup.*/
   val tiers: Vector[HmtTeiTier] = Vector(
     EditorReading,
-    AllScribalReading,
     TokenizingElements,
+    AllScribalReading,
     DisambiguatingElements,
     DiscourseAnalysis
   )

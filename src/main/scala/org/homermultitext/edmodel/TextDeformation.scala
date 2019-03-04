@@ -2,7 +2,7 @@ package org.homermultitext.edmodel
 
 
 case class TextDeformation(text: String)
-/**  Factory for Vectors of  [[org.homermultitext.edmodel.HmtOrcaToken]] instances.
+/**  
 */
 object TextDeformation {
 

@@ -203,13 +203,14 @@ case object Rs extends AttributeRequirement {
 /** Attribute requirements for TEI 'title'. */
 case object Title extends AttributeRequirement {
   def elName = "title"
-  def ctsUrnOk(urnStr: String) : Boolean = {
+
+  def cite2UrnOk(urnStr: String) : Boolean = {
     try {
-      val u = CtsUrn(urnStr)
+      val u = Cite2Urn(urnStr)
       true
     } catch {
       case t : Throwable => {
-        println("Something wrong with CtsUrn value " + urnStr + ".  " + t)
+        println("Something wrong with Cite2Urn value " + urnStr + ".  " + t)
         false
       }
     }
@@ -220,7 +221,7 @@ case object Title extends AttributeRequirement {
     el.attribute("n") match {
       case None => true
       case _ => {
-        ctsUrnOk(nAttr.toString) && el.text.nonEmpty
+        cite2UrnOk(nAttr.toString) && el.text.nonEmpty
       }
     }
   }
@@ -229,7 +230,7 @@ case object Title extends AttributeRequirement {
     if (ok(el)) {
       None
     } else {
-      Some("For TEI 'title', @n attribute is optional but must be a valid CTS if included.")
+      Some("For TEI 'title', @n attribute is optional but must be a valid Cite2Urn if included.")
     }
   }
 }

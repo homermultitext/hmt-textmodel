@@ -10,21 +10,17 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
-
 /** An implementation of the MidMarkupReader trait for HMT project editions.
 *
 * @param hmtEditionType Type of edition to generate.
 */
 case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
-
   // required by MidMarkupReader
   def editionType: MidEditionType = hmtEditionType
 
-
   // required by MidMarkupReader
   def recognizedTypes: Vector[MidEditionType] =  TeiReader.editionTypes
-
 
   // required by MidMarkupReader
   def editedNode(cn: CitableNode): CitableNode = {
@@ -37,7 +33,6 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
 /** Object for parsing TEI XML into the HMT project object model of an edition. */
 object TeiReader {
-
 
   /** Vector of MidEditionTypes that this object can produce.
   */
@@ -124,7 +119,7 @@ object TeiReader {
       editionUrn = tokenUrn,
       readings = rdgs,
       lexicalCategory = lexicalCat,
-      lexicalDisambiguation =  Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),
+      lexicalDisambiguation =  settings.lexicalDisambiguation,
       alternateReading = altRdg,
       discourse = settings.discourse,
       externalSource = settings.externalSource,
@@ -156,36 +151,36 @@ object TeiReader {
     hmtTokens.toVector
   }
 
-
-
-  def collectWrappedTokenReadings(n: xml.Node, status: EditorialStatus):  Vector[Reading]  = {
+  // recursively gather readings from a tokenized element.
+  def collectWrappedTokenReadings(n: xml.Node, settings: TokenSettings, readings: Vector[Reading] = Vector.empty[Reading]):  Vector[Reading]  = {
     val rdgs = n match {
-
       case t: xml.Text => {
         val readingString = t.text.replaceAll(" ", "")
         if (readingString.nonEmpty) {
           val sanitized = HmtChars.hmtNormalize(readingString)
-          Vector(Reading(sanitized, status))
+          readings :+ Reading(sanitized, settings.status)
         } else {
           Vector.empty[Reading]
         }
       }
 
       case e: xml.Elem => {
-        e.label match {
-          /*case "w" => {
-            Vector(Reading(TextReader.collectText(e), status))
-          }*/
-          case _ => {
-            // RECORD ERROR
-            println("DON'T KNOW ABOUT " + n)
-            Vector.empty[Reading]
+        if (
+          (TokenizingElements.allowedElements.contains(e.label)) ||
+          (TokenizingElements.allowedChildren.contains(e.label))
+        ) {
+            val allReadings = for (ch <- e.child) yield {
+              collectWrappedTokenReadings(ch, settings, readings)
+            }
+            allReadings.flatten
+        } else {
+          val errMsg = "Illegal element " + e.label + " inside tokenizing element."
+          val allReadings = for (ch <- e.child) yield {
+            collectWrappedTokenReadings(ch, settings.addError(errMsg), readings)
           }
+          allReadings.flatten
         }
       }
-
-      case _ =>
-      Vector.empty[Reading]
     }
     rdgs.toVector
   }
@@ -231,6 +226,181 @@ object TeiReader {
     }
   }
 
+
+  def wrappedToken(el: scala.xml.Elem, settings: TokenSettings, tokenType: LexicalCategory): Vector[HmtToken] = {
+    // Gather all text for token URN
+    val txt = TextReader.collectText(el)
+    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + txt)
+    val version = settings.contextUrn.version + "_lextokens"
+    val tokenUrn = settings.contextUrn.addVersion(version)
+    // Get vector of readings:
+    val allReadings = for (ch <- el.child) yield {
+      collectWrappedTokenReadings(ch, settings)
+    }
+    // Because this is a wrapping element, we want a vector containing a
+    // single token.
+    Vector(
+      HmtToken(
+        sourceUrn = settings.contextUrn,
+        editionUrn = tokenUrn,
+        readings = allReadings.toVector.flatten,
+        lexicalCategory = tokenType,
+        lexicalDisambiguation = settings.lexicalDisambiguation,
+        discourse = settings.discourse,
+        externalSource = settings.externalSource,
+        errors = settings.errors
+      )
+    )
+  }
+
+
+
+  //level 1
+  def editorialTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+    el.label match {
+      // Reading status  is innermost markup, so if it
+      // occurs alone, we can directly collect text from here.
+      case "unclear" => {
+        tokensFromText(el.text, settings.setStatus(Unclear))
+      }
+      case "sic" => {
+        tokensFromText(el.text, settings.setStatus(Sic))
+      }
+
+      case "gap" => {
+        val version = settings.contextUrn.version + "_lextokens"
+        val tokenUrn = settings.contextUrn.addVersion(version)
+        Vector(HmtToken(
+          sourceUrn = settings.contextUrn,
+          editionUrn = tokenUrn,
+          lang = "",
+          readings = Vector.empty[Reading],
+          lexicalCategory = Lacuna ,
+
+          errors = settings.errors :+ "Lacuna in text: no tokens legible")
+          )
+      }
+    }
+  }
+
+
+
+  def scribalTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+    el.label match {
+
+      // Level 3:  editorial status elements
+      case "add" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings.addAlternateCategory(Some(Multiform)))
+        }
+        tkns.toVector.flatten
+      }
+      case "del" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings.addAlternateCategory(Some(Deletion)))
+        }
+        tkns.toVector.flatten
+      }
+      case "choice" => {
+        // enforce correct pairings
+        if ((el.child.size == 2) && (HmtTeiChoice.validChoice(el))) {
+          val children = el.child.toVector
+          val t1 = collectTokens(children(0), settings)
+          val t2 = collectTokens(children(1), settings)
+          HmtTeiChoice.pairedToken(t1,t2,settings)
+
+        } else {
+          val msg = "Illegal combination of elements within choice: " + HmtTeiChoice.choiceChildren(el).mkString(", ")
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings.addError(msg))
+          }
+          tkns.toVector.flatten
+        }
+      }
+
+
+      /// abbr/expan pair
+      case "abbr" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings)
+        }
+        tkns.toVector.flatten
+      }
+      case "expan" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings.addAlternateCategory(Some(Restoration)))
+        }
+        tkns.toVector.flatten
+      }
+
+      // corr pairs with sic, which can also appear independently.
+      /// include approrpiate setting on alt. reading member of pair:
+      case "corr" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings.addAlternateCategory(Some(Correction)))
+        }
+        tkns.toVector.flatten
+      }
+
+      //// orig/reg pair
+      case "orig" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings)
+        }
+        tkns.toVector.flatten
+      }
+      case "reg" => {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings.addAlternateCategory(Some(Multiform)))
+        }
+        tkns.toVector.flatten
+      }
+    }
+  }
+
+  def citeUrnFromAttr(el: scala.xml.Elem, attr: String = "@n"): Option[Cite2Urn] = {
+    val att = el \ attr
+    try {
+      val u = Cite2Urn(att.text)
+      Some(u)
+    } catch {
+      case t: Throwable => None
+    }
+  }
+
+
+  def citeDisambiguation(el: scala.xml.Elem, settings: TokenSettings, attr: String = "@n" ) : Vector[HmtToken] = {
+
+      citeUrnFromAttr(el,"@n")  match {
+        case None => {
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings)
+          }
+          tkns.toVector.flatten
+        }
+        case u: Option[Cite2Urn] => {
+          val settingWithId = settings.addDisambiguation(u.get)
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settingWithId)
+          }
+          tkns.toVector.flatten
+        }
+    }
+  }
+  def disambiguatingTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+    el.label match {
+      case "persName" => citeDisambiguation(el,settings)
+      case "placeName" =>  citeDisambiguation(el,settings)
+      case "title" => citeDisambiguation(el,settings)
+
+      case "rs" =>Vector.empty[HmtToken]
+    }
+  }
+
+
+
+
+
   /** Extract tokens from a TEI element.
   *
   * @param el Element to tokenize.
@@ -247,142 +417,68 @@ object TeiReader {
       }
       tkns.toVector.flatten
 
+      // Content elements we have to process:
+    } else {
+      val depthSettings = hierarchySettings(el, settings)
+      val settingsWithAttrs = HmtTeiAttributes.errorMsg(el) match {
+        case None => {
+          depthSettings
+        }
+        case err: Option[String] => {
+          depthSettings.addError(err.get)
+        }
+      }
+
+      if (EditorReading.allowedElements.contains(el.label)) {
+        editorialTokens(el, settingsWithAttrs)
+
+      } else if (TokenizingElements.allowedElements.contains(el.label)) {
+        // Level 2:  tokenizing elements.  Build a single token directly from these.
+        el.label match {
+          case "num" => wrappedToken(el, settingsWithAttrs, NumericToken)
+          case "w" => wrappedToken(el, settingsWithAttrs, LexicalToken)
+          case "foreign" => wrappedToken(el, settingsWithAttrs, LexicalToken)
+        }
+
+      } else if (
+        (AllScribalReading.allowedElements.contains(el.label)) ||
+        (el.label == "choice")
+        ){
+          scribalTokens(el, settingsWithAttrs)
+
+      } else if (DisambiguatingElements.allowedElements.contains(el.label)) {
+        disambiguatingTokens(el,settingsWithAttrs)
+
+      } else if (DiscourseAnalysis.allowedElements.contains(el.label)) {
+        Vector.empty[HmtToken]
 
       } else {
-        val depthSettings = hierarchySettings(el, settings)
-        val settingsWithAttrs = HmtTeiAttributes.errorMsg(el) match {
-          case None => {
-            depthSettings
-          }
-          case err: Option[String] => {
-            depthSettings.addError(err.get)
-          }
-        }
-        el.label match {
-
-        // Level 1:  reading status the is innermost markup, so if it
-        // occurs alone, we can directly collect text from here.
-        case "unclear" => {
-          tokensFromText(el.text, settingsWithAttrs.setStatus(Unclear))
-        }
-        case "sic" => {
-          tokensFromText(el.text, settingsWithAttrs.setStatus(Sic))
-        }
-
-        case "gap" => {
-          val version = settingsWithAttrs.contextUrn.version + "_lextokens"
-          val tokenUrn = settingsWithAttrs.contextUrn.addVersion(version)
-          Vector(HmtToken(
-            sourceUrn = settingsWithAttrs.contextUrn,
-            editionUrn = tokenUrn,
-            lexicalCategory = Lacuna ,
-            readings = Vector.empty[Reading],
-            errors = settingsWithAttrs.errors :+ "Lacuna in text: no tokens legible")
-            )
-        }
-
-        // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
-        case "add" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Multiform)))
-          }
-          tkns.toVector.flatten
-        }
-        case "del" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Deletion)))
-          }
-          tkns.toVector.flatten
-        }
-        case "choice" => {
-          // enforce correct pairings
-          if ((el.child.size == 2) && (HmtTeiChoice.validChoice(el))) {
-            val children = el.child.toVector
-            val t1 = collectTokens(children(0), settingsWithAttrs)
-            val t2 = collectTokens(children(1), settingsWithAttrs)
-            HmtTeiChoice.pairedToken(t1,t2,settingsWithAttrs)
-
-          } else {
-            val msg = "Illegal combination of elements within choice: " + HmtTeiChoice.choiceChildren(el).mkString(", ")
+        var error = "Element " + el.label + " not allowed or not yet implemented in textmodel library."
+        val newSettings = settingsWithAttrs.addError(error)
             val tkns = for (ch <- el.child) yield {
-              collectTokens(ch, settingsWithAttrs.addError(msg))
-            }
-            tkns.toVector.flatten
-          }
+          collectTokens(ch, newSettings)
         }
-
-        case "abbr" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs)
-          }
-          tkns.toVector.flatten
-        }
-        case "expan" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Restoration)))
-          }
-          tkns.toVector.flatten
-        }
-
-        /// SET APPROPRIATE SETTINGS
-        case "corr" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Correction)))
-          }
-          tkns.toVector.flatten
-        }
-
-        case "orig" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs)
-          }
-          tkns.toVector.flatten
-        }
-        case "reg" => {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settingsWithAttrs.addAlternateCategory(Some(Multiform)))
-          }
-          tkns.toVector.flatten
-        }
-
-
-        // Level 2:  tokenizing elements.  Build a single token directly from these.
-        case "num" => {
-          // Text for token, and associated vector of readings:
-          val txt = TextReader.collectText(el)
-          val allReadings = for (ch <- el.child) yield {
-            collectWrappedTokenReadings(ch, settingsWithAttrs.status)
-          }
-          val subrefUrn = CtsUrn(settingsWithAttrs.contextUrn.toString + "@" + txt)
-
-          val version = settingsWithAttrs.contextUrn.version + "_lextokens"
-          val tokenUrn = settingsWithAttrs.contextUrn.addVersion(version)
-          Vector(
-            HmtToken(
-              sourceUrn = settingsWithAttrs.contextUrn,
-              editionUrn = tokenUrn,
-              lexicalCategory = NumericToken,
-              readings = allReadings.toVector.flatten,
-              errors = settingsWithAttrs.errors
-            )
-          )
-        }
-
-
-        case bad: String =>  {
-          var error = "Element " + bad + " not allowed or not yet implemented in textmodel library."
-          val newSettings = settingsWithAttrs.addError(error)
-              val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, newSettings)
-          }
-          val flattened = tkns.toVector.flatten
-          flattened
-        }
-
+        val flattened = tkns.toVector.flatten
+        flattened
       }
     }
   }
 
+      /*
+
+
+
+
+
+
+
+        } else {
+
+        }
+      }
+    }
+  }
+*/
 
   def collectTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
     n match {
