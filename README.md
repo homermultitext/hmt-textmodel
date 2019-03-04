@@ -6,6 +6,12 @@ Editions of the HMT project follow the OHCO2 model for citable texts.
 
 The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines, and generating a variety of analytical exemplars from the resulting analyses.
 
+
+## Quick summary of XML usage
+
+
+See the [project wiki](https://github.com/homermultitext/hmt-textmodel/wiki).
+
 ## Current version: 4.1.0
 
 The library is in active development.

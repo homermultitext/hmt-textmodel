@@ -5,19 +5,18 @@ import edu.holycross.shot.greek._
 
 
 /** A fully documented, semantically distinct token.
-
-
-* @param analysis CITE URN for this token analysis.
-* @param sourceUrn URN for this token in the analyzed text
-* @param editionUrn URN for this token in an analytical exemplar when promoted to an edition
-* @param lang 3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language
-* @param readings All [[org.homermultitext.edmodel.Reading]]s belonging to this token
-* @param lexicalCategory lexical category of this token
-* @param lexicalDisambiguation URN for automated method to disambiguate tokens of a given type, or manually disambiguated URN for named entity values
-* @param alternateReading optional [[org.homermultitext.edmodel.AlternateReading]]s belonging to this token
-* @param discourse category of discourse of this token
-* @param externalSource URN of source this token is quoted from
-* @param errors list of error messages (hopefully empty)
+*
+* @param sourceUrn URN with subreference for this token in the analyzed text.
+* @param editionUrn URN for this token in a token edition with additional
+* citation level in the passage hierarchy.
+* @param lang 3-letter language code for the language code of this token, or a descriptive string if no ISO code defined for this language.
+* @param readings All [[org.homermultitext.edmodel.Reading]]s belonging to this token.
+* @param lexicalCategory Lexical category of this token.
+* @param lexicalDisambiguation A URN disambiguating named entities.
+* @param alternateReading Optional [[org.homermultitext.edmodel.AlternateReading]]s belonging to this token.
+* @param discourse Category of discourse of this token.
+* @param externalSource Optional URN of a text this token is quoted from.
+* @param errors List of error messages (hopefully empty).
 */
 case class HmtToken (
   sourceUrn: CtsUrn,
@@ -45,9 +44,7 @@ case class HmtToken (
   def adjustEditionUrn(newUrn: CtsUrn) : HmtToken  = {
     HmtToken(
       sourceUrn,
-
       newUrn,
-
       lang,
       readings,
       lexicalCategory,

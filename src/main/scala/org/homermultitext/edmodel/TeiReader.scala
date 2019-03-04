@@ -54,9 +54,8 @@ object TeiReader {
   * @param s String to use as extended citation string of a CtsUrn.
   */
   def ctsSafe(s: String): String = {
-    val unsafe = ":"
-    val encoded = java.net.URLEncoder.encode(unsafe, "utf-8")
-    s.replaceAll(unsafe, encoded)
+    val colon = java.net.URLEncoder.encode(":", "utf-8")
+    s.replaceAll(":", colon)
   }
 
 
@@ -76,22 +75,16 @@ object TeiReader {
   /** Create an [[HmtToken]] for a single String.
   *
   * @param tknString The textual reading for this token.
-  * @param psg Passage comopnent for this token in tokenized edition.
   * @param textContext Textual context within which we need to index occurrences
   * of tknString.
   * @param settings Contextual values within the document for this token.
   */
-  //def tokenForString(tknString: String, psg: String, textContext : String, settings: TokenSettings) : HmtToken = {
-
-  def tokenForString(tknString: String, psg: String, settings: TokenSettings) : HmtToken = {
+  def tokenForString(tknString: String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
-
-    //val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
-
     val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref)
 
     val version = settings.contextUrn.version + "_lextokens"
-    val tokenUrn = settings.contextUrn.addVersion(version).addPassage(psg)
+    val tokenUrn = settings.contextUrn.addVersion(version)
 
     val lexicalCat = if (punctuation.contains(tknString)) {
       Punctuation
@@ -124,14 +117,13 @@ object TeiReader {
   */
   def tokensFromText(str: String, settings: TokenSettings) : Vector[HmtToken] = {
     val hmtText = HmtChars.hmtNormalize(str)
-    val depunctuate =  hmtText.split(punctuationSplitter)
+    val depunctuate =  hmtText.split(punctuationSplitter).toVector
+
     val tokenStrings = depunctuate.flatMap(_.split("[ ]+")).filter(_.nonEmpty).toVector
 
-    //val accumulated = StringBuilder.newBuilder
     val hmtTokens = for (tknString <- tokenStrings) yield {
-      //accumulated.append(tknString)
-      val psg = settings.contextUrn.passageComponent
-      tokenForString(tknString, psg, settings)
+      val t = tokenForString(tknString, settings)
+      t
     }
     hmtTokens.toVector
   }
@@ -177,71 +169,62 @@ object TeiReader {
   * @param settings State of text at this point.
   */
   def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings, offsetIdx: Int = 0) : Vector[HmtToken] = {
-      el.label match {
-      // Level 0:  omit
-      case "note" =>   Vector.empty[HmtToken] // to be removed from archive
-      case "figDesc" =>   Vector.empty[HmtToken] // metadata, don't process
-      case "ref" =>   Vector.empty[HmtToken] // metadata, don't process
-
-
-      // Level 1:  reading status the is innermost markup, so if it
-      // occurs alone, we can directly collect text from here.
-      case "unclear" => {
-        tokensFromText(el.text, settings)
-      }
-
-      // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
-      case "add" => {
+    // THIS ISWHERE YOU CHECK ON HIERARCHY.
+      if (HmtTeiElements.metadata.contains(el.label)) {
         Vector.empty[HmtToken]
 
-        /*
-        //  multiform?  Or correction?
-        wrappedWordBuffer.clear
-        collectWrappedWordReadings(Clear,el)
-        val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
-        wrappedWordBuffer.clear
-        val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
-        wrappedWordBuffer.clear
-        tokenBuffer += newToken
-        */
-      }
+      } else if (HmtTeiElements.structural.contains(el.label)) {
+        val tkns = for (ch <- el.child) yield {
+          collectTokens(ch, settings)
+        }
+        tkns.toVector.flatten
 
 
-      // Level 2:  tokenizing elements.  Build a single token directly from these.
-      case "num" => {
-        // Text for token, and associated vector of readings:
-        val txt = TextReader.collectText(el)
-        val allReadings = for (ch <- el.child) yield {
-          collectWrappedTokenReadings(ch, settings.status)
+      } else {
+        el.label match {
+
+        // Level 1:  reading status the is innermost markup, so if it
+        // occurs alone, we can directly collect text from here.
+        case "unclear" => {
+          tokensFromText(el.text, settings)
         }
 
-/*
-    val subref = ctsSafe(txt)
-    val subrefIndex =  tknString.r.findAllMatchIn(textContext).length
-    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref + "[" + subrefIndex + "]")
+        // Level 2:  these editorial status elements can wrap a TEI "unclear" or "gap"
+        case "add" => {
+          Vector.empty[HmtToken]
 
-    val version = settings.contextUrn.version + "_lextokens"
-    val tokenUrn = settings.contextUrn.addVersion(version).addPassage(psg)
-        */
+          /*
+          //  multiform?  Or correction?
+          wrappedWordBuffer.clear
+          collectWrappedWordReadings(Clear,el)
+          val alt = AlternateReading(Multiform,wrappedWordBuffer.toVector)
+          wrappedWordBuffer.clear
+          val newToken = tokenSettings.copy(alternateReading = Some(alt), readings = wrappedWordBuffer.toVector)
+          wrappedWordBuffer.clear
+          tokenBuffer += newToken
+          */
+        }
 
-        Vector(
-          HmtToken(
-            sourceUrn = CtsUrn("urn:cts:bogus:fake.no.way:1"),
-            editionUrn = CtsUrn("urn:cts:bogus:fake.no.way:1.1"),
-            lexicalCategory = NumericToken ,
-            readings = allReadings.toVector.flatten
-          )
-        )
-      }
 
-      // Hope these are just structural elements:
-      case structuralElem: String =>  {
-        if (validElements.contains(structuralElem)) {
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settings)
+        // Level 2:  tokenizing elements.  Build a single token directly from these.
+        case "num" => {
+          // Text for token, and associated vector of readings:
+          val txt = TextReader.collectText(el)
+          val allReadings = for (ch <- el.child) yield {
+            collectWrappedTokenReadings(ch, settings.status)
           }
-          tkns.toVector.flatten
-        } else {
+          Vector(
+            HmtToken(
+              sourceUrn = CtsUrn("urn:cts:bogus:fake.no.way:1"),
+              editionUrn = CtsUrn("urn:cts:bogus:fake.no.way:1.1"),
+              lexicalCategory = NumericToken ,
+              readings = allReadings.toVector.flatten
+            )
+          )
+        }
+
+
+        case bad: String =>  {
           //var errorList = tokenSettings.errors :+  "Invalid element name: " + structuralElem
           val newToken = settings //tokenSettings.copy(errors = errorList)
 
@@ -269,8 +252,11 @@ object TeiReader {
     }
   }
 
-  /** Extract tokens from the root of citale node represented as an XML node,
+  /** Extract tokens from the root of citable node represented as an XML node,
   * which can be either an Element or a Text node.
+  * First walk the XML tree for basic tokenization.  Then
+  * chycle through the resulting list of
+  * tokens to add a token level to the URN's passage component.
   *
   * @param n Node to tokenize.
   * @param settings State of text at this point.
@@ -286,8 +272,11 @@ object TeiReader {
       }
     }
 
-    val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
+
+
+
     // add index to subref
+    val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
     val accumulated = StringBuilder.newBuilder
     val citableTokens = for ((tkn,count) <- rawTokens.zipWithIndex) yield {
       accumulated.append(tkn.readWithDiplomatic)

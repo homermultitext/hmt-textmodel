@@ -12,7 +12,12 @@ class TeiReaderTeiSpec extends FlatSpec {
   val context = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
 
   // Markup for document structure:
-  "The TeiReader object" should "recognize structural use of TEI div for content of scholia" in pending
+  "The TeiReader object" should "recognize structural use of TEI div for content of scholia" in {
+    val n = XML.loadString("<div><p>Long comment.</p></div>")
+    val settings = TokenSettings(context, LexicalToken)
+    val divTokens = TeiReader.collectTokens(n, settings)
+    println(divTokens.mkString("\n\n"))
+  }
   it should "ignore structural use of TEI div for cross references of scholia" in pending
   it should "recognize structural use of TEI l" in pending
   it should "recognize structural use of TEI p" in pending
