@@ -163,13 +163,56 @@ object TeiReader {
   }
 
 
+  def hierarchySettings(el: scala.xml.Elem, settings: TokenSettings): TokenSettings = {
+
+    val depth = HmtTeiElements.tierDepth(el.label)
+    //println("==>With " + el.label + ", inherited " + settings.treeDepth+ " now at " + depth)
+    // look at children?
+    HmtTeiElements.tier(el.label) match {
+      case None => settings
+      case tierOpt: Option[HmtTeiTier] => {
+        val tier = tierOpt.get
+        //println("AT " + el.label + " with allowed children " + tier.allowedChildren)
+
+        val msgs = for (ch <- el.child) yield {
+          if (
+            (ch.label == "#PCDATA") || (tier.allowedChildren.contains(ch.label))
+          ) {
+            ""
+          } else {
+            "Elements out of place in markup hierarchy. '" + el.label + "' may not contain child element '" + ch.label + "'"
+
+          }
+        }
+
+        //println("MESSAGE VECTOR " + msgs.toVector)
+        settings.addErrors(msgs.toVector)
+      }
+
+    }
+/*
+    // settings.treeDepth must be >= new depth
+    depth match {
+      case None => settings
+      case i : Option[Int] => {
+        if (settings.treeDepth >= i.get) {
+          settings.setDepth(i.get)
+        } else {
+          val msg = s"Element ${el.label} out of place in markup hierarchy."
+          settings.setDepth(i.get).addError(msg)
+        }
+      }
+    }
+    */
+  }
+
   /** Extract tokens from a TEI element.
   *
   * @param el Element to tokenize.
   * @param settings State of text at this point.
   */
   def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
-    // THIS ISWHERE YOU CHECK ON HIERARCHY AND ON ATTR USAGE
+
     if (HmtTeiElements.metadata.contains(el.label)) {
       Vector.empty[HmtToken]
 
@@ -181,12 +224,13 @@ object TeiReader {
 
 
       } else {
+        val depthSettings = hierarchySettings(el, settings)
         val settingsWithAttrs = HmtTeiAttributes.errorMsg(el) match {
           case None => {
-            settings
+            depthSettings
           }
           case err: Option[String] => {
-            settings.addError(err.get)
+            depthSettings.addError(err.get)
           }
         }
         el.label match {

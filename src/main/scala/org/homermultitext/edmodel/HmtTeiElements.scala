@@ -32,13 +32,13 @@ case object ScribalReading extends HmtTeiTier {
 * plus editorial expansion of abbreviations.*/
 case object PairedScribalReading extends HmtTeiTier {
   def allowedElements = Set("sic", "corr", "abbr", "expan", "orig","reg")
-  def allowedChildren = EditorReading.allowedElements
+  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
 }
 
 /** All elements belonging to the second tier of HMT markup.*/
 case object AllScribalReading extends HmtTeiTier {
   def allowedElements = ScribalReading.allowedElements ++ PairedScribalReading.allowedElements
-  def allowedChildren = EditorReading.allowedElements
+  def allowedChildren = EditorReading.allowedElements ++ EditorReading.allowedChildren
 }
 
 /** Third-lowest tier:  elements grouping contents into tokens
@@ -49,7 +49,7 @@ case object AllScribalReading extends HmtTeiTier {
 * broken into separate nodes by other markup  */
 case object TokenizingElements extends HmtTeiTier {
   def allowedElements = Set("foreign", "num", "w")
-  def allowedChildren = PairedScribalReading.allowedElements ++ PairedScribalReading.allowedChildren
+  def allowedChildren = AllScribalReading.allowedElements ++ AllScribalReading.allowedChildren
 }
 
 
@@ -57,7 +57,7 @@ case object TokenizingElements extends HmtTeiTier {
 */
 case object DisambiguatingElements extends HmtTeiTier {
   def allowedElements = Set("persName", "placeName", "rs", "title")
-  def allowedChildren = TokenizingElements.allowedElements ++TokenizingElements.allowedChildren
+  def allowedChildren = TokenizingElements.allowedElements ++ TokenizingElements.allowedChildren
 }
 
 /**
@@ -81,11 +81,11 @@ object HmtTeiElements {
 
   /** Hierarchical order of tiers of markup.*/
   val tiers: Vector[HmtTeiTier] = Vector(
-    DiscourseAnalysis,
-    DisambiguatingElements,
-    TokenizingElements,
+    EditorReading,
     AllScribalReading,
-    EditorReading
+    TokenizingElements,
+    DisambiguatingElements,
+    DiscourseAnalysis
   )
 
   /** Elements containing tokenizable content.*/
@@ -103,6 +103,15 @@ object HmtTeiElements {
     matching.size match {
       case 0 => None
       case _ => Some(matching(0))
+    }
+  }
+
+  def tierDepth(elName: String) : Option[Int] = {
+    tier(elName) match {
+      case None => None
+      case t: Option[HmtTeiTier] => {
+        Some(tiers.indexOf(t.get))
+      }
     }
   }
 

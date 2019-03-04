@@ -9,7 +9,9 @@ case class TokenSettings (
   discourse: DiscourseCategory = DirectVoice,
   externalSource: Option[CtsUrn] = None,
   errors:  Vector[String] = Vector.empty[String],
-  lang : String = "grc") {
+  lang : String = "grc",
+  treeDepth: Int = HmtTeiElements.tiers.size
+) {
 
     def addCategory(newCat: LexicalCategory) : TokenSettings = {
       TokenSettings(
@@ -19,7 +21,8 @@ case class TokenSettings (
         discourse,
         externalSource,
         errors,
-        lang
+        lang,
+        treeDepth
       )
     }
 
@@ -32,10 +35,37 @@ case class TokenSettings (
         discourse,
         externalSource,
         errors :+ msg,
-        lang
+        lang,
+        treeDepth
       )
     }
 
+
+      def addErrors(msgs: Vector[String]) : TokenSettings = {
+        TokenSettings(
+          contextUrn,
+          lexicalCategory,
+          status,
+          discourse,
+          externalSource,
+          errors ++ msgs,
+          lang,
+          treeDepth
+        )
+      }
+
+    def setDepth(depth: Int) : TokenSettings = {
+      TokenSettings(
+        contextUrn,
+        lexicalCategory,
+        status,
+        discourse,
+        externalSource,
+        errors,
+        lang,
+        treeDepth = depth
+      )
+    }
 
 
 }
