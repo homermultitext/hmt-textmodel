@@ -20,3 +20,5 @@ case object LiteralToken extends LexicalCategory {val name = "string literal"}
 case object Unintelligible extends LexicalCategory {val name = "unparseable lexical token"}
 /** Token no longer extant.*/
 case object Lacuna extends LexicalCategory {val name = "lacuna in text"}
+/** Token is an abbreviation and should not be parsed as lexical, numeric or punctuation data.*/
+case object Abbreviation extends LexicalCategory {val name = "lacuna in text"}
