@@ -16,6 +16,20 @@ case class TokenSettings (
   treeDepth: Int = HmtTeiElements.tiers.size
 ) {
 
+  def addExternalSource(urn: Option[CtsUrn]) = {
+      TokenSettings(
+        contextUrn,
+        lexicalCategory,
+        status,
+        alternateCategory,
+        lexicalDisambiguation,
+        discourse,
+        externalSource = urn,
+        errors,
+        lang,
+        treeDepth
+      )
+  }
 
 
     def addDisambiguation(urn: Cite2Urn) = {
@@ -118,6 +132,22 @@ case class TokenSettings (
         alternateCategory,
         lexicalDisambiguation,
         discourse,
+        externalSource,
+        errors,
+        lang,
+        treeDepth
+      )
+    }
+
+
+    def setDiscourse(discourseType: DiscourseCategory) : TokenSettings = {
+      TokenSettings(
+        contextUrn,
+        lexicalCategory,
+        status,
+        alternateCategory,
+        lexicalDisambiguation,
+        discourse = discourseType,
         externalSource,
         errors,
         lang,

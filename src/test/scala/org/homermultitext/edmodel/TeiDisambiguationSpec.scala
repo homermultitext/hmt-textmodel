@@ -44,9 +44,37 @@ class TeiDisambiguationSpec extends FlatSpec {
     val expectedUrn = Cite2Urn("urn:cite2:hmt:citedworks.v1:work1")
     assert(athena.lexicalDisambiguation == expectedUrn)
   }
-  it should "recognize TEI rs element" in pending
 
-
-
-
+  it should "recognize TEI rs element of type waw" in {
+    val wawElem = "<p><rs type=\"waw\">XXX</rs></p>"
+    val n = XML.loadString(wawElem)
+    val settings = TokenSettings(context, LexicalToken)
+    val waw = TeiReader.collectTokens(n, settings).head
+    val expectedDiscourse = QuotedLiteral
+    assert(waw.discourse == expectedDiscourse)
+  }
+  it should "recognize TEI rs element of type ethnic" in {
+    val placeElem = "<p><rs n=\"urn:cite2:hmt:place.v1:place1\" type=\"ethnic\">Athenians</rs></p>"
+    val n = XML.loadString(placeElem)
+    val settings = TokenSettings(context, LexicalToken)
+    val athenians = TeiReader.collectTokens(n, settings).head
+    val expectedUrn = Cite2Urn("urn:cite2:hmt:place.v1:place1")
+    assert(athenians.lexicalDisambiguation == expectedUrn)
+  }
+  it should "recognize TEI rs element of type astro" in {
+    val astroElem = "<p><rs n=\"urn:cite2:hmt:astro:astro1\" type=\"astro\">Orion</rs></p>"
+    val n = XML.loadString(astroElem)
+    val settings = TokenSettings(context, LexicalToken)
+    val orion = TeiReader.collectTokens(n, settings).head
+    val expectedUrn = Cite2Urn("urn:cite2:hmt:astro:astro1")
+    assert(orion.lexicalDisambiguation == expectedUrn)
+  }
+  it should "add an error for unrecognized types of TEI rs element" in {
+    val errElem = "<p><rs n=\"urn:cite2:hmt:astro:astro1\" type=\"BOGUS\">Orion</rs></p>"
+    val n = XML.loadString(errElem)
+    val settings = TokenSettings(context, LexicalToken)
+    val errToken = TeiReader.collectTokens(n, settings).head
+    val expected = "For TEI 'rs' element, @type attribute  must be one of 'waw', 'ethnic' or 'astro'."
+    assert(errToken.errors.head == expected)
+  }
 }

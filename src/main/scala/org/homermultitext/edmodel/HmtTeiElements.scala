@@ -69,7 +69,7 @@ case object DisambiguatingElements extends HmtTeiTier {
 /**
 */
 case object DiscourseAnalysis extends HmtTeiTier {
-    def allowedElements = Set("q","cit","ref")
+    def allowedElements = Set("q","ref")
     def allowedChildren = DisambiguatingElements.allowedElements ++ DisambiguatingElements.allowedChildren
 }
 
@@ -79,10 +79,10 @@ object HmtTeiElements {
 
   /** Elements defining document structure. */
   val structural = Set(
-    "div", "l", "p", "list", "item", "floatingText"
+    "div", "l", "p", "list", "item", "floatingText", "figure", "body"
   )
   /** Metadata elements.*/
-  val metadata = Set("figDesc", "note", "ref")
+  val metadata = Set("figDesc", "note")
 
 
   /** Hierarchical order of tiers of markup.*/

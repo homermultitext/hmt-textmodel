@@ -37,6 +37,22 @@ case class HmtToken (
 ) {
 
 
+  def addExternalSource(extSource: Option[CtsUrn]) : HmtToken  = {
+    HmtToken(
+      sourceUrn,
+      editionUrn,
+      lang,
+      readings,
+      lexicalCategory,
+      lexicalDisambiguation,
+      alternateReading,
+      discourse,
+      externalSource = extSource,
+      errors
+    )
+  }
+
+
   /** Create a copy of this token with a given edition URN.
   *
   * @param newUrn CtsUrn for the new token.
@@ -44,7 +60,7 @@ case class HmtToken (
   def adjustEditionUrn(newUrn: CtsUrn) : HmtToken  = {
     HmtToken(
       sourceUrn,
-      newUrn,
+      editionUrn = newUrn,
       lang,
       readings,
       lexicalCategory,

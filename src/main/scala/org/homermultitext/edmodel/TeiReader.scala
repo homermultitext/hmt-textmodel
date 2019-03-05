@@ -388,17 +388,67 @@ object TeiReader {
     }
   }
   def disambiguatingTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+
     el.label match {
       case "persName" => citeDisambiguation(el,settings)
       case "placeName" =>  citeDisambiguation(el,settings)
       case "title" => citeDisambiguation(el,settings)
 
-      case "rs" =>Vector.empty[HmtToken]
+      case "rs" => {
+        val rsType = (el \ "@type").text
+        val rsTokens = rsType match {
+
+          case "astro" => citeDisambiguation(el,settings)
+          case "ethnic" => citeDisambiguation(el,settings)
+
+          case "waw" => {
+            val newSettings = settings.setDiscourse(QuotedLiteral)
+            val tkns = tokensFromText(el.text, newSettings)
+            tkns
+          }
+
+          case s: String => {
+            val msg = "Type attribute value '" + (el \ "@type").text + "' on rs element not recognized."
+            val newSettings  = settings.addError(msg)
+            val tkns = tokensFromText(el.text, newSettings)
+            tkns
+          }
+        }
+        rsTokens
+      }
     }
   }
 
 
+  def discourseTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
+    el.label match {
+      case "cit" => {
+        // valueof ref should be urn
+        if ((el.child.size == 2) && HmtTeiCit.validCit(el)) {
+          HmtTeiCit.pairedToken(el, settings)
 
+        } else {
+          val msg = "Illegal child elements withint cit:  " + HmtTeiCit.citChildren(el).mkString(", ")
+          val newSettings = settings.addError(msg)
+          val tkns = tokensFromText(el.text, newSettings)
+          tkns
+        }
+      }
+
+      case "q" => {
+        val newSettings = settings.setDiscourse(QuotedLanguage)
+        val tkns = tokensFromText(el.text, newSettings)
+        tkns
+      }
+
+      case s: String =>{
+        val msg = "Elem '" + el.label + "' not recognized."
+        val newSettings  = settings.addError(msg)
+        val tkns = tokensFromText(el.text, newSettings)
+        tkns
+      }
+    }
+  }
 
 
   /** Extract tokens from a TEI element.
@@ -449,8 +499,9 @@ object TeiReader {
       } else if (DisambiguatingElements.allowedElements.contains(el.label)) {
         disambiguatingTokens(el,settingsWithAttrs)
 
-      } else if (DiscourseAnalysis.allowedElements.contains(el.label)) {
-        Vector.empty[HmtToken]
+      } else if ( (el.label == "cit") ||
+        (DiscourseAnalysis.allowedElements.contains(el.label))) {
+        discourseTokens(el, settingsWithAttrs)
 
       } else {
         var error = "Element " + el.label + " not allowed or not yet implemented in textmodel library."

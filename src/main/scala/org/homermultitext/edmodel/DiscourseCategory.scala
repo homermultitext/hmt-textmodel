@@ -15,7 +15,7 @@ case object DirectVoice extends DiscourseCategory {val name = "voice of text"}
 case object QuotedLanguage extends DiscourseCategory {val
  name = "quoted language"}
  /** quoted string of characters not forming a valid lexical entity */
-case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal string"}
+  case object QuotedLiteral extends DiscourseCategory {val name = "quoted literal string"}
 /** token in quotation of another text */
 case object QuotedText extends DiscourseCategory {val name
  = "quoted passage of text"}

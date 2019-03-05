@@ -18,12 +18,7 @@ class TeiMetadataTeiSpec extends FlatSpec {
     val noteTokens = TeiReader.collectTokens(n, settings)
     assert(noteTokens.isEmpty)
   }
-  it should "recognize and ignore TEI ref elements in tokenization" in {
-    val n = XML.loadString("<ref>URN value, normally</ref>")
-    val settings = TokenSettings(context, LexicalToken)
-    val refTokens = TeiReader.collectTokens(n, settings)
-    assert(refTokens.isEmpty)
-  }
+
   it should "recognize and ignore TEI figDesc elements in tokenization" in {
     val n = XML.loadString("<figDesc>Descriptions of beautiful figures are not part of the text</figDesc>")
     val settings = TokenSettings(context, LexicalToken)

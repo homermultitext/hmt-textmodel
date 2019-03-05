@@ -1,5 +1,8 @@
 # `hmt-textmodel`: release notes
 
+
+**5.0.0**:   API-breaking rewrite, now in 1<->1 relation with all HMT editing roles listed in this project's wiki.
+
 **4.1.0**:  New functionality in underlying CITE libraries.
 
 **4.0.0**:  API-breaking change. `readWithX` functions formerly returning `CitableNode`s now return `Option[CitableNode]`s.
