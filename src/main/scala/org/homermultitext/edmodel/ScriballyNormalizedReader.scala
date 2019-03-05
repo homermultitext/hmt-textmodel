@@ -10,7 +10,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
-object DiplomaticReader extends MidMarkupReader {
+object ScriballyNormalizedReader extends MidMarkupReader {
 
   def editionType: MidEditionType = HmtDiplomaticEdition
 
@@ -23,13 +23,13 @@ object DiplomaticReader extends MidMarkupReader {
     val tokens = TeiReader.analyzeCitableNode(cn)
 
     val txtBuilder = StringBuilder.newBuilder
-    txtBuilder.append(tokens.head.readWithDiplomatic)
+    txtBuilder.append(tokens.head.readWithScribal)
 
     for (n <- tokens.tail) {
       if (n.readWithDiplomatic == PunctuationToken) {
-        txtBuilder.append(n.readWithDiplomatic)
+        txtBuilder.append(n.readWithScribal)
       } else {
-        txtBuilder.append(" " + n.readWithDiplomatic)
+        txtBuilder.append(" " + n.readWithScribal)
       }
     }
     CitableNode(editedUrn, txtBuilder.toString)

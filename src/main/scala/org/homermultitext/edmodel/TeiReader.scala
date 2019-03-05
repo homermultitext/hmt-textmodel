@@ -26,6 +26,9 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
   def editedNode(cn: CitableNode): CitableNode = {
     hmtEditionType match {
       case HmtDiplomaticEdition => DiplomaticReader.editedNode(cn)
+      case HmtScribalNormalizedEdition => ScriballyNormalizedReader.editedNode(cn)
+      case HmtEditorsNormalizedEdition => EditoriallyNormalizedReader.editedNode(cn)
+
       case _ => throw new Exception("Don't yet know how to make an edition of type " + hmtEditionType)
     }
   }
@@ -77,7 +80,7 @@ object TeiReader {
   */
   def tokenForString(tknString: String, settings: TokenSettings) : HmtToken = {
     val subref = ctsSafe(tknString)
-    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref)
+    val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + subref.replaceAll("\n",""))
 
     val version = settings.contextUrn.version + "_lextokens"
     val tokenUrn = settings.contextUrn.addVersion(version)
@@ -228,7 +231,7 @@ object TeiReader {
 
   def wrappedToken(el: scala.xml.Elem, settings: TokenSettings, tokenType: LexicalCategory): Vector[HmtToken] = {
     // Gather all text for token URN
-    val txt = TextReader.collectText(el)
+    val txt = TextReader.collectText(el).replaceAll("\n","")
     val subrefUrn = CtsUrn(settings.contextUrn.toString + "@" + txt)
     val version = settings.contextUrn.version + "_lextokens"
     val tokenUrn = settings.contextUrn.addVersion(version)
@@ -577,7 +580,7 @@ object TeiReader {
         accumulated.append(tkn.readWithDiplomatic)
         val idx = tkn.readWithDiplomatic.r.findAllMatchIn(accumulated.toString).length
         val subref =  "@" + tkn.readWithDiplomatic + "[" + idx + "]"
-        val tknUrn = CtsUrn(tkn.editionUrn.toString + "." + count + subref)
+        val tknUrn = CtsUrn(tkn.editionUrn.toString + "." + count + subref.replaceAll("\n",""))
 
         tkn.adjustEditionUrn(tknUrn)
       }

@@ -344,8 +344,8 @@ case class HmtToken (
       case None => {
         readings.map(_.text).mkString
       }
-      case Some(alt) => {
-        alt.readings.map(_.text).mkString
+      case alt: Option[AlternateReading] => {
+        alt.get.readings.map(_.text).mkString
       }
     }
   }
