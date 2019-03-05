@@ -1,5 +1,6 @@
 # `hmt-textmodel`: release notes
 
+**5.0.1**:  Add lib dependency for transitively required evilplot
 
 **5.0.0**:   API-breaking rewrite, now in 1<->1 relation with all HMT editing roles listed in this project's wiki.
 

@@ -25,7 +25,7 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
   // required by MidMarkupReader
   def editedNode(cn: CitableNode): CitableNode = {
     hmtEditionType match {
-      case HmtNamedEntityEdition => NamedEntityReader.neNode(cn)
+      case HmtDiplomaticEdition => DiplomaticReader.editedNode(cn)
       case _ => throw new Exception("Don't yet know how to make an edition of type " + hmtEditionType)
     }
   }
@@ -37,7 +37,6 @@ object TeiReader {
   /** Vector of MidEditionTypes that this object can produce.
   */
   def editionTypes:  Vector[MidEditionType] =  Vector(
-    HmtNamedEntityEdition,
     HmtDiplomaticEdition,
     HmtScribalNormalizedEdition,
     HmtEditorsNormalizedEdition

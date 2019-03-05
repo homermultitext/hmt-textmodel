@@ -15,7 +15,7 @@ object NamedEntityReader {
 
   def neNode  (n: CitableNode) : CitableNode  = {
     val srcUrn = n.urn
-    val editedUrn = srcUrn.dropVersion.addVersion( srcUrn.version + "_" + HmtNamedEntityEdition.versionId)
+    val editedUrn = srcUrn.addVersion( srcUrn.version + "_" + HmtNamedEntityEdition.versionId)
 
     // decide what it should do.  Text content is URN for NE?
     n
