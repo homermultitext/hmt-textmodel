@@ -17,11 +17,11 @@ object HmtChars {
     '\u03cd'.toInt -> '\u1f7b', // upsilon
     '\u03ce'.toInt -> '\u1f7d', // omega
     // elision
-    '\u1fbd'.toInt -> '\u0027'
+    '\u1fbd'.toInt -> '\''
   )
 
   // Names for referring to awkward characters:
-  val elision = '\u0027'
+  val elision = '\''
   val fishtail = '\u2051'
   val cross = '\u2021'
   val backslash = '\\'
