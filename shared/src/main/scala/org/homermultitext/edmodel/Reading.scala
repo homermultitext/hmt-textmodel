@@ -1,5 +1,8 @@
 package org.homermultitext.edmodel
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation._
+
 
 /** All possible values for the editorial status of a token
 * are enumerated by case objects extending this trait
@@ -9,7 +12,7 @@ package org.homermultitext.edmodel
 * Used by [[org.homermultitext.edmodel.Reading]] and therefore also by [[org.homermultitext.edmodel.HmtToken]] and [[org.homermultitext.edmodel.TeiReader]]
 *
 */
-sealed trait EditorialStatus {def name : String}
+@JSExportAll  sealed trait EditorialStatus {def name : String}
 /** Paleographically unambiguous reading.
 */
 case object Clear extends EditorialStatus {val name = "clear"}
@@ -40,7 +43,7 @@ case object Sic extends EditorialStatus {val name = "unintelligible"}
 * @param reading string read with given status
 * @param status status of the given string
 */
-case class Reading (val text: String, val status: EditorialStatus ) {
+@JSExportAll  case class Reading (val text: String, val status: EditorialStatus ) {
   def typedText = text + " (" + status.name + ")"
 
   /**  Format text value of readings in Leiden-like string.
@@ -62,9 +65,9 @@ case class Reading (val text: String, val status: EditorialStatus ) {
 
 /** Companion object for formatting Vectors of [[Reading]]s as Strings.
 */
-object Reading {
+@JSExportAll   object Reading {
 
-  def leidenize(readings: Vector[Reading]): String = {
+  def urn(readings: Vector[Reading]): String = {
     readings.map(_.leidenize).mkString
   }
 }

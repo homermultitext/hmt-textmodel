@@ -4,7 +4,7 @@ Editions of the HMT project follow the OHCO2 model for citable texts.
 
 `hmt-textmodel` is a JVM library that supports working with the text contents of citable nodes as a sequence of tokens with specified properties.
 
-The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines, and generating a variety of analytical exemplars from the resulting analyses.
+The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines.
 
 
 ## Quick summary of XML usage

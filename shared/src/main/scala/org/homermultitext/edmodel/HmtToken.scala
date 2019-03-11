@@ -139,13 +139,13 @@ case class HmtToken (
 
   /** Leiden-style formatting of any
   * alternate reading.
-  */
+
   def altString: String = {
     alternateReading match {
       case None => "None"
       case Some(alt) => alt.leidenize
     }
-  }
+  }*/
 
   /** True if token has an alternate reading of any kind.
   */
@@ -287,7 +287,7 @@ case class HmtToken (
   /** Format a string representation as a single line of delimited text
   * usng `propertySeparator` value as the delimiter, and `listSeparator`
   * as a secondary delimiter for lists within a single property.
-  */
+
   def rowString: String = {
     //analysis + propertySeparator +
     sourceUrn + propertySeparator +
@@ -298,7 +298,7 @@ case class HmtToken (
     discourse + propertySeparator +
     externalSource  + propertySeparator +
     errors.mkString(listSeparator) + propertySeparator
-  }
+  }  */
 
 
   /** Format a string representation as one value per line,

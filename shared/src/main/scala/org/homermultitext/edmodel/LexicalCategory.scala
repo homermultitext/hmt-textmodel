@@ -1,5 +1,9 @@
 package org.homermultitext.edmodel
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation._
+
+
 /** All possible lexical categories for a token
 * are enumerated by case objects extending this trait
 *
@@ -7,7 +11,7 @@ package org.homermultitext.edmodel
 *
 * Used by [[org.homermultitext.edmodel.HmtToken]] and therefore also by [[org.homermultitext.edmodel.TeiReader]]
 */
-sealed trait LexicalCategory {def name : String}
+@JSExportAll  sealed trait LexicalCategory {def name : String}
 /** parseable lexical token */
 case object LexicalToken extends LexicalCategory {val name = "lexical token"}
 /** token in Milesian numeric notation */

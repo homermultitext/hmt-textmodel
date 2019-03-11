@@ -33,9 +33,10 @@ case object Deletion extends AlternateCategory {val name = "scribal deletion"}
 */
 case class AlternateReading (alternateCategory: AlternateCategory, readings: Vector[Reading] ) {
 
+  /*
   def leidenize: String = {
     Reading.leidenize(readings) + " (" + alternateCategory + ")"
-  }
+  }*/
   def simpleString: String = {
     alternateCategory match {
       case Deletion => ""

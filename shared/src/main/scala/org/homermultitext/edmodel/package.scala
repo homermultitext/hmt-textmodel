@@ -36,7 +36,6 @@ package org.homermultitext
    )
 
 
-
    val analyticalCollections = Map[String, Cite2Urn](
 
      // "tlg5026.msAint.hmt.tokens"
@@ -90,7 +89,7 @@ package org.homermultitext
   * @param n Node to collect from.
   * @param buff Buffer for collecting text contents.
   * @return A single String with all text from n.
-
+  */
   def collectText(n: xml.Node, s: String): String = {
     var buff = StringBuilder.newBuilder
     buff.append(s)
@@ -112,7 +111,7 @@ package org.homermultitext
     collectText(n,"")
   }
 
-  */
+
   def hmtNormalize(s: String): String = {
     Normalizer.normalize(s,Form.NFC).trim.replaceAll("[ ]+"," ")
   }
