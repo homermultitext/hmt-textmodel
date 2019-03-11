@@ -1,16 +1,10 @@
 # HMT text model
 
-Editions of the HMT project follow the OHCO2 model for citable texts.
 
-`hmt-textmodel` is a JVM library that supports working with the text contents of citable nodes as a sequence of tokens with specified properties.
+`hmt-textmodel` is a cross-platform library modelling the content of texts edited by the Homer Multitext project.  On the JVM platform, the library provides classes for reading TEI-compliant XML documents following the HMT project's guidelines.  ([This project's wiki](https://github.com/homermultitext/hmt-textmodel/wiki) includes a brief summary of permitted usage.)
 
-The initial focus of the library is instantiating this model from TEI-conformant XML following HMT guidelines.
+Editions of the HMT project follow the OHCO2 model for citable texts.  In both the JVM and Javascript environments, the library models the contents of a citable text as a sequence of citable tokens with specified properties.
 
-
-## Quick summary of XML usage
-
-
-See the [project wiki](https://github.com/homermultitext/hmt-textmodel/wiki).
 
 ## Current version: 5.0.1
 
