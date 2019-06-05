@@ -109,6 +109,11 @@ case class HmtToken (
   }
 
 
+//case class AlternateReading (alternateCategory: AlternateCategory, readings: Vector[Reading] ) {
+  /** Create a new [[HmtToken]] by adding a specified Option of [[AlternateReading]]s to this token.
+  *
+  * @param alt The Option[AlternateReading] to add.
+  */
   def addAlternateReading(alt: Option[AlternateReading]) : HmtToken  = {
     HmtToken(
       sourceUrn,

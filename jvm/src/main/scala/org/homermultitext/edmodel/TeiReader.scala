@@ -110,6 +110,7 @@ object TeiReader {
           case Correction => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           case Restoration => {
             //println("WOOHOO!  Expanding abbrs!")
+            //println("alt is " + alt)
             Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           }
           case Deletion => Some(AlternateReading(alt.get, Vector.empty[Reading]))
@@ -127,6 +128,7 @@ object TeiReader {
       externalSource = settings.externalSource,
       errors = settings.errors
     )
+    //println("Returning hmtoken " + hmtToken)
     hmtToken
   }
 
@@ -305,38 +307,50 @@ object TeiReader {
       }
       case "choice" => {
         // enforce correct pairings
-        if ((el.child.size == 2) && (HmtTeiChoice.validChoice(el))) {
+        if (el.child.size != 2) {
+          val err = "Wrong number of child elements within choice: " + el.child.size + " in choice containing " + HmtTeiChoice.choiceChildren(el).mkString(", ")
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings.addError(err))
+          }
+          tkns.toVector.flatten
+
+        } else if (! HmtTeiChoice.validChoice(el)) {
+          val err = "Illegal combination of elements within choice: " + HmtTeiChoice.choiceChildren(el).mkString(", ")
+          // Go ahead and collect tokens, but attach error message
+          // to each token:
+          val tkns = for (ch <- el.child) yield {
+            collectTokens(ch, settings.addError(err))
+          }
+          tkns.toVector.flatten
+
+
+        }  else { // legit combination
           val children = el.child.toVector
           val t1 = collectTokens(children(0), settings)
           val t2 = collectTokens(children(1), settings)
-          val x = HmtTeiChoice.pairedToken(t1,t2,settings)
-          println("WHAT IS THIS? " + x)
-          for ((t,i) <- x.zipWithIndex) {
-            println(s"\n\n${i} " + t)
-            
+          val unified = HmtTeiChoice.pairedToken(t1,t2,settings)
 
-          }
-
-          Vector(t1,t2).flatten
-
-        } else {
-          val msg = "Illegal combination of elements within choice: " + HmtTeiChoice.choiceChildren(el).mkString(", ")
-          val tkns = for (ch <- el.child) yield {
-            collectTokens(ch, settings.addError(msg))
-          }
-          tkns.toVector.flatten
+          //for ((t,i) <- unified.zipWithIndex) {
+          // println(s"\n\n${i} " + t)
+          //}
+          println(s"Got ${unified.size} tokens from TEI choice")
+          unified
         }
       }
 
 
+
       /// abbr/expan pair
+
       case "abbr" => {
+        println("HANDLE abbr")
         val tkns = for (ch <- el.child) yield {
           collectTokens(ch, settings)
         }
         tkns.toVector.flatten
       }
       case "expan" => {
+        println("HANDLE expan")
         val tkns = for (ch <- el.child) yield {
           collectTokens(ch, settings.addAlternateCategory(Some(Restoration)))
         }
