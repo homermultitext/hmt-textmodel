@@ -1,4 +1,6 @@
 package org.homermultitext.edmodel
+
+
 import org.scalatest.FlatSpec
 
 class ReadingSpec extends FlatSpec {

@@ -37,7 +37,7 @@ class TeiChoiceElemSpec extends FlatSpec {
 
 
 
-  it should "recognize a paired sic/corr" in pending /*{
+  it should "recognize a paired sic/corr" in {
     val sicCorr = "<p><choice><sic>oops</sic><corr>better</corr></choice> answer.</p>"
     val n = XML.loadString(sicCorr)
     val settings = TokenSettings(context, LexicalToken)
@@ -46,8 +46,21 @@ class TeiChoiceElemSpec extends FlatSpec {
     assert(paired.alternateReading.get.alternateCategory == Correction)
     assert(paired.alternateReading.get.readings.head.text == "better")
     assert(paired.readings.head.text == "oops")
-  }*/
-  it should "recognized paired orig/reg" in pending /*{
+  }
+
+  it should "recognize sic/corr in any order" in {
+    val sicCorr = "<p><choice><corr>better</corr><sic>oops</sic></choice> answer.</p>"
+    val n = XML.loadString(sicCorr)
+    val settings = TokenSettings(context, LexicalToken)
+    val paired = TeiReader.collectTokens(n, settings).head
+
+    assert(paired.alternateReading.get.alternateCategory == Correction)
+    assert(paired.alternateReading.get.readings.head.text == "better")
+    assert(paired.readings.head.text == "oops")
+  }
+
+
+  it should "recognized paired orig/reg" in {
     val origReg = "<p><choice><orig>Achilles</orig><reg>Akhilleus</reg></choice> answer.</p>"
     val n = XML.loadString(origReg)
     val settings = TokenSettings(context, LexicalToken)
@@ -56,6 +69,17 @@ class TeiChoiceElemSpec extends FlatSpec {
     assert(paired.alternateReading.get.alternateCategory == Multiform)
     assert(paired.alternateReading.get.readings.head.text == "Akhilleus")
     assert(paired.readings.head.text == "Achilles")
-  }*/
+  }
+
+  it should "recognize orig/reg in any order" in {
+    val origReg = "<p><choice><reg>Akhilleus</reg><orig>Achilles</orig></choice> answer.</p>"
+    val n = XML.loadString(origReg)
+    val settings = TokenSettings(context, LexicalToken)
+    val paired = TeiReader.collectTokens(n, settings).head
+
+    assert(paired.alternateReading.get.alternateCategory == Multiform)
+    assert(paired.alternateReading.get.readings.head.text == "Akhilleus")
+    assert(paired.readings.head.text == "Achilles")
+  }
 
 }

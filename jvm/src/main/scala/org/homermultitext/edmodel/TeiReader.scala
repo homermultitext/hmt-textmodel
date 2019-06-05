@@ -330,10 +330,6 @@ object TeiReader {
           val t2 = collectTokens(children(1), settings)
           val unified = HmtTeiChoice.pairedToken(t1,t2,settings)
 
-          //for ((t,i) <- unified.zipWithIndex) {
-          // println(s"\n\n${i} " + t)
-          //}
-          println(s"Got ${unified.size} tokens from TEI choice")
           unified
         }
       }
@@ -341,16 +337,13 @@ object TeiReader {
 
 
       /// abbr/expan pair
-
       case "abbr" => {
-        println("HANDLE abbr")
         val tkns = for (ch <- el.child) yield {
           collectTokens(ch, settings)
         }
         tkns.toVector.flatten
       }
       case "expan" => {
-        println("HANDLE expan")
         val tkns = for (ch <- el.child) yield {
           collectTokens(ch, settings.addAlternateCategory(Some(Restoration)))
         }
@@ -359,6 +352,8 @@ object TeiReader {
 
       // corr pairs with sic, which can also appear independently.
       /// include approrpiate setting on alt. reading member of pair:
+      //
+      // This may blow up within choice.
       case "corr" => {
         val tkns = for (ch <- el.child) yield {
           collectTokens(ch, settings.addAlternateCategory(Some(Correction)))

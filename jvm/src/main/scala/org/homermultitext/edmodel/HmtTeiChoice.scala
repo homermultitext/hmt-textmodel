@@ -65,7 +65,6 @@ object HmtTeiChoice {
         tknsWithAlt
       }
       case _ => {
-        println("V2 has the reading")
         val alts =for (tkn2 <- v1) yield {
           tkn2.alternateReading.get
         }

@@ -18,9 +18,11 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
 
   val schNode = CitableNode(schUrn,schText)
   "The DiplomaticReader object" should "write diplomatic for a citable node" in {
-    /*val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
+    /*
+    val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
-    val cn = CitableNode(urn, txt)*/
+    val cn = CitableNode(urn, txt)
+    */
 
 
     val diplNode = DiplomaticReader.editedNode(schNode)
