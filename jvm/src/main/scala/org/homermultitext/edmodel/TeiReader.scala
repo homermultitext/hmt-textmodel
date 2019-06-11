@@ -135,7 +135,7 @@ object TeiReader {
 
 
   /** Intimidating regular expression splitting strings by HMT Greek punctuation. */
-  val punctuationSplitter = "((?<=[,;:⁑\\.])|(?=[,;:⁑\\.]))"
+  val punctuationSplitter = "((?<=[~,;⁑\\.])|(?=[~,;⁑\\.]))"
 
   /** Extract tokens from a TEI text node's string value.
   *

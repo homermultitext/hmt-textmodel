@@ -11,11 +11,11 @@ object HmtChars {
   */
   val greekCpMap: Map[Int, Char] = Map (
     // tonos:
-    '\u03ac'.toInt -> '\u1f71', // alpha
-    '\u03ad'.toInt -> '\u1f73',//epsilon
-    '\u03cc'.toInt -> '\u1f79', // omicron
-    '\u03cd'.toInt -> '\u1f7b', // upsilon
-    '\u03ce'.toInt -> '\u1f7d', // omega
+    '\u03ac'.toInt -> '\u1f71', // alpha with acute
+    '\u03ad'.toInt -> '\u1f73',//epsilon with acute
+    '\u03cc'.toInt -> '\u1f79', // omicron with acute
+    '\u03cd'.toInt -> '\u1f7b', // upsilon with acute
+    '\u03ce'.toInt -> '\u1f7d', // omega with acute
     // elision
     '\u1fbd'.toInt -> '\''
   )
@@ -26,8 +26,15 @@ object HmtChars {
   val cross = '\u2021'
   val backslash = '\\'
 
+  val semicolon = '\u003b' // Greek interrogation mark
+  val comma =  '\u002c'
+  val period = '\u002e'
+  val tilde = '\u007e'
+  // These are both problematic for URN subreferencing
+  //val dash = '\u002d'
+  //val colon = '\u003a'
   /** Punctuation characters. */
-  val punctCPs:  Vector[Char] = Vector('\u003a', '\u003b', '\u002c' , '\u002e', elision, fishtail, cross, '-')
+  val punctCPs:  Vector[Char] = Vector(semicolon, comma , period, elision, fishtail, cross, tilde)
 
   /** True if character is a legal punctuation character.
   *

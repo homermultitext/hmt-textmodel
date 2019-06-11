@@ -19,7 +19,7 @@ object DiplomaticReader extends MidMarkupReader {
 
   // required by MidMarkupReader
   def editedNode(cn: CitableNode): CitableNode = {
-    val editedUrn = cn.urn.addVersion(cn.urn.version + "_dipl")
+    val editedUrn = cn.urn.addVersion(cn.urn.version + "")
     val tokens = TeiReader.analyzeCitableNode(cn)
 
     val txtBuilder = StringBuilder.newBuilder

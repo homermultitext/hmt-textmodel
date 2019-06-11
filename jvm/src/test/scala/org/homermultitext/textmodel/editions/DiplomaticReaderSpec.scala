@@ -18,30 +18,21 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
 
   val schNode = CitableNode(schUrn,schText)
   "The DiplomaticReader object" should "write diplomatic for a citable node" in {
-    /*
-    val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
-    val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
-    val cn = CitableNode(urn, txt)
-    */
+    val il1_1 = CitableNode(
+      CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1"),
+      s"""<l n="1">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName></l>""")
+    val dipl = DiplomaticReader.editedNode(il1_1)
+    val expectedTokens = 5
+    assert(dipl.text.split(" ").size == expectedTokens)
+  }
 
+  it should "recognize tilde as a punctuation character" in {
+    val txt = """<l n="1">ὣς οἱ μὲν <rs type= "ethnic" n="urn:cite2:hmt:place.v1:place6">Τρῶες</rs> φυλακὰς ἔχον~ αὐτὰρ <rs type= "ethnic" n="urn:cite2:hmt:place.v1:place96">Ἀχαιοὺς</rs></l>"""
+    val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msB:10.1")
+    val cn = CitableNode(urn,txt)
 
-    val diplNode = DiplomaticReader.editedNode(schNode)
-    val scribalNode = ScriballyNormalizedReader.editedNode(schNode)
-    val editorialNode = EditoriallyNormalizedReader.editedNode(schNode)
-
-
-    println("SOURCE:")
-    println(schNode.text + "\n")
-
-    println("DIPLOMATIC:")
-    println(diplNode.text + "\n")
-
-
-    println("SCRIBALLY NORMALIZED:")
-    println(scribalNode.text + "\n")
-
-    println("EDITORIALLY NORMALIZED:")
-    println(editorialNode.text + "\n")
+    val dipl = DiplomaticReader.editedNode(cn)
+    println(dipl.text)
   }
 
 }

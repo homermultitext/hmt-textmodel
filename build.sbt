@@ -12,7 +12,7 @@ lazy val crossed = crossProject.in(file(".")).
     settings(
           name := "hmt-textmodel",
           organization := "org.homermultitext",
-          version := "6.0.0",
+          version := "6.0.1",
           licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
 
           resolvers += Resolver.jcenterRepo,

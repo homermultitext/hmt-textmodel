@@ -10,7 +10,8 @@ class TeiReaderSpec extends FlatSpec {
     CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_xml:1.1"),
     s"""<l n="1">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName>s</l>""")
 
-  "A TeiReader" should "parse a node for a diplomatic edition" in pending
-  it should "parse a node for a scribally normalized edition" in pending
-  it should "parse a node for an editorially normalized edition" in pending
+  "A DiplomaticReader" should "parse a node for a diplomatic edition" in {
+    val dipl = DiplomaticReader.editedNode(il1_1)
+    println(dipl)
+  }
 }

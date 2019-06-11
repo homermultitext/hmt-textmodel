@@ -1,5 +1,9 @@
 # `hmt-textmodel`: release notes
 
+**6.0.1**: uses safer `~` character for Greek high stop.
+
+**6.0.0**: reworked to use `MidOrthography` and  `MidMarkupReader` traits.
+
 **5.0.1**:  Add lib dependency for transitively required evilplot
 
 **5.0.0**:   API-breaking rewrite, now in 1<->1 relation with all HMT editing roles listed in this project's wiki.

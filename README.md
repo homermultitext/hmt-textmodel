@@ -6,7 +6,7 @@
 Editions of the HMT project follow the OHCO2 model for citable texts.  In both the JVM and Javascript environments, the library models the contents of a citable text as a sequence of citable tokens with specified properties.
 
 
-## Current version: 5.0.1
+## Current version: 6.0.1
 
 The library is in active development.
 

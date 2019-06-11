@@ -44,6 +44,9 @@ class CharsSpec extends FlatSpec {
     assert(HmtChars.isPunctuation(HmtChars.fishtail.toInt))
     assert(HmtChars.isPunctuation('α'.toInt) == false)
   }
+  it should "recognize tilde as punctuation" in {
+    assert(HmtChars.isPunctuation('~'.toInt))
+  }
   it should "normalize allowed input codepoints to specified output codepoints" in {
     val alphaTonos = Vector('\u03ac'.toInt)
     val alphaAcute = Vector('\u1f71'.toInt)
@@ -51,8 +54,8 @@ class CharsSpec extends FlatSpec {
   }
   it should "handle bewitched upsilon+tonos" in {
     val deviltry = Vector('ύ'.toInt)
-
-
+    val upsilonAcute = Vector('\u1f7b'.toInt)
+    assert(HmtChars.normalizeCPs(deviltry) == upsilonAcute)
 
   }
 
