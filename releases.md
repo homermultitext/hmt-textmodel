@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**5.2.0**: add logging support.
+
 **5.1.0**: update library dependencies
 
 **5.0.1**:  Add lib dependency for transitively required evilplot

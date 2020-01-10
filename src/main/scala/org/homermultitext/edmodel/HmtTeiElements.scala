@@ -2,9 +2,14 @@ package org.homermultitext.edmodel
 
 import scala.xml._
 
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 /** Trait defining HMT usage of TEI markup allowed at different tiers
 * in a document.*/
-trait HmtTeiTier {
+trait HmtTeiTier  {
   /** Elements permitted at this tier.*/
   def allowedElements : Set[String]
   /** Children permitted at this tier.  In some cases,

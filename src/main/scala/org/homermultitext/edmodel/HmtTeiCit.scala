@@ -2,7 +2,12 @@ package org.homermultitext.edmodel
 import edu.holycross.shot.cite._
 import scala.xml._
 
-object HmtTeiCit {
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
+object HmtTeiCit extends LogSupport{
 
   def ctsUrnOk(urnStr: String) : Boolean = {
     try {
@@ -10,7 +15,7 @@ object HmtTeiCit {
       true
     } catch {
       case t : Throwable => {
-        println("Something wrong with CtsUrn value " + urnStr + ".  " + t)
+        warn("Something wrong with CtsUrn value " + urnStr + ".  " + t)
         false
       }
     }

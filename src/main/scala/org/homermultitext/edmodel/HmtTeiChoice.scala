@@ -2,7 +2,13 @@ package org.homermultitext.edmodel
 
 import scala.xml._
 
-object HmtTeiChoice {
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
+
+object HmtTeiChoice extends LogSupport {
   // Allowed combinations for TEI choice:
   val abbrExpan = Set("abbr","expan")
   val sicCorr = Set("sic", "corr")

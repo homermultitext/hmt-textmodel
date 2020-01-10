@@ -4,7 +4,7 @@ name := "hmt-textmodel"
 organization := "org.homermultitext"
 
 
-version := "5.1.0"
+version := "5.2.0"
 
 
 

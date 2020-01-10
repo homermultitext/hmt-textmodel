@@ -10,6 +10,10 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
 /** An implementation of the MidMarkupReader trait for HMT project editions.
 *
 * @param hmtEditionType Type of edition to generate.
@@ -35,7 +39,7 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 }
 
 /** Object for parsing TEI XML into the HMT project object model of an edition. */
-object TeiReader {
+object TeiReader extends LogSupport {
 
   /** Vector of MidEditionTypes that this object can produce.
   */
@@ -109,7 +113,7 @@ object TeiReader {
           case Multiform =>   Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           case Correction => Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           case Restoration => {
-            //println("WOOHOO!  Expanding abbrs!")
+            debug("WOOHOO!  Expanding abbrs!")
             Some(AlternateReading(alt.get, Vector(Reading(tknString, settings.status))))
           }
           case Deletion => Some(AlternateReading(alt.get, Vector.empty[Reading]))
@@ -200,7 +204,7 @@ object TeiReader {
       case None => settings
       case tierOpt: Option[HmtTeiTier] => {
         val tier = tierOpt.get
-        //println("AT " + el.label + " with allowed children " + tier.allowedChildren)
+        debug("AT " + el.label + " with allowed children " + tier.allowedChildren)
 
         val childMsgs = for (ch <- el.child) yield {
           if (

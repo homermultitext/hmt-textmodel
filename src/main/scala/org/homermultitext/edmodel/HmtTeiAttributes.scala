@@ -3,9 +3,14 @@ import scala.xml._
 import edu.holycross.shot.cite._
 
 
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
+
 /** A specification of attribute usage for a single
 * TEI element.*/
-trait AttributeRequirement {
+trait AttributeRequirement extends LogSupport {
   /** Name of TEI element. */
   def elName : String
 
@@ -48,7 +53,7 @@ case object PersName extends AttributeRequirement {
 
     } catch {
       case t : Throwable => {
-        println("Something went wrong with URN value " + nAttr.toString + ". " + t)
+        warn("Something went wrong with URN value " + nAttr.toString + ". " + t)
         false
       }
     }
@@ -74,7 +79,7 @@ case object PlaceName extends AttributeRequirement {
     el.text.nonEmpty
     } catch {
       case t : Throwable => {
-        println("Something went wrong with URN value " + nAttr.toString)
+        warn("Something went wrong with URN value " + nAttr.toString)
         false
       }
     }
@@ -103,11 +108,11 @@ case object Num extends AttributeRequirement {
       el.text.nonEmpty
     } catch {
       case nfe:  NumberFormatException => {
-        println("Could not format number from value attribute: " + nAttr.toString)
+        warn("Could not format number from value attribute: " + nAttr.toString)
         false
       }
       case t : Throwable => {
-        println("Something went wrong with numeric value " + nAttr.toString)
+        warn("Something went wrong with numeric value " + nAttr.toString)
         false
       }
     }
@@ -132,7 +137,7 @@ case object Rs extends AttributeRequirement {
       true
     } catch {
       case t : Throwable => {
-        println("Something wrong with Cite2Urn value " + urnStr + ".  " + t)
+        warn("Something wrong with Cite2Urn value " + urnStr + ".  " + t)
         false
       }
     }
@@ -161,12 +166,12 @@ case object Rs extends AttributeRequirement {
       }
 
       case "" => {
-        println("Empty or missing type attribute on rs")
+        warn("Empty or missing type attribute on rs")
         false
       }
 
       case s: String => {
-        println("Unrecognized type attribute value on rs: " + s)
+        warn("Unrecognized type attribute value on rs: " + s)
         false
       }
     }
@@ -210,7 +215,7 @@ case object Title extends AttributeRequirement {
       true
     } catch {
       case t : Throwable => {
-        println("Something wrong with Cite2Urn value " + urnStr + ".  " + t)
+        warn("Something wrong with Cite2Urn value " + urnStr + ".  " + t)
         false
       }
     }
@@ -239,7 +244,7 @@ case object Title extends AttributeRequirement {
 /** Singleton object for validating an XML element's
 * compliance with HMT project requirements on usage
 * of XML attributes.*/
-object HmtTeiAttributes {
+object HmtTeiAttributes  extends LogSupport {
 
   /** Set of requirements for mandatory attribute usage.*/
   def required = Set(
@@ -294,7 +299,7 @@ object HmtTeiAttributes {
     val elemReqs = requirements(elem)
     elemReqs match {
       case None => {
-        println("No attribute requirements for " + elem.label)
+        info("No attribute requirements for " + elem.label)
         false
       }
       case _ => elemReqs.get.ok(elem)

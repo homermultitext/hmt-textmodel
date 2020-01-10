@@ -4,6 +4,11 @@ import edu.holycross.shot.cite._
 import edu.holycross.shot.greek._
 
 
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
+
+
 /** A fully documented, semantically distinct token.
 *
 * @param sourceUrn URN with subreference for this token in the analyzed text.
@@ -34,7 +39,7 @@ case class HmtToken (
   externalSource: Option[CtsUrn] = None,
 
   errors: Vector[String] = Vector.empty[String]
-) {
+) extends LogSupport {
 
 
   def addExternalSource(extSource: Option[CtsUrn]) : HmtToken  = {
@@ -239,20 +244,20 @@ case class HmtToken (
       readWithAlternate.contains(s)
 
     }  else {
-      println(s"Given ${s} ... compare to ${readWithAlternate}")
+      debug(s"Given ${s} ... compare to ${readWithAlternate}")
 
 
       val stripped = LiteraryGreekString(s).stripAccent.ascii
-      println("Stripped query to " + stripped)
+      debug("Stripped query to " + stripped)
       val alt = readWithAlternate
-      println("Alt " + alt)
+      debug("Alt " + alt)
       val altText = LiteraryGreekString(alt)
-      println(s"Alt lgs ${altText} / ${altText.ascii} / ${altText.ucode}")
+      debug(s"Alt lgs ${altText} / ${altText.ascii} / ${altText.ucode}")
       val altStripped = altText.stripAccent.ascii
-      println("Stripped source to " + altStripped )
+      debug("Stripped source to " + altStripped )
 
-      println("Query " + stripped + " compares to " + altStripped)
-      println("Manualy entered == " + LiteraryGreekString("οὕτως").stripAccent.ascii)
+      debug("Query " + stripped + " compares to " + altStripped)
+      debug("Manualy entered == " + LiteraryGreekString("οὕτως").stripAccent.ascii)
       altStripped.contains(stripped)
     }
   }
