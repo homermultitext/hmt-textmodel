@@ -52,23 +52,8 @@ class HmtArchiveSpec extends FlatSpec {
   }
 
 
-  def scholia: Unit = {}
 
-  "All this" should "build an HMT library" in pending/* {
-
-  IliadComposite.composite(iliadXml, iliadComposites)
-    val catalog = s"${iliadComposites}/ctscatalog.cex"
-    val citation = s"${iliadComposites}/citationconfig.cex"
-    val repo = TextRepositorySource.fromFiles(catalog,citation,iliadComposites)
-    val dipl =  DiplomaticReader.edition(repo.corpus)
-  }*/
-
-  it should "work encapsulated as a function" in pending /*{
-    iliad
-  }*/
-
-
-  it should "work on scholia" in {
+  def scholia: Unit = {
 
     println("Creating composite XML editions of scholia...")
     ScholiaComposite.composite(scholiaXml, scholiaComposites)
@@ -82,7 +67,8 @@ class HmtArchiveSpec extends FlatSpec {
     val corpus = scholiaRepo.corpus
     val scholiaDocs = corpus.nodes.map(_.urn.dropPassage).distinct
     for (s <- scholiaDocs) {
-      if (s.work != "msAextra") {
+      val siglum = s.work
+      if (siglum != "msAextra") {
         println("Get subcorpus for " + s)
         val subcorpusAll = corpus ~~ s
 
@@ -91,15 +77,30 @@ class HmtArchiveSpec extends FlatSpec {
         val subcorpus = Corpus(cleanNodes)
         println("Got " + subcorpus.size + " scholia.")
         val diplSubcorpus = DiplomaticReader.edition(subcorpus)
-        /*
-          val diplEdition = DiplomaticEditionFactory.corpusFromTokens(tokens)
-          val diplByScholion = diplEdition.exemplarToVersion("dipl")
 
-          val diplHeader = s"\n\n#!ctscatalog\nurn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang\nurn:cts:greekLit:tlg5026.${siglum}.dipl:#book,scholion, section#Scholia to the Iliad#Scholia ${siglum} in the Venetus A#HMT project diplomatic edition##true#grc\n\n#!ctsdata\n"
-          new PrintWriter(s"${editionsDir}/${siglum}_diplomatic.cex") { write(diplHeader + diplByScholion.cex("#"));close }
-        */
+        val diplHeader = "\n\n#!ctscatalog\nurn#citationScheme#groupName#workTitle#versionLabel#exemplarLabel#online#lang\nurn:cts:greekLit:tlg5026." + siglum + ".dipl:#book,scholion, section#Scholia to the Iliad#Scholia " + siglum + " in the Venetus A#HMT project diplomatic edition##true#grc\n\n#!ctsdata\n"
+
+        new PrintWriter(s"${cexEditions}/${siglum}_diplomatic.cex") { write(diplHeader + diplSubcorpus.cex("#"));close }
       }
     }
+  }
+
+  "All this" should "build an HMT library" in pending/* {
+
+  IliadComposite.composite(iliadXml, iliadComposites)
+    val catalog = s"${iliadComposites}/ctscatalog.cex"
+    val citation = s"${iliadComposites}/citationconfig.cex"
+    val repo = TextRepositorySource.fromFiles(catalog,citation,iliadComposites)
+    val dipl =  DiplomaticReader.edition(repo.corpus)
+  }*/
+
+  it should "work on Ilia encapsulated as a function" in pending /*{
+    iliad
+  }*/
+
+
+  it should "work on scholia encapsulated in a function" in {
+    scholia
   }
 
   //////// THIS NEEDS REWRITING
