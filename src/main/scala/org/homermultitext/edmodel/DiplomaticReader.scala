@@ -9,8 +9,12 @@ import scala.io.Source
 import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
-object DiplomaticReader extends MidMarkupReader {
+
+
+object DiplomaticReader extends MidMarkupReader with LogSupport {
 
   def editionType: MidEditionType = HmtDiplomaticEdition
 

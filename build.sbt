@@ -31,6 +31,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
 
 
+  "org.wvlet.airframe" %% "airframe-log" % "19.8.10"
   //"com.cibo" %% "evilplot" % "0.6.3"
 )
 
