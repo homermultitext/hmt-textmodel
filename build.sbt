@@ -1,10 +1,10 @@
-ThisBuild / crossScalaVersions  := List("2.11.8", "2.12.4")
+ThisBuild / crossScalaVersions  := List("2.12.4") //List("2.11.8", "2.12.4")
 
 name := "hmt-textmodel"
 organization := "org.homermultitext"
 
 
-version := "5.0.1"
+version := "5.1.0"
 
 
 
@@ -17,12 +17,12 @@ resolvers += Resolver.bintrayRepo("neelsmith", "maven")
 resolvers +=  Resolver.bintrayRepo("cibotech", "public")
 
 libraryDependencies ++= Seq(
-  "edu.holycross.shot.cite" %% "xcite" % "4.0.2",
-  "edu.holycross.shot" %% "ohco2" % "10.12.5",
+  "edu.holycross.shot.cite" %% "xcite" % "4.2.0",
+  "edu.holycross.shot" %% "ohco2" % "10.18.1",
 
-  "edu.holycross.shot" %% "greek" % "2.1.0",
-  "edu.holycross.shot" %% "gsphone" % "1.3.0",
-  "edu.holycross.shot" %% "midvalidator" % "6.0.0",
+  "edu.holycross.shot" %% "greek" % "2.4.0",
+  "edu.holycross.shot" %% "gsphone" % "1.4.3",
+  "edu.holycross.shot" %% "midvalidator" % "10.0.0",
 
 
   "edu.holycross.shot" %% "xmlutils" % "2.0.0",
@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
 
 
-  "com.cibo" %% "evilplot" % "0.6.3"
+  //"com.cibo" %% "evilplot" % "0.6.3"
 )
 
 tutSourceDirectory := file("tut")
