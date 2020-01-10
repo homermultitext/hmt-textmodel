@@ -42,7 +42,13 @@ object HmtTeiChoice extends LogSupport {
         ch.alternateReading match {
           case None => {
             val rdgs = ch.readings
-            t2(i).addReading(rdgs)
+            val tkn = if (i < t2.size) {
+              t2(i).addReading(rdgs)
+            } else {
+              t1(i)
+            }
+            tkn
+
           }
           case _ => {
             //i'm looking at ALT READING

@@ -15,6 +15,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
 object DiplomaticReader extends MidMarkupReader with LogSupport {
+  Logger.setDefaultLogLevel(LogLevel.DEBUG)
 
   def editionType: MidEditionType = HmtDiplomaticEdition
 
@@ -23,10 +24,16 @@ object DiplomaticReader extends MidMarkupReader with LogSupport {
 
   // required by MidMarkupReader
   def editedNode(cn: CitableNode): CitableNode = {
-    val editedUrn = cn.urn.addVersion(cn.urn.version + "_dipl")
+    val editedUrn = cn.urn //.addVersion(cn.urn.version + "_dipl")
+    debug("dipl for: " + editedUrn)
+    //println("dipl for: " + editedUrn)
     val tokens = TeiReader.analyzeCitableNode(cn)
-
+    if (tokens.isEmpty) {
+      val msg = "for NODE " + cn + " : no tokens."
+      error(msg)
+    }
     val txtBuilder = StringBuilder.newBuilder
+
     txtBuilder.append(tokens.head.readWithDiplomatic)
 
     for (n <- tokens.tail) {
