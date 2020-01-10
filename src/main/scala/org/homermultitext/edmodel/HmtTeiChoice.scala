@@ -9,6 +9,8 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
 object HmtTeiChoice extends LogSupport {
+  Logger.setDefaultLogLevel(LogLevel.INFO)
+
   // Allowed combinations for TEI choice:
   val abbrExpan = Set("abbr","expan")
   val sicCorr = Set("sic", "corr")
@@ -31,6 +33,9 @@ object HmtTeiChoice extends LogSupport {
   }
 
   def pairedToken(t1: Vector[HmtToken], t2: Vector[HmtToken], settings: TokenSettings): Vector[HmtToken] = {
+    if ((t1.isEmpty) || (t2.isEmpty)) {
+      error("Pairing tokens, but found an empty list:\nt1 = " + t1 + "\nt2 = " + t2)
+    }
     // we want to unify readings and alt readings
     val unified = if (t1.size >= t2.size)  {
       for ((ch,i) <- t1.zipWithIndex) yield {
@@ -47,6 +52,9 @@ object HmtTeiChoice extends LogSupport {
         }
       }
     } else {
+      // t2 bigger than t1!
+      debug("Size t1: " + t1.size)
+      debug("Size t2: " + t2.size)
       for ((ch,i) <- t2.zipWithIndex) yield {
         ch.alternateReading match {
           case None => {
@@ -55,7 +63,15 @@ object HmtTeiChoice extends LogSupport {
           }
           case _ => {
             val alt = ch.alternateReading
-            t1(i).addAlternateReading(alt)
+            debug("CHeckig t1 " + t1 )
+            debug("i is " + i)
+            debug ("Alt is " + alt)
+            if (i < t1.size) {
+              t1(i).addAlternateReading(alt)
+            } else {
+              t2(i)
+            }
+
           }
         }
       }

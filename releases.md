@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**5.2.1**: fixes a bug in `HmtTeiChoice`
+
 **5.2.0**: add logging support.
 
 **5.1.0**: update library dependencies

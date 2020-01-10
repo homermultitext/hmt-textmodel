@@ -12,7 +12,7 @@ The initial focus of the library is instantiating this model from TEI-conformant
 
 See the [project wiki](https://github.com/homermultitext/hmt-textmodel/wiki).
 
-## Current version: 5.2.0
+## Current version: 5.2.1
 
 The library is in active development.
 
