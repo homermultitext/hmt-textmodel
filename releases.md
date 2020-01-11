@@ -1,6 +1,9 @@
 # `hmt-textmodel`: release notes
 
-**6.0.0**: removes `NamedEntityReader` object.
+
+**6.0.2**: removes `NamedEntityReader` object.
+
+**6.0.0-6.0.1**: erroneously published versions superseded by 6.0.2.
 
 **5.3.0**: library updates; remove circular dependency on `hmt-cexbuilder`.
 
