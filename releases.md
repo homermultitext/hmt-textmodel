@@ -1,5 +1,6 @@
 # `hmt-textmodel`: release notes
 
+**5.3.0**: library updates; remove circular dependency on `hmt-cexbuilder`.
 
 **5.2.2**: several minor bug fixes.
 
