@@ -1,6 +1,8 @@
 # `hmt-textmodel`: release notes
 
 
+**6.1.0**: addas place holder classes for `MidOrthography` implementations
+
 **6.0.2**: removes `NamedEntityReader` object.
 
 **6.0.0-6.0.1**: erroneously published versions superseded by 6.0.2.
