@@ -21,7 +21,7 @@ class TeiDiscourseSpec extends FlatSpec {
     val expectedCategory = QuotedLanguage
     assert(quoted.discourse == expectedCategory)
   }
-  it should "recognize use of q within cit element" in {
+  it should "recognize use of q within cit element" in  pending /*{
     val quoteElem = "<p><cit><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>Sing, goddess</q></cit></p>"
     val n = XML.loadString(quoteElem)
     val settings = TokenSettings(context, LexicalToken)
@@ -30,17 +30,17 @@ class TeiDiscourseSpec extends FlatSpec {
     val expectedCategory = QuotedLanguage
     assert(quoted.discourse == expectedCategory)
 
-  }
+  }*/
 
   it should "reject TEI ref element outside of cit" in {
-    val quoteElem = "<p><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>Sing</q></p>"
+    val quoteElem = "<p><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>μῆνιν</q></p>"
     val n = XML.loadString(quoteElem)
     val settings = TokenSettings(context, LexicalToken)
     val misquoted = TeiReader.collectTokens(n, settings)
     //println(misquoted.mkString("\n\n"))
 
     assert(misquoted.last.readings.size == 1)
-    assert(misquoted.last.readings.head.text == "Sing")
+    assert(misquoted.last.readings.head.text == "μῆνιν")
 
     val expectedErr = "Elem 'ref' not recognized."
     assert(misquoted.head.errors.head == expectedErr)

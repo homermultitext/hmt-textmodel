@@ -40,7 +40,7 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
 /** Object for parsing TEI XML into the HMT project object model of an edition. */
 object TeiReader extends LogSupport {
-
+   Logger.setDefaultLogLevel(LogLevel.INFO)
   /** Vector of MidEditionTypes that this object can produce.
   */
   def editionTypes:  Vector[MidEditionType] =  Vector(
@@ -428,19 +428,6 @@ object TeiReader extends LogSupport {
 
   def discourseTokens(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
     el.label match {
-      case "cit" => {
-        // valueof ref should be urn
-        if ((el.child.size == 2) && HmtTeiCit.validCit(el)) {
-          HmtTeiCit.pairedToken(el, settings)
-
-        } else {
-          val msg = "Illegal child elements withint cit:  " + HmtTeiCit.citChildren(el).mkString(", ")
-          val newSettings = settings.addError(msg)
-          val tkns = tokensFromText(el.text, newSettings)
-          tkns
-        }
-      }
-
       case "q" => {
         val newSettings = settings.setDiscourse(QuotedLanguage)
         val tkns = tokensFromText(el.text, newSettings)
@@ -464,7 +451,7 @@ object TeiReader extends LogSupport {
   */
   def tokensFromElement(el: scala.xml.Elem, settings: TokenSettings) : Vector[HmtToken] = {
 
-    if (HmtTeiElements.metadata.contains(el.label)) {
+    def finalTokens = if (HmtTeiElements.metadata.contains(el.label)) {
       Vector.empty[HmtToken]
 
     } else if (HmtTeiElements.structural.contains(el.label)) {
@@ -505,8 +492,23 @@ object TeiReader extends LogSupport {
       } else if (DisambiguatingElements.allowedElements.contains(el.label)) {
         disambiguatingTokens(el,settingsWithAttrs)
 
-      } else if ( (el.label == "cit") ||
-        (DiscourseAnalysis.allowedElements.contains(el.label))) {
+      } else if (el.label == "cit") {
+        debug("Looking at cit element: " + el)
+        if ((el.child.size == 2) && HmtTeiCit.validCit(el)) {
+          val qval = el \ "q"
+          debug("q is " + qval(0).text)
+          val tkns = tokensFromText(qval(0).text, settings)
+          debug("yielding tokens " + tkns)
+          tkns
+
+        } else {
+          val msg = "Illegal child elements withint cit:  " + HmtTeiCit.citChildren(el).mkString(", ")
+          val newSettings = settings.addError(msg)
+          val tkns = tokensFromText(el.text, newSettings)
+          tkns
+        }
+
+      } else if (DiscourseAnalysis.allowedElements.contains(el.label)) {
         discourseTokens(el, settingsWithAttrs)
 
       } else {
@@ -519,23 +521,10 @@ object TeiReader extends LogSupport {
         flattened
       }
     }
+    debug("FINAL TOKENS: " + finalTokens)
+    finalTokens
   }
 
-      /*
-
-
-
-
-
-
-
-        } else {
-
-        }
-      }
-    }
-  }
-*/
 
   def collectTokens(n: xml.Node, settings: TokenSettings): Vector[HmtToken] = {
     n match {

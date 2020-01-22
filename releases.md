@@ -1,7 +1,8 @@
 # `hmt-textmodel`: release notes
 
+**6.1.1**: maintains discourse status of language while correctly omitting `ref` elements in quoted citation.
 
-**6.1.0**: addas place holder classes for `MidOrthography` implementations
+**6.1.0**: adds place holder classes for `MidOrthography` implementations
 
 **6.0.2**: removes `NamedEntityReader` object.
 
