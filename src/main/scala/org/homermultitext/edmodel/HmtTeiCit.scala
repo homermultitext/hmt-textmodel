@@ -8,7 +8,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
 object HmtTeiCit extends LogSupport{
-
+Logger.setDefaultLogLevel(LogLevel.INFO)
   def ctsUrnOk(urnStr: String) : Boolean = {
     try {
       val u = CtsUrn(urnStr)
@@ -30,6 +30,7 @@ object HmtTeiCit extends LogSupport{
   // check structure of TEI cit
   def validCit(citElem: scala.xml.Elem): Boolean = {
     val chNames = citChildren(citElem).toSet
+    debug("Valid cit: child names " + chNames)
     if (citeChildren == chNames ) {
       true
     } else {

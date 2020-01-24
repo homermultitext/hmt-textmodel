@@ -1,5 +1,9 @@
 # `hmt-textmodel`: release notes
 
+**6.1.3**: fixes a bug in treatment of TEI `ref` when it occurs in legal TEI contexts not allowed by HMT editorial standards.
+
+**6.1.2**: fixes a bug in white-space handling while parsing `cit` elements.
+
 **6.1.1**: maintains discourse status of language while correctly omitting `ref` elements in quoted citation.
 
 **6.1.0**: adds place holder classes for `MidOrthography` implementations

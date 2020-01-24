@@ -87,7 +87,7 @@ object HmtTeiElements {
     "div", "l", "p", "list", "item", "floatingText", "figure", "body"
   )
   /** Metadata elements.*/
-  val metadata = Set("figDesc", "note")
+  val metadata = Set("figDesc", "note","ref")
 
 
   /** Hierarchical order of tiers of markup.*/
