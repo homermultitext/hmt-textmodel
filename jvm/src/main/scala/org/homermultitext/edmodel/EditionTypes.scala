@@ -1,5 +1,5 @@
 package org.homermultitext.edmodel
-import edu.holycross.shot.mid.validator._
+import edu.holycross.shot.mid.markupreader._
 
 
 // Implementations of the [[MidEditionType]] trait for Homer Mulitext project editions.

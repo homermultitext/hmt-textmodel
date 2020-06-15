@@ -1,6 +1,9 @@
 package org.homermultitext.edmodel
 
-import edu.holycross.shot.mid.validator._
+
+import edu.holycross.shot.citevalidator._
+import edu.holycross.shot.mid.markupreader._
+import edu.holycross.shot.mid.orthography._
 import edu.holycross.shot.xmlutils._
 
 import scala.xml._
@@ -27,7 +30,7 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
   def recognizedTypes: Vector[MidEditionType] =  TeiReader.editionTypes
 
   // required by MidMarkupReader
-  def editedNode(cn: CitableNode): CitableNode = {
+  def editedNode(cn: CitableNode, hmtEditionType: MidEditionType): CitableNode = {
     hmtEditionType match {
       case HmtDiplomaticEdition => DiplomaticReader.editedNode(cn)
       case HmtScribalNormalizedEdition => ScriballyNormalizedReader.editedNode(cn)

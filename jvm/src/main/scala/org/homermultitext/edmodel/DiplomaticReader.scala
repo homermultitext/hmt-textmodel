@@ -1,6 +1,8 @@
 package org.homermultitext.edmodel
 
-import edu.holycross.shot.mid.validator._
+import edu.holycross.shot.citevalidator._
+import edu.holycross.shot.mid.markupreader._
+import edu.holycross.shot.mid.orthography._
 
 
 import scala.xml._
@@ -23,7 +25,7 @@ object DiplomaticReader extends MidMarkupReader with LogSupport {
   def recognizedTypes: Vector[MidEditionType] =  Vector(HmtDiplomaticEdition)
 
   // required by MidMarkupReader
-  def editedNode(cn: CitableNode): CitableNode = {
+  def editedNode(cn: CitableNode, edType: MidEditionType = HmtDiplomaticEdition): CitableNode = {
     val editedUrn = cn.urn //.addVersion(cn.urn.version + "_dipl")
     debug("dipl for: " + editedUrn)
     //println("dipl for: " + editedUrn)

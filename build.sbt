@@ -1,46 +1,66 @@
-ThisBuild / crossScalaVersions  := List("2.12.4") //List("2.11.8", "2.12.4")
+lazy val scala212 = "2.12.10"
+lazy val supportedScalaVersions = List(scala212)
+ThisBuild / scalaVersion := scala212
+ThisBuild / turbo := true
 
-name := "hmt-textmodel"
-organization := "org.homermultitext"
-
-
-version := "6.1.3"
-
-
-
-
-licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html"))
-
-resolvers += Resolver.jcenterRepo
-resolvers += Resolver.bintrayRepo("neelsmith", "maven")
-
-resolvers +=  Resolver.bintrayRepo("cibotech", "public")
-
-libraryDependencies ++= Seq(
-  "edu.holycross.shot.cite" %% "xcite" % "4.2.0",
-  "edu.holycross.shot" %% "ohco2" % "10.18.1",
-
-  "edu.holycross.shot" %% "greek" % "2.4.0",
-  "edu.holycross.shot" %% "gsphone" % "1.4.3",
+lazy val root = project.in(file(".")).
+    aggregate(crossed.js, crossed.jvm).
+    settings(
+      crossScalaVersions := Nil,
+      publish / skip := true
+    )
 
 
-  "edu.holycross.shot" %% "xmlutils" % "2.0.0",
+lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
+    settings(
+      name := "hmt-textmodel",
+      organization := "org.homermultitext",
+      version := "7.0.0",
+      licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
+
+      resolvers += Resolver.jcenterRepo,
+      resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
+      resolvers +=  Resolver.bintrayRepo("cibotech", "public"),
+      libraryDependencies ++= Seq(
+        "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
+        "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
+        "edu.holycross.shot.cite" %%% "xcite" % "4.3.0",
+        "edu.holycross.shot" %%% "ohco2" % "10.19.0",
 
 
+        "edu.holycross.shot" %% "dse" % "7.1.0",
+        "edu.holycross.shot" %% "scm" % "7.3.0",
+        "edu.holycross.shot" %% "citerelations" % "2.7.0",
+        "edu.holycross.shot" %% "citevalidator" % "1.1.0",
+        "edu.holycross.shot.mid" %% "markupreader" % "1.0.0",
+        "edu.holycross.shot.mid" %% "orthography" % "1.0.0",
+        "edu.holycross.shot" %% "greek" % "3.0.0",
 
-  "edu.holycross.shot" %% "dse" % "6.0.2",
-  "edu.holycross.shot" %% "scm" % "7.2.0",
-  "edu.holycross.shot" %% "citerelations" % "2.6.0",
-  "edu.holycross.shot" %% "midvalidator" % "11.0.0",
+        // NEED GSPHONE
 
-  "org.scalatest" %% "scalatest" % "3.0.1" %  "test",
-  "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
+      )
+    ).jvmSettings(
+      libraryDependencies ++= Seq(
+        "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
+        "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
+        "edu.holycross.shot" %% "xmlutils" % "2.0.0",
 
+      )
+    ).
+    jsSettings(
+      // JS-specific settings:
+      scalaJSUseMainModuleInitializer := true,
+    )
 
-  "org.wvlet.airframe" %% "airframe-log" % "19.8.10"
-  //"com.cibo" %% "evilplot" % "0.6.3"
-)
-
-tutSourceDirectory := file("tut")
-tutTargetDirectory := file("docs")
-enablePlugins(TutPlugin)
+    lazy val docs = project       // new documentation project
+      .in(file("docs-build")) // important: it must not be docs/
+      .dependsOn(crossed.jvm)
+      .enablePlugins(MdocPlugin)
+      .settings(
+        mdocIn := file("guide"),
+        mdocOut := file("docs"),
+        mdocExtraArguments := Seq("--no-link-hygiene"),
+        mdocVariables := Map(
+          "VERSION" -> "1.0.0"
+        )
+      )
