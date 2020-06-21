@@ -3,4 +3,4 @@ layout: page
 title: HMT project editorial model
 ---
 
-Documentation for **version 8.0.0** in progress.
+Documentation for **version @VERSION@** in progress.
