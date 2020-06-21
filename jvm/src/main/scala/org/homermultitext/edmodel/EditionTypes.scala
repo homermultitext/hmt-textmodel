@@ -16,18 +16,19 @@ case object HmtNamedEntityEdition extends MidEditionType {
 case object HmtDiplomaticEdition extends MidEditionType {
   def label =  "diplomatic edition"
   def description = "Strict diplomatic version of original text"
-  def versionId = ""
+  def versionExtension = ""
 }
 
 
 case object HmtScribalNormalizedEdition extends MidEditionType {
   def label =  "scribal edition"
   def description = "Diplomatic edition including scribal corrections and normalizations"
-  def versionId = "hmt_scribal"
+  def versionExtension = "hmt_scribal"
 }
 
 case object HmtEditorsNormalizedEdition extends MidEditionType {
   def label =  "editorially normalized edition"
   def description = "Edition normalized to modern orthographic standards."
-  def versionId = "hmt_normalized"
+  def versionExtension = "hmt_normalized"
+  
 }

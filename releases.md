@@ -1,5 +1,9 @@
 # `hmt-textmodel`: release notes
 
+**8.0.0**: implement version 2.0.0 of `MidOrthography`
+
+**7.0.0**: implement `MidOrthography`
+
 **6.1.3**: fixes a bug in treatment of TEI `ref` when it occurs in legal TEI contexts not allowed by HMT editorial standards.
 
 **6.1.2**: fixes a bug in white-space handling while parsing `cit` elements.
