@@ -19,7 +19,7 @@ val floatingRef = """<p> τὸ
   // Discourse analysis
   "The TeiReader object" should "correctly handle floating <ref> elements" in {
     val n = XML.loadString(floatingRef)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val tkns = TeiReader.tokensFromElement(n, settings)
     println(tkns.map(_.readings).mkString("\n"))
   }

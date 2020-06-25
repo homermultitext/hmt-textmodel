@@ -9,14 +9,14 @@ package org.homermultitext.edmodel
 */
 sealed trait LexicalCategory {def name : String}
 /** parseable lexical token */
-case object LexicalToken extends LexicalCategory {val name = "lexical token"}
+case object HmtLexicalToken extends LexicalCategory {val name = "lexical token"}
 /** token in Milesian numeric notation */
-case object NumericToken extends LexicalCategory {val name = "numeric token"}
+case object HmtNumericToken extends LexicalCategory {val name = "numeric token"}
 /** single punctuation character */
-case object Punctuation extends LexicalCategory {val name = "punctuation"}
+case object HmtPunctuationToken extends LexicalCategory {val name = "punctuation"}
 /** quoted literal string not parseable as a lexical token */
-case object LiteralToken extends LexicalCategory {val name = "string literal"}
+case object HmtLiteralToken extends LexicalCategory {val name = "string literal"}
 /** token not parseable due to error in HMT edition */
-case object Unintelligible extends LexicalCategory {val name = "unparseable lexical token"}
+case object HmtUnintelligibleToken extends LexicalCategory {val name = "unparseable lexical token"}
 /** Token no longer extant.*/
-case object Lacuna extends LexicalCategory {val name = "lacuna in text"}
+case object HmtLacuna extends LexicalCategory {val name = "lacuna in text"}

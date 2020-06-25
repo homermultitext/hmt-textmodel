@@ -4,6 +4,6 @@ import org.scalatest._
 
  class LexicalCategorySpec extends FlatSpec {
    "A lexical category" should "have a name" in {
-     assert(LexicalToken.name == "lexical token")
+     assert(HmtLexicalToken.name == "lexical token")
    }
 }

@@ -15,7 +15,7 @@ class TeiCitDiscourseStatusSpec extends FlatSpec {
   "The TeiReader object" should "correctly classify discourse for tokens within q within cit element" in  {
     val quoteElem = "<p><cit><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>μῆνιν</q></cit></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val quoted = TeiReader.collectTokens(n, settings)
 
     val expectedCategory = QuotedText

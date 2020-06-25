@@ -14,7 +14,7 @@ class TeiReaderStructuralTeiSpec extends FlatSpec {
   // Markup for document structure:
   "The TeiReader object" should "recognize structural use of TEI div and p for content of scholia" in {
     val n = XML.loadString("<div><p>Long comment.</p></div>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val divTokens = TeiReader.collectTokens(n, settings)
     val expectedSize = 3
     assert(divTokens.size == expectedSize)
@@ -25,7 +25,7 @@ class TeiReaderStructuralTeiSpec extends FlatSpec {
 
   it should "recognize structural use of TEI  div and l for lines of the Iliad" in {
     val n = XML.loadString("<div><l>Sing, goddess.</l></div>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val divTokens = TeiReader.collectTokens(n, settings)
     val expectedSize = 4
     assert(divTokens.size == expectedSize)
@@ -36,7 +36,7 @@ class TeiReaderStructuralTeiSpec extends FlatSpec {
 
   it should "recognize structural use of TEI list and item" in {
     val n = XML.loadString("<list><item>Bullet one</item></list>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val divTokens = TeiReader.collectTokens(n, settings)
     val expectedSize = 2
     assert(divTokens.size == expectedSize)
@@ -49,7 +49,7 @@ class TeiReaderStructuralTeiSpec extends FlatSpec {
 
     val fig = XML.loadString("""<figure><figDesc>The scribe has drawn a spherical diagram delineating the aether, air, Hades, and Taratus</figDesc>
       <floatingText><body><p>αιθηρ</p></body></floatingText></figure>""")
-    val settings = TokenSettings(scContext, LexicalToken)
+    val settings = TokenSettings(scContext, HmtLexicalToken)
     val figTokens = TeiReader.collectTokens(fig, settings)
     println(figTokens)
 

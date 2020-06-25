@@ -16,7 +16,7 @@ class TeiDiscourseBadRefSpec extends FlatSpec {
   "The TeiReader object" should "reject TEI ref element outside of cit" in {
     val quoteElem = "<p><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>μῆνιν</q></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val misquoted = TeiReader.collectTokens(n, settings)
 
     println(misquoted.mkString("\n\n"))

@@ -15,7 +15,7 @@ class TeiScribalStatusSpec extends FlatSpec {
   "The TeiReader object" should "recognize independent occurrences of TEI add" in {
     val addElem = "<p>Left <add>out</add> a word.</p>"
     val n = XML.loadString(addElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val addTokens = TeiReader.collectTokens(n, settings)
 
     val addedToken = addTokens(1)
@@ -32,7 +32,7 @@ class TeiScribalStatusSpec extends FlatSpec {
   it should "recognize independent occurrences of TEI del" in {
     val delElem = "<p>Added too <del>too</del> many words.</p>"
     val n = XML.loadString(delElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val delTokens = TeiReader.collectTokens(n, settings)
 
     val deletedToken = delTokens(2)
@@ -47,7 +47,7 @@ class TeiScribalStatusSpec extends FlatSpec {
   it should "recognized paired abbr/expan" in {
     val abbrExpan = "<p><choice><abbr>Mr</abbr><expan>Mister</expan></choice> Big.</p>"
     val n = XML.loadString(abbrExpan)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val paired = TeiReader.collectTokens(n, settings).head
 
     assert(paired.alternateReading.get.alternateCategory == Restoration)
@@ -59,7 +59,7 @@ class TeiScribalStatusSpec extends FlatSpec {
     // this is valid TEI:
     val badCombo = "<p><choice><orig>Mister</orig><abbr>Mr</abbr></choice></p>"
     val n = XML.loadString(badCombo)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val badPairing = TeiReader.collectTokens(n, settings)
     // this will prodcue two tokens, since we don't know how to join them:
     assert(badPairing.size == 2)
@@ -72,7 +72,7 @@ class TeiScribalStatusSpec extends FlatSpec {
   it should "recognized paired sic/corr" in {
     val sicCorr = "<p><choice><sic>oops</sic><corr>better</corr></choice> answer.</p>"
     val n = XML.loadString(sicCorr)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val paired = TeiReader.collectTokens(n, settings).head
 
     assert(paired.alternateReading.get.alternateCategory == Correction)
@@ -82,7 +82,7 @@ class TeiScribalStatusSpec extends FlatSpec {
   it should "recognized paired orig/reg" in {
     val origReg = "<p><choice><orig>Achilles</orig><reg>Akhilleus</reg></choice> answer.</p>"
     val n = XML.loadString(origReg)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val paired = TeiReader.collectTokens(n, settings).head
 
     assert(paired.alternateReading.get.alternateCategory == Multiform)

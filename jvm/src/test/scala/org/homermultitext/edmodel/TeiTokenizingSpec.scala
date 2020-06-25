@@ -18,12 +18,12 @@ class TeiTokenizingSpec extends FlatSpec {
 
   it should "recognize TEI num element in tokenization" in {
     val n = XML.loadString("<num value=\"1\">α</num>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val numTokens = TeiReader.collectTokens(n, settings)
     assert(numTokens.size == 1)
 
     val tkn = numTokens.head
-    val expectedCategory = NumericToken
+    val expectedCategory = HmtNumericToken
     assert(tkn.lexicalCategory == expectedCategory)
     val expectedReadings = 1
     val expectedText = "α"
@@ -34,27 +34,27 @@ class TeiTokenizingSpec extends FlatSpec {
   it should "recognize TEI foreign element in tokenization" in {
     val frn = "<foreign>voilà</foreign>"
     val n = XML.loadString(frn)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val frnToken = TeiReader.collectTokens(n, settings).head
-    val expectedCategory = LexicalToken
+    val expectedCategory = HmtLexicalToken
     assert(frnToken.lexicalCategory == expectedCategory)
     assert(frnToken.readings.head.text == "voilà")
   }
   it should "recognize TEI w element in tokenization" in {
     val wordWrap = "<p><w>partial<unclear>ly</unclear></w> unclear.</p>"
     val n = XML.loadString(wordWrap)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val wrappedToken = TeiReader.collectTokens(n, settings).head
     println("\n\n" + wrappedToken)
   }
   it should "nest unclear inside tokenizing elements" in  {
     val n = XML.loadString("<num value=\"11\">ι<unclear>α</unclear></num>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
 
     val wrappedUnclearTokens = TeiReader.collectTokens(n, settings)
 
     val expectedSize = 1
-    val expectedCategory = NumericToken
+    val expectedCategory = HmtNumericToken
     assert(wrappedUnclearTokens.size == expectedSize)
     assert(wrappedUnclearTokens(0).lexicalCategory == expectedCategory)
 

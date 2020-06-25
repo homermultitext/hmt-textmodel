@@ -10,7 +10,7 @@ class HmtTokenSpec extends FlatSpec {
     editionUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA_tkns:1.1.1"),
     sourceUrn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1@μῆνιν"),
 
-    lexicalCategory = LexicalToken,
+    lexicalCategory = HmtLexicalToken,
     readings = Vector(Reading("μῆνιν",Clear))
   )
 
@@ -29,7 +29,7 @@ class HmtTokenSpec extends FlatSpec {
     assert (tkn.readings(0).text == "μῆνιν")
   }
   it should "have a lexical type" in {
-    assert (tkn.lexicalCategory == LexicalToken)
+    assert (tkn.lexicalCategory == HmtLexicalToken)
   }
   it should "have a default lang value of 'grc'" in {
     assert (tkn.lang == "grc")
@@ -100,7 +100,7 @@ class HmtTokenSpec extends FlatSpec {
       editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:1.7.comment.70"),
       sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:1.7.comment@ἄνοι[1]"),
 
-      lexicalCategory = LexicalToken,
+      lexicalCategory = HmtLexicalToken,
       readings = Vector(Reading("ἄνοι",Clear)),
       alternateReading = Some(
         AlternateReading(Restoration,Vector(
@@ -115,7 +115,7 @@ class HmtTokenSpec extends FlatSpec {
       editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:19.hc_19.comment.21"),
       sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:19.hc_19.comment@αὐτῶ[0]"),
 
-      lexicalCategory = LexicalToken,
+      lexicalCategory = HmtLexicalToken,
       readings = Vector(Reading("αὐτ",Clear), Reading("ῶ",Unclear))
     )
 
@@ -128,7 +128,7 @@ class HmtTokenSpec extends FlatSpec {
       editionUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt_tkns:19.hc_21.comment.21"),
       sourceUrn = CtsUrn("urn:cts:greekLit:tlg5026.msA.hmt:19.hc_21.comment@γίνεσθ[1]"),
 
-      lexicalCategory = LexicalToken,
+      lexicalCategory = HmtLexicalToken,
       readings = Vector(Reading("γίνεσθ",Clear)),
 
       alternateReading = Some(AlternateReading(Restoration,Vector(Reading( "γίνεσθαι",Restored))))

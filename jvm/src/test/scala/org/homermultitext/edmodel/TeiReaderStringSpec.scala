@@ -14,17 +14,17 @@ class TeiReaderStringSpec extends FlatSpec {
 
   "The TeiReader object" should "collect white-space delimited tokens from a string" in {
     val  s = "Μῆνιν ἄειδε, θεά,"
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val tokenized =  TeiReader.tokensFromText(s, settings)
     val expectedSize = 5
     assert(tokenized.size == expectedSize)
 
     val firstToken = tokenized(0)
-    val expectedFirstCat = LexicalToken
+    val expectedFirstCat = HmtLexicalToken
     assert (firstToken.lexicalCategory == expectedFirstCat)
 
     val third = tokenized(2)
-    val expectedThirdCat = Punctuation
+    val expectedThirdCat = HmtPunctuationToken
     assert(third.lexicalCategory == expectedThirdCat)
   }
 

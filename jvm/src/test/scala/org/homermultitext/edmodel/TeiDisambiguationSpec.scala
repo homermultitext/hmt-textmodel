@@ -15,7 +15,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   "The TeiReader object" should "recognize a TEI persName element" in {
     val persElem = "<p><persName n=\"urn:cite2:hmt:pers.v1:pers1\">Achilles</persName></p>"
     val n = XML.loadString(persElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
 
     val achilles = TeiReader.collectTokens(n, settings).head
     val expectedUrn = Cite2Urn("urn:cite2:hmt:pers.v1:pers1")
@@ -26,7 +26,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "recognize TEI placeName element" in {
     val placeElem = "<p><placeName n=\"urn:cite2:hmt:place.v1:place1\">Athens</placeName></p>"
     val n = XML.loadString(placeElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
 
     val athena = TeiReader.collectTokens(n, settings).head
 
@@ -37,7 +37,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "recognize TEI title element" in {
     val titleElem = "<p><title n=\"urn:cite2:hmt:citedworks.v1:work1\">Odyssey</title></p>"
     val n = XML.loadString(titleElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
 
     val athena = TeiReader.collectTokens(n, settings).head
 
@@ -48,7 +48,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "recognize TEI rs element of type waw" in {
     val wawElem = "<p><rs type=\"waw\">XXX</rs></p>"
     val n = XML.loadString(wawElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val waw = TeiReader.collectTokens(n, settings).head
     val expectedDiscourse = QuotedLiteral
     assert(waw.discourse == expectedDiscourse)
@@ -56,7 +56,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "recognize TEI rs element of type ethnic" in {
     val placeElem = "<p><rs n=\"urn:cite2:hmt:place.v1:place1\" type=\"ethnic\">Athenians</rs></p>"
     val n = XML.loadString(placeElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val athenians = TeiReader.collectTokens(n, settings).head
     val expectedUrn = Cite2Urn("urn:cite2:hmt:place.v1:place1")
     assert(athenians.lexicalDisambiguation == expectedUrn)
@@ -64,7 +64,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "recognize TEI rs element of type astro" in {
     val astroElem = "<p><rs n=\"urn:cite2:hmt:astro:astro1\" type=\"astro\">Orion</rs></p>"
     val n = XML.loadString(astroElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val orion = TeiReader.collectTokens(n, settings).head
     val expectedUrn = Cite2Urn("urn:cite2:hmt:astro:astro1")
     assert(orion.lexicalDisambiguation == expectedUrn)
@@ -72,7 +72,7 @@ class TeiDisambiguationSpec extends FlatSpec {
   it should "add an error for unrecognized types of TEI rs element" in {
     val errElem = "<p><rs n=\"urn:cite2:hmt:astro:astro1\" type=\"BOGUS\">Orion</rs></p>"
     val n = XML.loadString(errElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val errToken = TeiReader.collectTokens(n, settings).head
     val expected = "For TEI 'rs' element, @type attribute  must be one of 'waw', 'ethnic' or 'astro'."
     assert(errToken.errors.head == expected)

@@ -4,7 +4,7 @@ import edu.holycross.shot.cite._
 
 case class TokenSettings (
   contextUrn: CtsUrn,
-  lexicalCategory: LexicalCategory = LexicalToken,
+  lexicalCategory: LexicalCategory = HmtLexicalToken,
   status: EditorialStatus = Clear,
   alternateCategory:  Option[AlternateCategory] = None,
   lexicalDisambiguation: Cite2Urn = Cite2Urn("urn:cite2:hmt:disambig.v1:lexical"),

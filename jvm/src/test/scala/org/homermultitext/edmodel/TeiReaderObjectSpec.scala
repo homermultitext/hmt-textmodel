@@ -14,7 +14,7 @@ class TeiReaderObjectSpec extends FlatSpec {
 
   "The TeiReader object" should "index tokens correctly from root elements" in {
     val n = XML.loadString("<l>Μῆνιν ἄειδε, <num value=\"11\">ι<unclear>α</unclear></num> θεά,</l>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
 
     val rootTokens = TeiReader.collectCitableTokens(n, settings)
 

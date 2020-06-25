@@ -51,7 +51,7 @@ val floatingRef = """<p>ζητεῖται γὰρ τί εστι τὸ
   "The TeiReader object" should "recognize use of q within cit element" in  {
     val quoteElem = "<p><cit><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>μῆνιν</q></cit></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val quoted = TeiReader.collectTokens(n, settings)
 
     val expectedCategory = QuotedText
@@ -60,14 +60,14 @@ val floatingRef = """<p>ζητεῖται γὰρ τί εστι τὸ
 
   it should "parse valid HMT data" in {
     val n = XML.loadString(scholionXml1)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val tkns = TeiReader.tokensFromElement(n, settings)
     println("TOKENS:\n" + tkns.map(_.readings).mkString("\n"))
   }
 
   it should "correctly handle floating <ref> elements" in {
     val n = XML.loadString(floatingRef)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val tkns = TeiReader.tokensFromElement(n, settings)
   }
 

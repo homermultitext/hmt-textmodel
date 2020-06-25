@@ -14,7 +14,7 @@ class TeiReaderAttrsSpec extends FlatSpec {
   // Markup for document structure:
   "The TeiReader object" should "accumluate error messages about attribute usage" in {
     val n = XML.loadString("<persName>Agamemnon</persName>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val pnTokens = TeiReader.tokensFromElement(n, settings)
     assert (pnTokens.size == 1)
     assert(pnTokens(0).errors.nonEmpty)
@@ -27,7 +27,7 @@ class TeiReaderAttrsSpec extends FlatSpec {
 
   it should "require a value attribute on num elements" in {
     val n = XML.loadString("<num>α</num>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val numToken = TeiReader.tokensFromElement(n, settings).head
     assert(numToken.errors.nonEmpty)
     val expected = "For TEI 'num', @value attribute with numeric value of element's contents is mandatory."
@@ -36,7 +36,7 @@ class TeiReaderAttrsSpec extends FlatSpec {
 
   it should "require a valid integer on num elements' value attribute" in {
     val n = XML.loadString("<num value=\"alpha\">α</num>")
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val numToken = TeiReader.tokensFromElement(n, settings).head
     assert(numToken.errors.size == 1)
     val expected = "For TEI 'num', @value attribute with numeric value of element's contents is mandatory."

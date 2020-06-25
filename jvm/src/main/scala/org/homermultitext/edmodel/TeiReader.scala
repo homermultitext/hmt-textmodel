@@ -93,7 +93,7 @@ object TeiReader extends LogSupport {
     val tokenUrn = settings.contextUrn.addVersion(version)
 
     val lexicalCat = if (punctuation.contains(tknString)) {
-      Punctuation
+      HmtPunctuationToken
     } else {
       settings.lexicalCategory
     }
@@ -284,7 +284,7 @@ object TeiReader extends LogSupport {
           editionUrn = tokenUrn,
           lang = "",
           readings = Vector.empty[Reading],
-          lexicalCategory = Lacuna ,
+          lexicalCategory = HmtLacuna ,
 
           errors = settings.errors :+ "Lacuna in text: no tokens legible")
           )
@@ -483,9 +483,9 @@ object TeiReader extends LogSupport {
       } else if (TokenizingElements.allowedElements.contains(el.label)) {
         // Level 2:  tokenizing elements.  Build a single token directly from these.
         el.label match {
-          case "num" => wrappedToken(el, settingsWithAttrs, NumericToken)
-          case "w" => wrappedToken(el, settingsWithAttrs, LexicalToken)
-          case "foreign" => wrappedToken(el, settingsWithAttrs, LexicalToken)
+          case "num" => wrappedToken(el, settingsWithAttrs, HmtNumericToken)
+          case "w" => wrappedToken(el, settingsWithAttrs, HmtLexicalToken)
+          case "foreign" => wrappedToken(el, settingsWithAttrs, HmtLexicalToken)
         }
 
       } else if (
@@ -596,7 +596,7 @@ object TeiReader extends LogSupport {
     val fullString = rawTokens.map(_.readWithDiplomatic).mkString("")
     val accumulated = StringBuilder.newBuilder
     val citableTokens = for ((tkn,count) <- rawTokens.zipWithIndex) yield {
-      if (tkn.lexicalCategory == Lacuna)  {
+      if (tkn.lexicalCategory == HmtLacuna)  {
         tkn
       } else {
         accumulated.append(tkn.readWithDiplomatic)

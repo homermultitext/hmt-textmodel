@@ -16,7 +16,7 @@ class TeiDiscourseSpec extends FlatSpec {
   "The TeiReader object" should "recognize independent use of TEI q element" in {
     val quoteElem = "<p>He said, <q>Impossible!</q></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val quoted = TeiReader.collectTokens(n, settings).last
     val expectedCategory = QuotedLanguage
     assert(quoted.discourse == expectedCategory)
@@ -24,7 +24,7 @@ class TeiDiscourseSpec extends FlatSpec {
   it should "recognize use of q within cit element" in  {
     val quoteElem = "<p><cit><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>Sing, goddess</q></cit></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val quoted = TeiReader.collectTokens(n, settings).head
 
     val expectedCategory = QuotedText
@@ -35,7 +35,7 @@ class TeiDiscourseSpec extends FlatSpec {
   it should "reject TEI ref element outside of cit" in {
     val quoteElem = "<p><ref type=\"urn\">urn:cts:greekLit:tlg0012.tlg001:1.1</ref><q>μῆνιν</q></p>"
     val n = XML.loadString(quoteElem)
-    val settings = TokenSettings(context, LexicalToken)
+    val settings = TokenSettings(context, HmtLexicalToken)
     val misquoted = TeiReader.collectTokens(n, settings)
     //println(misquoted.mkString("\n\n"))
 

@@ -17,7 +17,7 @@ class TeiReaderTeiSpec extends FlatSpec {
     val c = Corpus(Vector(CitableNode(context, gapped)))
     val analyses = TeiReader.analyzeCorpus(c)
 
-    val lacuna = analyses.filter(_.lexicalCategory == Lacuna).head
+    val lacuna = analyses.filter(_.lexicalCategory == HmtLacuna).head
     val expectedError = "Lacuna in text: no tokens legible"
     assert(lacuna.errors.size == 1)
     assert(lacuna.errors.head == expectedError)
