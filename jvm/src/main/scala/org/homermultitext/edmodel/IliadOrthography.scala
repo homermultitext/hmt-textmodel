@@ -1,6 +1,6 @@
 package org.homermultitext.edmodel
 
-import edu.holycross.shot.mid.validator._
+import edu.holycross.shot.mid.orthography._
 
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.Map
@@ -18,4 +18,5 @@ object IliadOrthography extends MidOrthography {
   def tokenCategories: Vector[MidTokenCategory] = Vector.empty[MidTokenCategory]
   def tokenizeNode(n: edu.holycross.shot.ohco2.CitableNode): Vector[MidToken] = Vector.empty[MidToken]
   def validCP(cp: Int): Boolean = false
+  def exemplarId : String = "iliadtkn"
 }

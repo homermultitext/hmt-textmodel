@@ -24,17 +24,16 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       libraryDependencies ++= Seq(
         "org.scalatest" %%% "scalatest" % "3.1.2" % "test",
         "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
+
         "edu.holycross.shot.cite" %%% "xcite" % "4.3.0",
-        "edu.holycross.shot" %%% "ohco2" % "10.19.0",
-
-
-        "edu.holycross.shot" %% "dse" % "7.1.0",
+        "edu.holycross.shot" %%% "ohco2" % "10.20.0",
+        "edu.holycross.shot" %% "dse" % "7.1.3",
         "edu.holycross.shot" %% "scm" % "7.3.0",
         "edu.holycross.shot" %% "citerelations" % "2.7.0",
         "edu.holycross.shot" %% "citevalidator" % "1.2.1",
         "edu.holycross.shot.mid" %% "markupreader" % "1.0.1",
         "edu.holycross.shot.mid" %% "orthography" % "2.0.0",
-        "edu.holycross.shot" %% "greek" % "3.0.0",
+        "edu.holycross.shot" %% "greek" % "5.5.0",
 
         // NEED GSPHONE
 
