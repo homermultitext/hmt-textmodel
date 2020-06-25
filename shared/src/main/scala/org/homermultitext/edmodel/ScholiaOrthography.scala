@@ -8,9 +8,6 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
 
-
-
-
 import wvlet.log._
 /**
 */
@@ -46,18 +43,19 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   // Required by MidOrthography
   def tokenizeNode(n: CitableNode): Vector[MidToken] = {
     val urn = n.urn
+
+
     // initial chunking on white space
     val lgs = LiteraryGreekString(n.text)
-    val units = lgs.ascii.split(" ").filter(_.nonEmpty)
+    val units = lgs.ucode.split(" ").filter(_.nonEmpty)
 
     val classified = for (unit <- units.zipWithIndex) yield {
       val newPassage = urn.passageComponent + "." + unit._2
-      val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + "_tkns")
+      val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + exemplarId)
       val newUrn = CtsUrn(newVersion.dropPassage.toString + newPassage)
 
       val trimmed = unit._1.trim
-      // process praenomina first since "." is part
-      // of the token:
+      // Catch leading quotation marks:
       val tokensClassified: Vector[MidToken] = if (trimmed(0) == '"') {
           Vector(MidToken(newUrn, "\"", Some(PunctuationToken)))
 
@@ -91,7 +89,9 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
 
   def validScholiaCP(cp: Int): Boolean = {
     val cArray = Character.toChars(cp)
-    alphabetString.contains(cArray(0))
+    val valid = alphabetString.contains(cArray(0))
+    if (!valid){ warn (s"Codepoint ${cp} is not valid.")}
+    valid
   }
 
 }

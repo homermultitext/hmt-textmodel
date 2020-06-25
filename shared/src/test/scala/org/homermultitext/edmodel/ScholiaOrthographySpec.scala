@@ -2,7 +2,8 @@ package org.homermultitext.edmodel
 
 import org.scalatest.FlatSpec
 
-
+import edu.holycross.shot.cite._
+import edu.holycross.shot.ohco2._
 
 class ScholiaOrthographySpec extends FlatSpec {
 
@@ -19,30 +20,15 @@ class ScholiaOrthographySpec extends FlatSpec {
     assert(errorsHilited == scholion)
   }
 
-  it should "recognize Unicode sun" in {
-    val va_scholion8_2  = "ὅτε δὲ τὸ ἀπο ἀνατολῆς ἕως μεσημβρίας τοῦ ☉  διάστημα ὡς ἐν τῷ ἠῶς δέ μοι ἐστὶν ."
+  it should "tokenize a citable node" in {
+     val txt = "νῆας τὸν τόπον τῶν νηῶν~  Ἑλλήσποντον δὲ, τὴν μέχρι Σιγείου θάλασσαν⁑"
+     val urn = CtsUrn("urn:cts:greekLit:tlg5026.msB.hmt:23.msB_303r_4")
+     val cn = CitableNode(urn, txt)
 
-    val ok = ScholiaOrthography.validString(va_scholion8_2)
-    val errors = ScholiaOrthography.hiliteBadCps(va_scholion8_2)
-    assert(ok)
-    assert(errors == va_scholion8_2)
-
+     val tkns = ScholiaOrthography.tokenizeNode(cn)
+     println(tkns.mkString("\n"))
   }
 
-  it should "recognize Unicode moon" in {
-    val scholion = "ὡς δ' ὅτ' ἐν οὐρανω ἄστρα φαεινὴν ἀμφὶ  ☾"
-    val ok = ScholiaOrthography.validString(scholion)
-    val errors = ScholiaOrthography.hiliteBadCps(scholion)
-    assert(ok)
-    assert(errors == scholion)
-  }
 
-  it should "reject evil Unicode Greek high stop" in {
-    val evil  = "σημαίνει πολλά·"
-    assert(ScholiaOrthography.validString(evil) == false)
-
-    val expected = "σημαίνει πολλά **·**"
-    assert(ScholiaOrthography.hiliteBadCps(evil).trim == expected)
-  }
 
 }
