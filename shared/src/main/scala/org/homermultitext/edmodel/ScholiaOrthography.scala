@@ -22,16 +22,19 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   // Required by MidOrthography
   def validCP(cp: Int): Boolean = {
     val s = Character.toChars(cp.toInt).toVector.mkString
-    // use ASCII conversion from greek package:
-    val ascii = literaryAsciiOf(s)
+    if (hiAscii.contains(s)) { true } else {
 
-    if (ascii.isEmpty){
-      warn("No ASCII encoding found for " + s)
-      false
+      // use ASCII conversion from greek package:
+      val ascii = literaryAsciiOf(s)
+      if (ascii.isEmpty){
+        warn("No ASCII encoding found for " + s)
+        false
 
-    } else {
-      val asciiCP = ascii(0).toInt
-      validScholiaCP(asciiCP)
+      } else {
+        val asciiCP = ascii(0).toInt
+        debug(s + " = " + asciiCP)
+        validScholiaCP(asciiCP)
+      }
     }
   }
 
@@ -77,11 +80,18 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   def exemplarId : String = "scholtkn"
 
 
-  val alphabetString = "*abgdezhqiklmncoprstufxyw'.|()/\\=+,:;.— \n\r"
+  val alphabetString = "*abgdezhqiklmncoprstufxyw'.|()/\\=+,~;.— \n\r⁑"
 
+  val fishtail =  "\u2051"
+  val terminalSigma = "ς"
+  val sun = "☉"
+  val moon = "☾"
+
+  val hiAscii = Set(fishtail, terminalSigma, sun, moon)
 
   def validScholiaCP(cp: Int): Boolean = {
     val cArray = Character.toChars(cp)
     alphabetString.contains(cArray(0))
   }
+
 }
