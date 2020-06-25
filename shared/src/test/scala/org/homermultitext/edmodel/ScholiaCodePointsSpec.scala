@@ -4,14 +4,9 @@ import org.scalatest.FlatSpec
 
 
 
-class ScholiaOrthographySpec extends FlatSpec {
+class ScholiaCodePointsSpec extends FlatSpec {
 
-  "The ScholiaOrthography object" should "have a label" in {
-    val expected = "Orthography of Iliadic scholia"
-    assert(ScholiaOrthography.orthography == expected)
-  }
-
-  it should "identify valid code points" in {
+  "The ScholiaOrthography object" should "identify valid code points including fishtail and tilde for high stop" in {
     val scholion = "νῆας τὸν τόπον τῶν νηῶν~  Ἑλλήσποντον δὲ, τὴν μέχρι Σιγείου θάλασσαν⁑"
     val ok = ScholiaOrthography.validString(scholion)
     val errorsHilited = ScholiaOrthography.hiliteBadCps(scholion)
