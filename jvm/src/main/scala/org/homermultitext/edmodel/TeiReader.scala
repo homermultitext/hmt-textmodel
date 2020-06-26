@@ -43,7 +43,7 @@ case class TeiReader(hmtEditionType : MidEditionType) extends MidMarkupReader {
 
 /** Object for parsing TEI XML into the HMT project object model of an edition. */
 object TeiReader extends LogSupport {
-   Logger.setDefaultLogLevel(LogLevel.DEBUG)
+   //Logger.setDefaultLogLevel(LogLevel.DEBUG)
   /** Vector of MidEditionTypes that this object can produce.
   */
   def editionTypes:  Vector[MidEditionType] =  Vector(

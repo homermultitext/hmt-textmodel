@@ -60,5 +60,16 @@ class ScholiaOrthographySpec extends FlatSpec {
     assert(depunctuated(1) == "⁑")
   }
 
+  it should "recognize leading and trailing quotes in tokenizing" in {
+    val quoted = """ "Ἑλλήσποντον" """
+    println(ScholiaOrthography.depunctuate(quoted))
+  }
+
+  it should "recognize trailing quote as punctuation" in {
+    val trailingQuote = """νῆας" """
+    val depunctuated = (ScholiaOrthography.depunctuate(trailingQuote))
+    assert(depunctuated.size == 2)
+  }
+
 
 }

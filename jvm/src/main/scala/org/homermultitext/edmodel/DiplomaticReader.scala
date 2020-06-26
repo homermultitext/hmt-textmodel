@@ -17,7 +17,7 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
 object DiplomaticReader extends MidMarkupReader with LogSupport {
-  Logger.setDefaultLogLevel(LogLevel.DEBUG)
+  //Logger.setDefaultLogLevel(LogLevel.DEBUG)
 
   def editionType: MidEditionType = HmtDiplomaticEdition
 

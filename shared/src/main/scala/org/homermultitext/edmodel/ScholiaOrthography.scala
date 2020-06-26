@@ -12,7 +12,7 @@ import wvlet.log._
 /**
 */
 object ScholiaOrthography extends MidOrthography with LogSupport {
-
+  Logger.setDefaultLogLevel(LogLevel.INFO)
   // Required by MidOrthography
   def orthography: String = "Orthography of Iliadic scholia"
 
@@ -43,37 +43,55 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   // Required by MidOrthography
   def tokenizeNode(n: CitableNode): Vector[MidToken] = {
     val urn = n.urn
-    // initial chunking is on white space
-    val lgs = LiteraryGreekString(n.text)
-    val units = lgs.ucode.split(" ").filter(_.nonEmpty).toVector
+    val str = n.text.trim
+    val nodeString = if (str.head == '"') {str.tail} else {str}
 
-    val classified = for (unit <- units.zipWithIndex) yield {
-      val newPassage = urn.passageComponent + "." + unit._2
+    val lgs = LiteraryGreekString(nodeString)
+    debug(s"FROM ${str} made ${nodeString} and LGS ${lgs.ucode}/${lgs.ascii}")
+
+
+    val nodeQuoteTokens: Vector[MidToken] = if (str.head == '"') {
+      val newPassage = urn.passageComponent + ".q"
+      val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + exemplarId)
+      val newUrn = CtsUrn(newVersion.dropPassage.toString + newPassage)
+      val quoteToken = MidToken(newUrn, "\"", Some(PunctuationToken))
+
+      Vector(quoteToken)
+    } else {
+      Vector.empty[MidToken]
+    }
+
+    // initial chunking is by white space on Unicode representation:
+    val units = nodeString.split(" ").filter(_.nonEmpty).toVector.map(_.trim)
+    debug("UNITS TO CLASSIFY: " + units)
+    // create MidTokens, classified and identified by token-level URNs
+    val classified = for ((s, index) <- units.zipWithIndex) yield {
+      debug(s"WS token ${index} = ${s}")
+      val newPassage = urn.passageComponent + "." + index
       val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + exemplarId)
       val newUrn = CtsUrn(newVersion.dropPassage.toString + newPassage)
 
-      val trimmed = unit._1.trim
+      // Catch any leading quotation marks:
+      val leadingQuote = if (s.head == '"') {
+        Vector(MidToken(newUrn, "\"", Some(PunctuationToken)))
+      } else {Vector.empty[MidToken]}
 
-      // Catch leading quotation marks:
-      val tokensClassified: Vector[MidToken] = if (trimmed(0) == '"') {
-          Vector(MidToken(newUrn, "\"", Some(PunctuationToken)))
-
-      } else {
+      val tokensClassified: Vector[MidToken] = {
         // split any trailing punctuation into separate tokens
-
-        val depunctuated = depunctuate(unit._1)
-        debug("classify " + trimmed + " and depunct " + depunctuated)
+        val depunctuated = depunctuate(s)
+        debug("classify " + s + " and depunct " + depunctuated)
 
         val first =  MidToken(newUrn, depunctuated.head, LiteraryGreekString.lexicalCategory(depunctuated.head))
 
-        val trailingPunct = for (punct <- depunctuated.tail zipWithIndex) yield {
-          MidToken(CtsUrn(newUrn + "_" + punct._2), punct._1, Some(PunctuationToken))
+        val trailingPunct = for ((punct, punctCount) <- depunctuated.tail zipWithIndex) yield {
+          MidToken(CtsUrn(newUrn + "_" + punctCount), punct, Some(PunctuationToken))
         }
-        first +: trailingPunct
+        leadingQuote ++ (first +: trailingPunct)
       }
       tokensClassified
     }
-    classified.toVector.flatten
+    nodeQuoteTokens ++ classified.toVector.flatten
+
   }
 
 
@@ -84,7 +102,7 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
     if (trailingFish(s)) {
       LiteraryGreekString.depunctuate(stripFish(s), Vector(fishtail), punctuationList)
     } else {
-      LiteraryGreekString.depunctuate(s, punctuationChars = punctuationList)
+      LiteraryGreekString.depunctuate(s.trim, punctuationChars = punctuationList)
     }
   }
 
@@ -97,7 +115,7 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   // So protected!
   val quoteChar = '"'
   val q = quoteChar.toString
-  val punctuationList = ",~;,—${quoteChar}"
+  val punctuationList = """,~;,"—"""
 
 
   /** Outside BMP: need to check it outside of methods using
@@ -107,8 +125,6 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
   val terminalSigma = "ς"
   val sun = "☉"
   val moon = "☾"
-
-
 
   // "*abgdezhqiklmncoprstufxyw'.|()/\\=+,~;.— \n\r⁑"
 
