@@ -35,20 +35,19 @@ case class ScholiaOrthoValidator(lib: CiteLibrary) extends CiteValidator[Literar
   // 2. required by CiteValidator trait
   def validate(library: CiteLibrary) : Vector[TestResult[LiteraryGreekString]] = {
     val analyzedNodes = for (n <- library.textRepository.get.corpus.nodes) yield {
-      validate(n)
+      ScholiaOrthoValidator.validate(n)
     }
     analyzedNodes.flatten
   }
 
   // 3. required by CiteValidator trait
   def validate(surface: Cite2Urn) : Vector[TestResult[LiteraryGreekString]] =  {
-
     val surfaceDse = dsev.passages.filter(_.surface == surface)
 
     val rslts = for (dsePsg <- surfaceDse) yield {
       val subcorpus = corpus ~~ dsePsg.passage.dropSubref
       val nodeResults = for (n <- subcorpus.nodes)  yield {
-          validate(n)
+        ScholiaOrthoValidator.validate(n)
       }
       nodeResults.flatten
     }
@@ -127,13 +126,11 @@ case class ScholiaOrthoValidator(lib: CiteLibrary) extends CiteValidator[Literar
 
 
 
-  def validate (c: Corpus): Vector[TestResult[LiteraryGreekString]]  = {
-    val rslts = for (n <- c.nodes) yield {
-      validate(n)
-    }
-    rslts.flatten
-  }
 
+
+}
+
+object ScholiaOrthoValidator extends LogSupport {
   /** Validate text contents of a CitableNode.
   *
   * @param textNode Citable node with text contents
@@ -151,14 +148,35 @@ case class ScholiaOrthoValidator(lib: CiteLibrary) extends CiteValidator[Literar
         val lgsList = tokens.map(t => (t.urn, LiteraryGreekString(t.text)))
 
         for( (urn, lgs) <- lgsList) yield {
-          LiteraryGreekString.validString(lgs.ascii) match {
-            case true => TestResult(true, s"${lgs.ucode} (${urn}) valid.", lgs)
-            case false => TestResult(false, s"${lgs.ucode} invalid (${urn}):  ${LiteraryGreekString.hiliteBadCps(lgs.ascii)} ", lgs)
+          debug("Look at " + textNode.text)
+          if (ScholiaOrthography.alphabetString.contains(lgs.ucode) || ScholiaOrthography.alphabetString.contains(lgs.ascii)) {
+            debug("IT'S IN ALPAHBET")
+            TestResult(true, s"${textNode.text} (${urn}) valid.", lgs)
+
+          } else {
+            debug("NOT IN ALPHABET")
+            LiteraryGreekString.validString(lgs.ascii) match {
+              
+              case true => TestResult(true, s"${lgs.ucode} (${urn}) valid.", lgs)
+
+              case false => TestResult(false, s"${lgs.ucode} invalid (${urn}):  ${LiteraryGreekString.hiliteBadCps(lgs.ascii)} ", lgs)
+
+            }
           }
         }
       }
     }
   }
 
+  /** Validate all citable nodes in a Corpus.
+  *
+  * @param c Corpus to validate.
+  */
+  def validate (c: Corpus): Vector[TestResult[LiteraryGreekString]]  = {
+    val rslts = for (n <- c.nodes) yield {
+      validate(n)
+    }
+    rslts.flatten
+  }
 
 }

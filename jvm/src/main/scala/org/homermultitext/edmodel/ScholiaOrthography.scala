@@ -13,7 +13,7 @@ import edu.holycross.shot.cite._
 import wvlet.log._
 /**
 */
-//@JSExportAll  
+//@JSExportAll
 object ScholiaOrthography extends MidOrthography with LogSupport {
   Logger.setDefaultLogLevel(LogLevel.INFO)
   // Required by MidOrthography
@@ -131,7 +131,7 @@ object ScholiaOrthography extends MidOrthography with LogSupport {
 
   // "*abgdezhqiklmncoprstufxyw'.|()/\\=+,~;.— \n\r⁑"
 
-  val alphabetString = "*abgdezhqiklmncoprstufxyw'${sun}${moon}.|()/\\=+" + punctuationList + " \n\r"
+  val alphabetString = "*abgdezhqiklmncoprstufxyw'${sun}${moon}\u2051.|()/\\=+" + punctuationList + " \n\r"
 
 
   /** RE matching fishtail at end of a string.*/
