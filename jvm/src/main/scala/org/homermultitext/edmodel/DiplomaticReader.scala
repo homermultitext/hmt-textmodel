@@ -30,22 +30,25 @@ object DiplomaticReader extends MidMarkupReader with LogSupport {
     debug("dipl for: " + editedUrn)
     //println("dipl for: " + editedUrn)
     val tokens = TeiReader.analyzeCitableNode(cn)
+
+
     if (tokens.isEmpty) {
-      val msg = "for NODE " + cn + " : no tokens."
-      error(msg)
-    }
-    val txtBuilder = StringBuilder.newBuilder
+      warn("for NODE " + cn + " : no tokens.")
+      CitableNode(editedUrn,"")
+    } else {
+      val txtBuilder = StringBuilder.newBuilder
+      txtBuilder.append(tokens.head.readWithDiplomatic)
 
-    txtBuilder.append(tokens.head.readWithDiplomatic)
-
-    for (n <- tokens.tail) {
-      if (n.readWithDiplomatic == PunctuationToken) {
-        txtBuilder.append(n.readWithDiplomatic)
-      } else {
-        txtBuilder.append(" " + n.readWithDiplomatic)
+      for (n <- tokens.tail) {
+        if (n.readWithDiplomatic == PunctuationToken) {
+          txtBuilder.append(n.readWithDiplomatic)
+        } else {
+          txtBuilder.append(" " + n.readWithDiplomatic)
+        }
       }
+      CitableNode(editedUrn, txtBuilder.toString)
     }
-    CitableNode(editedUrn, txtBuilder.toString)
+
   }
 
 }

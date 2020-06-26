@@ -1,5 +1,7 @@
 # `hmt-textmodel`: release notes
 
+**8.1.1**: bug release in `ohco2` library.
+
 **8.1.0**: add `ScholiaOrthography` and `ScholiaOrthoValidator` classes.
 
 **8.0.0**: implement version 2.0.0 of `MidOrthography`

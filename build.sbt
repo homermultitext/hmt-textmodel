@@ -15,7 +15,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "hmt-textmodel",
       organization := "org.homermultitext",
-      version := "8.1.0",
+      version := "8.1.1",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
 
       resolvers += Resolver.jcenterRepo,
@@ -26,7 +26,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
         "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
 
         "edu.holycross.shot.cite" %%% "xcite" % "4.3.0",
-        "edu.holycross.shot" %%% "ohco2" % "10.20.0",
+        "edu.holycross.shot" %%% "ohco2" % "10.20.1",
         "edu.holycross.shot" %% "dse" % "7.1.3",
         "edu.holycross.shot" %% "scm" % "7.3.0",
         "edu.holycross.shot" %% "citerelations" % "2.7.0",
@@ -60,6 +60,6 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
         mdocOut := file("docs"),
         mdocExtraArguments := Seq("--no-link-hygiene"),
         mdocVariables := Map(
-          "VERSION" -> "8.1.0"
+          "VERSION" -> "8.1.1"
         )
       )
