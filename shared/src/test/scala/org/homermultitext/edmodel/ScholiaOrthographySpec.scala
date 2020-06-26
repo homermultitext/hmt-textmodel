@@ -29,6 +29,36 @@ class ScholiaOrthographySpec extends FlatSpec {
      println(tkns.mkString("\n"))
   }
 
+  it should "recognize tokens ending with Unicode for fishtail" in {
+    val fishy = "θάλασσαν⁑"
+    val clear = "θάλασσαν"
+    assert(ScholiaOrthography.trailingFish(fishy))
+    assert(ScholiaOrthography.trailingFish(clear) == false)
+  }
+  it should "account for trailing white space in checking for tailing fish" in {
+    val padded = "θάλασσαν⁑ "
+    assert(ScholiaOrthography.trailingFish(padded))
+  }
+
+  it should "strip trailing fish tail off a string" in {
+    val padded = "θάλασσαν⁑ "
+    val expected = "θάλασσαν"
+    assert(ScholiaOrthography.stripFish(padded) == expected)
+  }
+
+  it should "split a string into a Vector of Strings" in {
+    val comma  = "δὲ,"
+    val depunctuated = (ScholiaOrthography.depunctuate(comma))
+    assert(depunctuated.size == 2)
+    assert(depunctuated(1) == ",")
+  }
+
+  it should "recognize fishtail in depunctuating"  in {
+    val fishy = "θάλασσαν⁑ "
+    val depunctuated = (ScholiaOrthography.depunctuate(fishy))
+    assert(depunctuated.size == 2)
+    assert(depunctuated(1) == "⁑")
+  }
 
 
 }
