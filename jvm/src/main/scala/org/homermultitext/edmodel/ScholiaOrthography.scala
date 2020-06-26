@@ -7,10 +7,13 @@ import edu.holycross.shot.greek._
 import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 
+//import scala.scalajs.js
+//import scala.scalajs.js.annotation._
 
 import wvlet.log._
 /**
 */
+//@JSExportAll  
 object ScholiaOrthography extends MidOrthography with LogSupport {
   Logger.setDefaultLogLevel(LogLevel.INFO)
   // Required by MidOrthography
