@@ -17,13 +17,17 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
 
 
   val schNode = CitableNode(schUrn,schText)
-  "The EditoriallyNormalizedReader object" should "read a single text node diplomatically" in {
+  "The EditoriallyNormalizedReader object" should "read through named entities in markup" in {
     val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
     val cn = CitableNode(urn, txt)
-    val edNorm = EditoriallyNormalizedReader.editedNode(schNode)
-    println("ILIAD 1.1 NROMALIZED: " + edNorm.text)
+    val edNorm = EditoriallyNormalizedReader.editedNode(cn)
+    val expectedSize = 5
+    assert(edNorm.text.split("[ ]+").size == expectedSize)
   }
+
+  it should "include scribal additions" in pending
+  it should "omit scribal deletions"in pending
 
   it should "choose expansions over abbreviations" in {
     val txt = """<p>δέχθαι ἄποινα ἀπαρέμφατον ἀντὶ <choice> <abbr>προστ</abbr> <expan>προστακτικοῦ</expan> </choice></p>"""
@@ -32,8 +36,9 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
     val wordList = edNorm.text.split("[ ]+").toVector
     val expectedSize = 5
     assert(wordList.size == expectedSize)
-    
   }
 
+  it should "choose scribal corrections over original text" in pending
+  it should "choose original readings over scribally offered multiforms" in pending
 
 }
