@@ -17,7 +17,17 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
 
 
   val schNode = CitableNode(schUrn,schText)
-  "The DiplomaticReader object" should "write diplomatic for a citable node" in {
+  "The DiplomaticReader object" should "read a single text node diplomatically" in {
+    val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
+    val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
+    val cn = CitableNode(urn, txt)
+    val diplNode = DiplomaticReader.editedNode(schNode)
+    println("ILIAD 1.1 DIPLOMATIC: " + diplNode.text)
+  }
+
+  
+
+  it should "write diplomatic for a citable node" in pending /*{
     /*val txt = """<l n="1" xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">Μῆνιν ἄειδε θεὰ <persName n="urn:cite2:hmt:pers.r1:pers1">Πηληϊάδεω Ἀχιλῆος</persName> </l>"""
     val urn = CtsUrn("urn:cts:greekLit:tlg0012.tlg001.msA:1.1")
     val cn = CitableNode(urn, txt)*/
@@ -40,6 +50,6 @@ val schText = """<div n="comment" xmlns="http://www.tei-c.org/ns/1.0" xmlns:xd="
 
     println("EDITORIALLY NORMALIZED:")
     println(editorialNode.text + "\n")
-  }
+  }*/
 
 }
