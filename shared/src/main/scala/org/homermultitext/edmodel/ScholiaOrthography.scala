@@ -17,15 +17,15 @@ import scala.scalajs.js.annotation._
 import scala.annotation.tailrec
 
 /** Implementation of the MidOrthography trait for orthography of
-* Strings the IliadString class.
+* Strings the ScholiaString class.
 */
-object IliadOrthography  extends MidOrthography with LogSupport  {
+object ScholiaOrthography  extends MidOrthography with LogSupport  {
   //Logger.setDefaultLogLevel(LogLevel.DEBUG)
   // 5 methods required by MidOrthography
   //
   // 1. required by MidOrthography trait
   /** Label for orthographic system.*/
-  def orthography: String = "Orthography of Iliad text in manuscripts of the HMT project"
+  def orthography: String = "Orthography of Scholia text in manuscripts of the HMT project"
 
   // 2. required by MidOrthography trait
   /** Test if cp is a valid code point.
@@ -65,7 +65,7 @@ object IliadOrthography  extends MidOrthography with LogSupport  {
   def tokenizeNode(n: CitableNode): Vector[MidToken] = {
     val urn = n.urn
     // initial chunking on white space
-    val lgs = IliadString(n.text)
+    val lgs = ScholiaString(n.text)
     val units = lgs.ascii.split("[\\s]+").filter(_.nonEmpty).toVector
     debug("TOKENIZE LGS WITH u " + lgs.ucode)
     debug("ascii " + lgs.ascii)
@@ -73,7 +73,7 @@ object IliadOrthography  extends MidOrthography with LogSupport  {
 
     val classified = for ( (unit, idx) <- units.zipWithIndex) yield {
       val newPassage = urn.passageComponent + "." + idx
-      val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + IliadOrthography.exemplarId)
+      val newVersion = urn.addVersion(urn.versionOption.getOrElse("") + ScholiaOrthography.exemplarId)
       val newUrn = CtsUrn(newVersion.dropPassage.toString + newPassage)
 
       debug(s"Look at unit ${idx}: " + unit)
@@ -82,11 +82,11 @@ object IliadOrthography  extends MidOrthography with LogSupport  {
       if (trimmed.isEmpty) {
         n.text.size match {
           case 0 => {
-            warn("IliadString: empty text citable node " + n)
+            warn("ScholiaString: empty text citable node " + n)
             Vector.empty[MidToken]
           }
           case _ => {
-            warn (s"IliadString: evil unicode detected.  Text node of length ${n.text.size} has no tokens.")
+            warn (s"ScholiaString: evil unicode detected.  Text node of length ${n.text.size} has no tokens.")
             warn("Code points were:")
             warn(CodePointTranscoder.sideBySide(n.text).mkString("\n"))
             Vector.empty[MidToken]
@@ -163,7 +163,7 @@ object IliadOrthography  extends MidOrthography with LogSupport  {
     } else if (punctuationChars.contains(s)) {
       Some(PunctuationToken)
 
-    } else if (IliadString(s).valid) {
+    } else if (ScholiaString(s).valid) {
       Some(LexicalToken)
 
     } else {

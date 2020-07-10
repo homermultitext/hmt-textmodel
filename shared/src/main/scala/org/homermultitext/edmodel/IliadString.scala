@@ -22,15 +22,14 @@ import scala.annotation.tailrec
 * system.
 */
 case class IliadString(str: String)  extends LGSTrait with GreekString with Ordered[GreekString] with LogSupport  {
+  //Logger.setDefaultLogLevel(LogLevel.INFO)
 
   require(str.nonEmpty, "Cannot create IliadString from empty String")
 
   //////////////////////////////////////////////
   /////////////// REQUIRED BY LGSTrait
-
-
-  def ascii = asciiOf(str, IliadOrthography.cpList)
-  def ucode = ucodeOf(str, IliadOrthography.cpList, IliadOrthography.combining)
+  def ascii = asciiOf(str, IliadOrthography.passThrough)
+  def ucode = ucodeOf(str, IliadOrthography.cpList, IliadOrthography.combining, IliadOrthography.passThrough)
 
   /** All valid characters in the ASCII representation of this system
   * in their alphabetic order in Greek.
