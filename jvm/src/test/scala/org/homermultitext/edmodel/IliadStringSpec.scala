@@ -28,4 +28,14 @@ class IliadStringSpec extends FlatSpec {
     val fishy = IliadString("e(autoi=s ⁑")
     assert(fishy.ucode == "ἑαυτοῖς ⁑")
   }
+
+  it should "accept quantity markers on vowels" in {
+    val longIota = IliadString("i_")
+    val expectedLong = "ῑ"
+    assert(longIota.ucode == expectedLong)
+
+    val shortIota = IliadString("i^")
+    val expectedShort = "ῐ"
+    assert(shortIota.ucode == expectedShort)
+  }
 }

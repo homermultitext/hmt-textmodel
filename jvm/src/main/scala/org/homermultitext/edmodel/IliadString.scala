@@ -21,7 +21,7 @@ import scala.annotation.tailrec
 * @param str A string in either the ascii or ucode representation of the [[IliadString]]
 * system.
 */
-case class IliadString(str: String)  extends LGSTrait with GreekString with Ordered[GreekString] with LogSupport  {
+  @JSExportAll case class IliadString(str: String)  extends LGSTrait with GreekString with Ordered[GreekString] with LogSupport  {
   //Logger.setDefaultLogLevel(LogLevel.INFO)
 
   require(str.nonEmpty, "Cannot create IliadString from empty String")

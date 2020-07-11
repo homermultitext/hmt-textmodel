@@ -21,8 +21,8 @@ import scala.annotation.tailrec
 * @param str A string in either the ascii or ucode representation of the [[ScholiaString]]
 * system.
 */
-case class ScholiaString(str: String)  extends LGSTrait with GreekString with Ordered[GreekString] with LogSupport  {
-  Logger.setDefaultLogLevel(LogLevel.DEBUG)
+@JSExportAll case class ScholiaString(str: String)  extends LGSTrait with GreekString with Ordered[GreekString] with LogSupport  {
+  //Logger.setDefaultLogLevel(LogLevel.INFO)
 
   require(str.nonEmpty, "Cannot create ScholiaString from empty String")
 

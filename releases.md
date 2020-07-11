@@ -1,5 +1,10 @@
 # `hmt-textmodel`: release notes
 
+
+
+**8.2.0**: adds `ScholiaString`, `IliadString`, `ScholiaOrthography` and `IliadOrthgraphy` classes.
+
+
 **8.1.1**: bug release in `ohco2` library.
 
 **8.1.0**: add `ScholiaOrthography` and `ScholiaOrthoValidator` classes.

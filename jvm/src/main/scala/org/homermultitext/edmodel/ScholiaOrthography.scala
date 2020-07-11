@@ -19,7 +19,7 @@ import scala.annotation.tailrec
 /** Implementation of the MidOrthography trait for orthography of
 * Strings the ScholiaString class.
 */
-object ScholiaOrthography  extends MidOrthography with LogSupport  {
+@JSExportAll object ScholiaOrthography  extends MidOrthography with LogSupport  {
   //Logger.setDefaultLogLevel(LogLevel.DEBUG)
   // 5 methods required by MidOrthography
   //
@@ -132,7 +132,7 @@ object ScholiaOrthography  extends MidOrthography with LogSupport  {
   * @param depunctVector List of result tokens.
   * @param punctuation String containing all punctuation characters.
   */
-  @tailrec def depunctuate (s: String, depunctVector: Vector[String] = Vector.empty, punctuationChars: String = punctuationString): Vector[String] = {
+  def depunctuate (s: String, depunctVector: Vector[String] = Vector.empty, punctuationChars: String = punctuationString): Vector[String] = {
     val trimmed = s.trim
     val trailChar = s"${trimmed.last}"
     if (punctuationChars.contains(trailChar)) {
@@ -180,8 +180,10 @@ object ScholiaOrthography  extends MidOrthography with LogSupport  {
   /** All valid characters in the ASCII representation of this system
   * in their alphabetic order in Greek.
   */
-  val alphabetString = "*abgdezhqiklmncoprstufxyw'.|()/\\=+,~;.⁑ \n\r"
-  val passThrough = "⁑~"
+  val alphabetString = "*abgdezhqiklmncoprstufxyw'.|()/\\=+_^☉☾,~;.‡⁑ \n\r"
+  val passThrough = "‡⁑~☾☉"
+
+
 
   /** Alphabetically ordered Vector of vowel characters in `ascii` view.*/
   val vowels = Vector('a','e','h','i','o','u','w')
@@ -194,7 +196,7 @@ object ScholiaOrthography  extends MidOrthography with LogSupport  {
   val accents = Vector('=', '/', '\\')
   /** Characters in addition to breathings and accents that combine with
   * other characters in `ucode` view.*/
-  val comboChars = Vector('|','+')
+  val comboChars = Vector('|','+', '^', '_')
 
   val combining = breathings ++ accents ++ comboChars
 

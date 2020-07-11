@@ -15,7 +15,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "hmt-textmodel",
       organization := "org.homermultitext",
-      version := "8.1.1",
+      version := "8.2.0",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
 
       resolvers += Resolver.jcenterRepo,
@@ -27,13 +27,13 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
 
         "edu.holycross.shot.cite" %%% "xcite" % "4.3.0",
         "edu.holycross.shot" %%% "ohco2" % "10.20.3",
-        "edu.holycross.shot" %% "dse" % "7.1.3",
-        "edu.holycross.shot" %% "scm" % "7.3.0",
-        "edu.holycross.shot" %% "citerelations" % "2.7.0",
-        "edu.holycross.shot" %% "citevalidator" % "1.2.1",
-        "edu.holycross.shot.mid" %% "markupreader" % "1.0.1",
-        "edu.holycross.shot.mid" %% "orthography" % "2.0.0",
-        "edu.holycross.shot" %% "greek" % "9.0.0",
+        "edu.holycross.shot" %%% "dse" % "7.1.3",
+        "edu.holycross.shot" %%% "scm" % "7.3.0",
+        "edu.holycross.shot" %%% "citerelations" % "2.7.0",
+        "edu.holycross.shot" %%% "citevalidator" % "1.2.1",
+        "edu.holycross.shot.mid" %%% "markupreader" % "1.0.1",
+        "edu.holycross.shot.mid" %%% "orthography" % "2.0.0",
+        "edu.holycross.shot" %%% "greek" % "9.0.0",
 
         // NEED GSPHONE
 
@@ -60,6 +60,6 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
         mdocOut := file("docs"),
         mdocExtraArguments := Seq("--no-link-hygiene"),
         mdocVariables := Map(
-          "VERSION" -> "8.1.1"
+          "VERSION" -> "8.2.0"
         )
       )
