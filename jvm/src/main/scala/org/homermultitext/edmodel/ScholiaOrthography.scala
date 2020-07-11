@@ -132,7 +132,7 @@ import scala.annotation.tailrec
   * @param depunctVector List of result tokens.
   * @param punctuation String containing all punctuation characters.
   */
-  def depunctuate (s: String, depunctVector: Vector[String] = Vector.empty, punctuationChars: String = punctuationString): Vector[String] = {
+  @tailrec def depunctuate (s: String, depunctVector: Vector[String] = Vector.empty, punctuationChars: String = punctuationString): Vector[String] = {
     val trimmed = s.trim
     val trailChar = s"${trimmed.last}"
     if (punctuationChars.contains(trailChar)) {
